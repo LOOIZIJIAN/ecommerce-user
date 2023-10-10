@@ -1,6 +1,8 @@
 import Link from "next/link";
 import styled from "styled-components";
 import Center from "./Center";
+import { useContext } from "react";
+import { CartContext } from "./CartContext";
 
 const Styledhearder = styled.header`
     background-color: #222;
@@ -31,20 +33,22 @@ const StyledNav = styled.nav`
 `;
 
 export default function Hearder() {
-    return(
-        <Styledhearder>
-           <Center>
-            <Wrapper>
-							<Logo href={'/'}>Ecommerce</Logo>
-							<StyledNav>
-								<NavLink href={'/'}>Home</NavLink>
-								<NavLink href={'/products'}>All products</NavLink>
-								<NavLink href={'/categories'}>Categories</NavLink>
-								<NavLink href={'/account'}>Account</NavLink>
-								<NavLink href={'/cart'}>Cart (0)</NavLink>
-							</StyledNav>
-						</Wrapper>
-           </Center>
-        </Styledhearder>
-    );
+  const {cartProducts} = useContext(CartContext);
+
+  return(
+    <Styledhearder>
+      <Center>
+        <Wrapper>
+          <Logo href={'/'}>Ecommerce</Logo>
+          <StyledNav>
+            <NavLink href={'/'}>Home</NavLink>
+            <NavLink href={'/products'}>All products</NavLink>
+            <NavLink href={'/categories'}>Categories</NavLink>
+            <NavLink href={'/account'}>Account</NavLink>
+            <NavLink href={'/cart'}>Cart ({cartProducts.length})</NavLink>
+          </StyledNav>
+        </Wrapper>
+      </Center>
+    </Styledhearder>
+  );
 }

@@ -15,7 +15,6 @@ const Title = styled.h2`
   font-weight: normal;
 `;
 
-
 export default function NewProducts({products}) {
   return(
     <Center>
