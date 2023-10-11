@@ -86,6 +86,16 @@ export default function CartPage() {
     }
   }, [cartProducts]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    if (window?.location.href.includes('success')) {
+      setIsSuccess(true);
+      clearCart();
+    }
+  }, []);
+
   function moreOfThisProduct(id) {
     addProduct(id);
   }
@@ -110,14 +120,14 @@ export default function CartPage() {
     }
   }
 
-  if (window.location.href.includes('success')) {
+  if (isSuccess) {
     return (
       <>
         <Header/>
         <Center>
           <ColumnsWrapper>
             <Box>
-              <h1>Your payment is sucessfull</h1>
+              <h1>Your payment is sucessfull !</h1>
               <p>We will email you when your order will be sent.</p>
             </Box>
           </ColumnsWrapper>
