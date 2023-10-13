@@ -1,14 +1,15 @@
 import styled from "styled-components";
-import Button from "./Button";
-import CartIcon from "./icons/CartIcon";
-import { useContext } from "react";
-import { CartContext } from "./CartContext";
+import Button from "@/components/Button";
+import CartIcon from "@/components/icons/CartIcon";
+import Link from "next/link";
+import {useContext} from "react";
+import {CartContext} from "@/components/CartContext";
 
 const ProductWrapper = styled.div`
- 
+  
 `;
 
-const WhiteBox = styled.div`
+const WhiteBox = styled(Link)`
   background-color: #fff;
   padding: 20px;
   height: 120px;
@@ -19,11 +20,11 @@ const WhiteBox = styled.div`
   border-radius: 10px;
   img{
     max-width: 100%;
-    max-height: 150px;
+    max-height: 80px;
   }
 `;
 
-const Title = styled.h2`
+const Title = styled(Link)`
   font-weight: normal;
   font-size:.9rem;
   color:inherit;
@@ -36,7 +37,11 @@ const ProductInfoBox = styled.div`
 `;
 
 const PriceRow = styled.div`
-  display: flex;
+  display: block;
+  @media screen and (min-width: 768px) {
+    display: flex;
+    gap: 5px;
+  }
   align-items: center;
   justify-content:space-between;
   margin-top:2px;
@@ -53,23 +58,27 @@ const Price = styled.div`
   }
 `;
 
-export default function ProductBox({_id, title, description, price, images}) {
+export default function ProductBox({_id,title,description,price,images}) {
   const {addProduct} = useContext(CartContext);
-  const uri = '/product/'+_id;
-  return(
-     <ProductWrapper>
-      <WhiteBox href={uri}>
+  const url = '/product/'+_id;
+  return (
+    <ProductWrapper>
+      <WhiteBox href={url}>
         <div>
-          <img src={images[0]} alt=""/>
+          <img src={images?.[0]} alt=""/>
         </div>
       </WhiteBox>
       <ProductInfoBox>
-        <Title href={uri}>{title}</Title>
+        <Title href={url}>{title}</Title>
         <PriceRow>
-          <Price>${price}</Price>
-          <Button primary outline onClick={() => addProduct(_id)}><CartIcon/>Add to cart</Button>
+          <Price>
+            ${price}
+          </Price>
+          <Button block onClick={() => addProduct(_id)} primary outline>
+            Add to cart
+          </Button>
         </PriceRow>
       </ProductInfoBox>
-     </ProductWrapper>
+    </ProductWrapper>
   );
 }

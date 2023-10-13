@@ -91,8 +91,8 @@ export default function CartPage() {
       return;
     }
     if (window?.location.href.includes('success')) {
-      setIsSuccess(true);
       clearCart();
+      setIsSuccess(true);
     }
   }, []);
   function moreOfThisProduct(id) {
