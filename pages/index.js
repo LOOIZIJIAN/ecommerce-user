@@ -3,14 +3,24 @@ import Hearder from "@/components/Header";
 import NewProducts from "@/components/NewProducts";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/models/Product";
+import { useSession, signIn } from "next-auth/react";
 
 export default function HomePage({featuredProduct, newProducts}) {
-  return(
-    <div>
-      <Hearder/>
-      <Featured product={featuredProduct}/>   
-      <NewProducts products={newProducts}/>
-    </div>
+  const {data: session} = useSession()
+  if(session){
+    return(
+      <div>
+        <Hearder/>
+        <h2>
+          Hello, <b>{session?.user?.name}</b>
+        </h2>
+        <Featured product={featuredProduct}/>   
+        <NewProducts products={newProducts}/>
+      </div>
+    );
+  }
+  return (
+    <button onClick={() => signIn('google')}>Login with Google</button>
   );
 }
 
