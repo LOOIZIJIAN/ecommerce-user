@@ -9,7 +9,7 @@ export default async function handler(req,res) {
     return;
   }
   const {
-    name,email,city,
+    account,name,email,city,
     postalCode,streetAddress,country,
     cartProducts,
   } = req.body;
@@ -35,7 +35,7 @@ export default async function handler(req,res) {
   }
 
   const orderDoc = await Order.create({
-    line_items,name,email,city,postalCode,
+    line_items, account ,name,email,city,postalCode,
     streetAddress,country,paid:false,
   });
 

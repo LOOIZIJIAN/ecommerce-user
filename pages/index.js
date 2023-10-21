@@ -3,7 +3,7 @@ import Hearder from "@/components/Header";
 import NewProducts from "@/components/NewProducts";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/models/Product";
-import { useSession, signIn } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function HomePage({featuredProduct, newProducts}) {
   const {data: session} = useSession()
@@ -14,7 +14,8 @@ export default function HomePage({featuredProduct, newProducts}) {
         <h2>
           Hello, <b>{session?.user?.name}</b>
         </h2>
-        <Featured product={featuredProduct}/>   
+        <Featured product={featuredProduct}/>
+          <button onClick={() => signOut()}>Sign out</button>   
         <NewProducts products={newProducts}/>
       </div>
     );

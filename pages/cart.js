@@ -7,6 +7,7 @@ import {CartContext} from "@/components/CartContext";
 import axios from "axios";
 import Table from "@/components/Table";
 import Input from "@/components/Input";
+import { useSession } from "next-auth/react";
 
 const ColumnsWrapper = styled.div`
   display: grid;
@@ -69,6 +70,7 @@ const CityHolder = styled.div`
 export default function CartPage() {
   const {cartProducts,addProduct,removeProduct,clearCart} = useContext(CartContext);
   const [products,setProducts] = useState([]);
+  const [account, setAccount] = useState('');
   const [name,setName] = useState('');
   const [email,setEmail] = useState('');
   const [city,setCity] = useState('');
@@ -76,6 +78,14 @@ export default function CartPage() {
   const [streetAddress,setStreetAddress] = useState('');
   const [country,setCountry] = useState('');
   const [isSuccess,setIsSuccess] = useState(false);
+  const {data: session} = useSession();
+  
+  useEffect(() => {
+    if (session && session.user && session.user.email) {
+      const userEmail = session.user.email;
+      setAccount(userEmail);
+    }
+  }, [session]);
   useEffect(() => {
     if (cartProducts.length > 0) {
       axios.post('/api/cart', {ids:cartProducts})
@@ -103,7 +113,7 @@ export default function CartPage() {
   }
   async function goToPayment() {
     const response = await axios.post('/api/checkout', {
-      name,email,city,postalCode,streetAddress,country,
+      account,name,email,city,postalCode,streetAddress,country,
       cartProducts,
     });
     if (response.data.url) {
