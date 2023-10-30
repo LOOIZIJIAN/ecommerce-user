@@ -22,6 +22,7 @@ export default function HistoryList({orders}) {
       setAccount(userEmail);
     }
   }, [session]);
+  
   return (
     <StyledProductsGrid>
       {orders?.length > 0 &&

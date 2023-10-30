@@ -6,7 +6,7 @@ import HistoryList from "@/components/HistoryList";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function ProductsPage() {
+export default function HistoryPage() {
 
   const [orders,setOrders] = useState([]);
   useEffect(()=>{

@@ -14,13 +14,18 @@
     "eslint": "8.51.0",
     "eslint-config-next": "13.5.4",
     "micro": "^10.0.1",
-    "mongodb": "^6.1.0",
+    "mongodb": "^5.9.1",
     "mongoose": "^7.6.0",
     "next": "13.5.4",
     "next-auth": "^4.24.3",
+    "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "stripe": "^13.9.0",
     "styled-components": "^6.0.8"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.31",
+    "typescript": "^5.2.2"
   }
 }

@@ -16,13 +16,12 @@ const GlobalStyles = createGlobalStyle`
 export default function App({ Component, pageProps: {session, ...pageProps} }) {
   return(
     <>
-      <GlobalStyles/>
-      <CartContextProvider>
-        <SessionProvider session={session}>
-          <Component {...pageProps} />
-        </SessionProvider> 
-      </CartContextProvider>
-      
+        <GlobalStyles/>
+        <CartContextProvider>
+          <SessionProvider session={session}>
+            <Component {...pageProps} />
+          </SessionProvider> 
+        </CartContextProvider>
     </>
   );
 }
