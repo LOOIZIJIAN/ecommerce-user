@@ -9,16 +9,34 @@ const StyledProductsGrid = styled.div`
   }
 `;
 
-export default function Categories({categories}) {
-  console.log(categories);
+export default function Categories({ categories }) {
+  const parent = [];
+  const root = [];
+
+  categories.forEach((category) => {
+    if (category.parent) {
+      parent.push(category);
+    } else {
+      root.push(category);
+    }
+  });
+
+  console.log(root);
   return (
-    <StyledProductsGrid>
-      {categories?.length > 0 &&
-        categories.map((category) => (
-          <td>{category.parent}</td>
-        ))  
-      }
-    </StyledProductsGrid>
+    <>
+      {root.map((r) => (
+        <StyledProductsGrid key={r._id}>
+          {r.name}
+          {parent.map((p) => {
+            if (p.parent === r._id) {
+              return <div key={p._id}>{p.name}</div>;
+            }
+            return null;
+          })}
+        </StyledProductsGrid>
+      ))}
+    </>
   );
-  
 }
+  
+ 

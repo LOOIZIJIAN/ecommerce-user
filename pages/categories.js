@@ -15,9 +15,19 @@ export default function CategoriesPage() {
     <>
       <Header/>
       <div className="bg-gray-200">
-        <Categories categories={categories}/>
+        <Categories categories= {categories}/>
         
       </div>
     </>
   );
 }
+
+// export async function getServerSideProps() {
+//   await mongooseConnect();
+//   const name = await Category.find({}, name);
+//   return {
+//     props:{
+//      name: JSON.parse(JSON.stringify(name)),
+//     } 
+//   };
+// }
