@@ -1,9 +1,11 @@
 import Categories from "@/components/Categories";
 import Header from "@/components/Header";
+import { mongooseConnect } from "@/lib/mongoose";
+import { Product } from "@/models/Product";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function CategoriesPage() {
+export default function CategoriesPage({ products }) {
   const [categories, setCategories] = useState([]);
   useEffect(()=>{
     axios.get('/api/category').then(res =>{
@@ -15,19 +17,19 @@ export default function CategoriesPage() {
     <>
       <Header/>
       <div className="bg-gray-200">
-        <Categories categories= {categories}/>
+        <Categories categories = {categories} products = {products}/>
         
       </div>
     </>
   );
 }
 
-// export async function getServerSideProps() {
-//   await mongooseConnect();
-//   const name = await Category.find({}, name);
-//   return {
-//     props:{
-//      name: JSON.parse(JSON.stringify(name)),
-//     } 
-//   };
-// }
+export async function getServerSideProps() {
+  await mongooseConnect();
+  const products = await Product.find({}, null, {sort:{'_id':-1}});
+  return {
+    props:{
+      products: JSON.parse(JSON.stringify(products)),
+    }
+  };
+}
