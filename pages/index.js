@@ -1,4 +1,5 @@
 import Featured from "@/components/Featured";
+import GoogleBtn from "@/components/GoogleBtn";
 import Hearder from "@/components/Header";
 import NewProducts from "@/components/NewProducts";
 import { mongooseConnect } from "@/lib/mongoose";
@@ -21,7 +22,7 @@ export default function HomePage({featuredProduct, newProducts}) {
     );
   }
   return (
-    <button onClick={() => signIn('google')}>Login with Google</button>
+    <GoogleBtn onClick={() => signIn('google')} />
   );
 }
 

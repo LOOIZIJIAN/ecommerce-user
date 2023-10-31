@@ -63,6 +63,10 @@ export const ButtonStyle = css`
 					height:20px;
 			}
 	`}
+
+	${props => props.google &&css`
+			
+	`}
 `;
 
 const StyledButton = styled.button`
