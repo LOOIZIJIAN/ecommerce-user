@@ -16,7 +16,7 @@ const ColumnsWrapper = styled.div`
     grid-template-columns: 1.2fr .8fr;
   }
   gap: 40px;
-  margin-top: 40px;
+  margin-top: 150px;
 `;
 
 const Box = styled.div`
