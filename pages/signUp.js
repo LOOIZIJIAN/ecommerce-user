@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { mongooseConnect } from '@/lib/mongoose';
+import { User } from '@/models/User';
 
 // Styled components
 const PageWrapper = styled.div`
@@ -183,7 +187,8 @@ const Slogan = styled.h2`
     font-weight: 400;
 `;
 
-export default function SignUp () {
+export default function Signin ({users}) {
+    const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -213,6 +218,7 @@ export default function SignUp () {
         if (isValid) {
         // Submit form
         }
+    
     };
 
     // Helper function for email validation
@@ -220,8 +226,27 @@ export default function SignUp () {
         // Simple regex for email validation
         const re = /\S+@\S+\.\S+/;
         return re.test(email);
-    };  
+    }; 
+    
+    const router = useRouter();
 
+    const handleRegister = async (ev) => {
+        ev.preventDefault();
+        const data = { userName, email, password };
+      
+        try {
+          const response = await axios.post('/api/register', data);
+          console.log('Registration successful:', response.data);
+          router.push({
+						pathname: '/',
+						query: { userName, email },
+					});
+        } catch (error) {
+          console.error('Registration error:', error.response.data);
+        }
+    };
+      
+      
   return (
     <PageWrapper>
         <Left>
@@ -239,6 +264,8 @@ export default function SignUp () {
                         <Input
                         type="text"
                         placeholder="User Name"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
                         required
                         />
                     </LabelCon>
@@ -298,7 +325,7 @@ export default function SignUp () {
                     </SpanTc>
 
                     <BtnCon>
-                        <Button type="submit">Proceed</Button>
+                        <Button type="submit" onClick={handleRegister}>Proceed</Button>
                     </BtnCon>
                 </Form>
             </FormCon>
@@ -306,3 +333,15 @@ export default function SignUp () {
     </PageWrapper>
   );
 };
+
+
+export async function getServerSideProps() {
+  await mongooseConnect();
+  const user = await User.find();
+	
+	return{
+		props:{
+			users: JSON.parse(JSON.stringify(user)),
+		}
+	}
+}

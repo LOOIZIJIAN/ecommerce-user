@@ -27,7 +27,7 @@ const WhiteBox = styled(Link)`
 const Title = styled(Link)`
   font-weight: normal;
   font-size:.9rem;
-  color:inherit;
+  color:#bdb9b5;
   text-decoration:none;
   margin:0;
 `;
@@ -51,6 +51,7 @@ const Price = styled.div`
   font-size: 1rem;
   font-weight:400;
   text-align: right;
+  color: #bdb9b5;
   @media screen and (min-width: 768px) {
     font-size: 1.2rem;
     font-weight:600;

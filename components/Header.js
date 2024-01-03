@@ -257,7 +257,7 @@ const RightCol = styled.div`
     bottom: 0px;
     right: 0px;
     padding-right: 10px;
-    margin-right: 8%;
+    margin-right: 3%;
   }
 `;
 
@@ -281,17 +281,36 @@ const SearchIcon = styled.img`
 `;
 
 const Input = styled.input`
-  border-radius: 10px;
+  border-radius: 5px;
   height: 22px;
-  width: 120px;
+  width: 250px;
   font-family: Poppins;
   font-size: 18px;
 `;
 
-export default function Header() {
-  // Resize Navigation Start
+export default function Header({ products }) {
   const [showMenu, setShowMenu] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [filteredP, setFilteredP] = useState([]);
+  const [showList, setShowList] = useState(false);
 
+  useEffect(() => {
+    if (!products) {
+      return;
+    }
+
+    const filtered = products.filter(product => {
+      const lowerCaseSearchInput = searchInput.toLowerCase();
+      const lowerCaseProductTitle = product.title.toLowerCase();
+
+      return lowerCaseProductTitle.includes(lowerCaseSearchInput);
+    });
+
+    setFilteredP(filtered);
+    setShowList(searchInput.length > 0);
+  }, [searchInput, products]);
+  console.log(showList);
+  
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -410,11 +429,33 @@ export default function Header() {
 
         <RightCol>
           {/* Search Input Start */}
-          <Input></Input>
-          {/* Search Input End */}
+          <Input
+            placeholder="Type to search..."
+            value={searchInput}
+            onChange={(ev) => {
+              setSearchInput(ev.target.value);
+              setShowList(true);
+            }}
+          />
+
+          {showList && (
+            <div>
+              {filteredP.length > 0 ? (
+                filteredP.map((f) => (
+                  <DropBtn key={f._id}>
+                    <DropA href={`/product/${f._id}`}>
+                      {f.title}
+                    </DropA>
+                  </DropBtn>
+                ))
+              ) : (
+                <DropBtn>Not Found</DropBtn>  
+              )}
+            </div>
+          )}
 
           <Span>
-            {/* Search Cart Icon Start*/}
+          
             <SearchIcon
               src="Search_Icon.png"
               alt="Search Icon Error"
@@ -423,7 +464,7 @@ export default function Header() {
             {/* Search Cart Icon End*/}
 
             {/* Currency Text Start*/}
-            <CartText>MYR</CartText>
+            {/* <CartText>MYR</CartText> */}
             {/* Currency Text End*/}
           </Span>
         </RightCol>
@@ -431,3 +472,4 @@ export default function Header() {
     </div>
   );
 }
+

@@ -6,13 +6,20 @@ const Title = styled.h2`
   font-size: 2rem;
   margin:30px 0 20px;
   font-weight: normal;
+  color: #bdb9b5;
+`;
+
+const Wrapper = styled.div`
+  margin-bottom: 45px;
 `;
 
 export default function NewProducts({products}) {
   return (
     <Center>
-      <Title>New Arrivals</Title>
-      <ProductsGrid products={products} />
+      <Wrapper>
+        <Title>New Arrivals</Title>
+        <ProductsGrid products={products} />
+      </Wrapper>
     </Center>
   );
 }

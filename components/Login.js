@@ -210,6 +210,8 @@ const GooBtn = styled(SharedBtn)`
     }
 `;
 
+
+
 export default function Login() {
     return(
         <Container>
@@ -218,7 +220,7 @@ export default function Login() {
             {/* Form Start */}
             <Form action="/login" method="post">
                 {/* Username Input Start */}
-                <Label>Username</Label><br/>
+                <Label>Email</Label><br/>
                 <Input type="text" name="username" placeholder="Username" required/><br/><br/>
                 {/* Username Input End */}
 
@@ -232,11 +234,11 @@ export default function Login() {
                         {/* Forgot Password */}
                         <SharedSpan>Forgot Password</SharedSpan>
                         {/* Sign Up New Account */}
-                        <Span>New User? <Span2><Link href={'/signUp'}>Sign up</Link></Span2></Span>
+                        <Span>New User? <Span2><Link href={'signUp'}>Sign up</Link></Span2></Span>
                     </ColCon>
 
                     {/* Login Button Start */}
-                    <SubmitBtn type="submit">Login</SubmitBtn>
+                    <SubmitBtn type="submit" onClick={()=> signIn('email')}>Login</SubmitBtn>
                     {/* Login Button End */}
 
                 </MiniCon>

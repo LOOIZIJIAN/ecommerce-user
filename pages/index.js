@@ -1,7 +1,3 @@
-// import Featured from "@/components/Featured";
-// import FrontPage from "@/components/FrontPage";
-// import GoogleBtn from "@/components/GoogleBtn";
-import FrontPage from "@/components/FrontPage";
 import NewProducts from "@/components/NewProducts";
 import Login from "@/components/Login";
 import { mongooseConnect } from "@/lib/mongoose";
@@ -9,9 +5,9 @@ import { Product } from "@/models/Product";
 import { useSession, signIn, signOut } from "next-auth/react";
 import dynamic from "next/dynamic";
 import styled from 'styled-components';
-import Center from "@/components/Center";
-import Title from "@/components/Title";
-import HotSales from "@/components/HotSales";
+import { useRouter } from "next/router";
+import { User } from "@/models/User";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
     margin-top: 4%;
@@ -23,38 +19,45 @@ const Container = styled.div`
     flex-direction: row;
 `;
 
-export default function HomePage({featuredProduct, newProducts}) {
+export default function HomePage({featuredProduct, newProducts, allProduct, users}) {
   const SlideShow = dynamic(() => import("@/components/SlideShow"), { ssr: false });
   const Header = dynamic(() => import('@/components/Header'), { ssr: false });
   const UserProfile = dynamic(()=> import('@/components/UserProfile'), {ssr: false});
+  const [userExist, setUserExist] = useState(false);
   const {data: session} = useSession();
-  if(session){
-    return(
-      <>
-        <Header />
-        <Container>
-          <SlideShow/>
-          <UserProfile/>
-        </Container>
-        <button onClick={()=> signOut()}>sign out</button>
-        {/* <HotSales products={newProducts}/> */}
-        <NewProducts products={newProducts}/>
-      </>
-      
-    );
-  }
-  if (!session){
+  const router = useRouter();
+  const { userName, email } = router.query;
+
+  // console.log(users);
+  // console.log(userExist);
+  
+  useEffect(() => {
+    const doesUserExist = users.some((u) => u.email === email);
+    console.log('Does user exist?', doesUserExist);
+    setUserExist(doesUserExist);
+  }, [users, email]);
+  if (!session) {
     return (
       <>
-        <Header />
+        <Header products={allProduct} />
         <Container>
           <SlideShow />
-          <Login/>
+          <Login />
         </Container>
-        {/* <Center>
-          <Title>Hot Sales</Title>
-        </Center>
-        <HotSales /> */}
+      </>
+    );
+  }
+
+  if(userExist || session) {
+    return (
+      <>
+        <Header products={allProduct} />
+        <Container>
+          <SlideShow />
+          <UserProfile />
+        </Container>
+        <button onClick={() => signOut()}>Sign out</button>
+        <NewProducts products={newProducts} />
       </>
     );
   }
@@ -65,10 +68,14 @@ export async function getServerSideProps() {
   await mongooseConnect();
   const featuredProduct = await Product.findById(featuredProductId);
   const newProducts = await Product.find({}, null, {sort: {'_id':-1}, limit:10});
+  const allProduct = await Product.find();
+  const user = await User.find();
   return{
     props: {
       featuredProduct: JSON.parse(JSON.stringify(featuredProduct)),
       newProducts: JSON.parse(JSON.stringify(newProducts)),
+      allProduct: JSON.parse(JSON.stringify(allProduct)),
+      users: JSON.parse(JSON.stringify(user)),
     },
   };
 }
