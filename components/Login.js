@@ -2,6 +2,8 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { FcGoogle } from "react-icons/fc";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -212,22 +214,27 @@ const GooBtn = styled(SharedBtn)`
   }
 `;
 
-
-
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [data, setData] = useState({email: '', password: ''});
   
-  const router = useRouter();
-
-  const handlelogin = (ev)=>{
-    ev.preventDefault();
-    const data = { email, password };
-    router.push({
-      pathname: '/',
-      query: { email },
-    });
-  }
+  const loginUser = async (e) => {
+    e.preventDefault();
+    try {
+      const callback = await signIn('credentials', { ...data, redirect: false });
+  
+      if (callback?.error) {
+        toast.error(callback.error);
+        // console.log(data);
+      }
+  
+      if (callback?.ok && !callback?.error) {
+        toast.success('Logged in successfully!');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      toast.error('An error occurred during login.');
+    }
+  };
 
   return (
     <Container>
@@ -236,11 +243,12 @@ export default function Login() {
       </TitleContainer>
 
       {/* Form Start */}
-      <Form action="/login" method="post">
+      <Form action="/login" onSubmit={loginUser}>
         {/* Username Input Start */}
-        <Label>Email</Label>
+        <Label>User Email</Label>
         <br />
-        <Input type="text" name="username" placeholder="Username" required onChange={(ev)=>(setEmail(ev.target.value))}/>
+        <Input type="text" name="username" placeholder="Username" required value={data.email}
+            onChange={e => setData({ ...data, email: e.target.value })}/>
         <br />
         <br />
         {/* Username Input End */}
@@ -253,7 +261,8 @@ export default function Login() {
           name="password"
           placeholder="Password"
           required
-          onChange={(ev)=>(setPassword(ev.target.value))}
+          value={data.password}
+          onChange={e => setData({ ...data, password: e.target.value })}
         />
         {/* Password Input End */}
 
@@ -265,13 +274,13 @@ export default function Login() {
             <Span>
               New User?{" "}
               <Span2>
-                <Link href={"signUp"}>Sign up</Link>
+                <Link href={"register"}>Sign up</Link>
               </Span2>
             </Span>
           </ColCon>
 
           {/* Login Button Start */}
-          <SubmitBtn type="submit" onClick={handlelogin}>
+          <SubmitBtn type="submit">
             Login
           </SubmitBtn>
           {/* Login Button End */}
@@ -287,13 +296,14 @@ export default function Login() {
         <GooBtn type="button" onClick={() => signIn("google")}>
           <OthContainer>
             {/* Google Img Start */}
-            <GImg
+            {/* <GImg
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               loading="lazy"
               alt="google logo"
-            />
+            /> */}
+            <FcGoogle/>
             {/* Google Img End */}
-            Google
+             
           </OthContainer>
         </GooBtn>
         {/* Google LOGIN BTN End */}

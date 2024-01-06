@@ -20,23 +20,13 @@ const Container = styled.div`
     flex-direction: row;
 `;
 
-export default function HomePage({featuredProduct, newProducts, allProduct, users}) {
+export default function HomePage({featuredProduct, newProducts, allProduct, user}) {
   const SlideShow = dynamic(() => import("@/components/SlideShow"), { ssr: false });
   const Header = dynamic(() => import('@/components/Header'), { ssr: false });
   const UserProfile = dynamic(()=> import('@/components/UserProfile'), {ssr: false});
-  const [userExist, setUserExist] = useState(false);
   const {data: session} = useSession();
   const router = useRouter();
-  const { email } = router.query;
-
-  // console.log(users);
-  console.log("user:"+userExist);   
-  useEffect(() => {
-    const doesUserExist = users.some((u) => u.email === email);
-    console.log('Does user exist?', doesUserExist);
-    setUserExist(doesUserExist);
-  }, [users, email]);
-
+  console.log(session.id)
   if (!session) {
     return (
       <>
@@ -49,21 +39,18 @@ export default function HomePage({featuredProduct, newProducts, allProduct, user
       </>
     );
   }
-
-  if(userExist || session) {
-    return (
-      <>
-        <Header products={allProduct} />
-        <Container>
-          <SlideShow />
-          <UserProfile />
-        </Container>
-        <button onClick={() => signOut()}>Sign out</button>
-        <NewProducts products={newProducts} />
-        <Chatbox/>
-      </>
-    );
-  }x
+  return (
+    <>
+      <Header products={allProduct} />
+      <Container>
+        <SlideShow />
+        <UserProfile />
+      </Container>
+      <button onClick={() => signOut()}>Sign out</button>
+      <NewProducts products={newProducts} />
+      <Chatbox/>
+    </>
+  );
 }
 
 export async function getServerSideProps() {
@@ -78,7 +65,7 @@ export async function getServerSideProps() {
       featuredProduct: JSON.parse(JSON.stringify(featuredProduct)),
       newProducts: JSON.parse(JSON.stringify(newProducts)),
       allProduct: JSON.parse(JSON.stringify(allProduct)),
-      users: JSON.parse(JSON.stringify(user)),
+      user: JSON.parse(JSON.stringify(user)),
     },
   };
 }

@@ -1,5 +1,7 @@
 import { mongooseConnect } from "@/lib/mongoose";
 import { User } from "@/models/User";
+import { NextResponse } from "next/server";
+import bcrypt from 'bcryptjs'
 
 export default async function handler(req, res){
   await mongooseConnect();
@@ -9,22 +11,27 @@ export default async function handler(req, res){
     return;
   }
 
-  // if (method === 'GET') {
-  //   if (req.query?.id) {
-  //     res.json(await Product.findOne({_id:req.query.id}));
-  //   } else {  
-  //     res.json(await Product.find());
-  //   }
-  // }
-
-  if(req.method === 'POST'){
-    const {username, email, password} = req.body;
+  if (req.method === 'POST') {
+    const { username, email, password } = req.body;
+  
+    if (!username || !email || !password) {
+      return new NextResponse('Missing Fields', { status: 400 });
+    }
+  
+    const exist = await User.findOne({ email: email });
+    if (exist) {
+      throw new Error('Email exists');
+    }
+  
+    const hashedPassword = await bcrypt.hash(password, 10);
+  
     const register = await User.create({
       username,
       email,
-      password,
-    })
+      hashedPassword: hashedPassword,
+    });
+  
     res.json(register);
   }
-
+  
 }

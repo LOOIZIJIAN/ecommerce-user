@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { mongooseConnect } from '@/lib/mongoose';
 import { User } from '@/models/User';
+import toast from 'react-hot-toast';
 
 // Styled components
 const PageWrapper = styled.div`
@@ -187,20 +188,18 @@ const Slogan = styled.h2`
     font-weight: 400;
 `;
 
-export default function Signin ({users}) {
-    const [userName, setUserName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+export default function Register ({users}) {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [data, setData] = useState({username: '', email: '', password: ''});
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         let isValid = true;
 
         // Email validation
-        if (!validateEmail(email)) {
+        if (!validateEmail(data.email)) {
             setEmailError('*Please enter a valid email.');
             isValid = false;
         } else {
@@ -208,7 +207,7 @@ export default function Signin ({users}) {
         }
 
         // Password validation
-        if (password !== confirmPassword) {
+        if (data.password !== confirmPassword) {
             setPasswordError('*Passwords do not match.');
             isValid = false;
         } else {
@@ -218,6 +217,17 @@ export default function Signin ({users}) {
         if (isValid) {
         // Submit form
         }
+      
+        try {
+            const response = await axios.post('/api/register', data);
+            toast.success('User has been registered!');
+            router.push('/');
+            console.log('Registration successful:', response.data);
+          } catch (error) {
+            console.error('Registration error:', error.response.data);
+            toast.error('User Exist !');
+            // You might want to display an error message to the user using toast.error() or similar
+          }
     
     };
 
@@ -229,26 +239,7 @@ export default function Signin ({users}) {
     }; 
     
     const router = useRouter();
-
-    const handleRegister = async (ev) => {
-        console.log("55")
-        ev.preventDefault();
-        
-        const data = { userName, email, password };
-      
-        try {
-          const response = await axios.post('/api/register', data);
-          console.log('Registration successful:', response.data);
-          router.push({
-						pathname: '/',
-						query: { email },
-					});
-        } catch (error) {
-          console.error('Registration error:', error.response.data);
-        }
-    };
-      
-      
+            
   return (
     <PageWrapper>
         <Left>
@@ -259,15 +250,15 @@ export default function Signin ({users}) {
         <Half>
             <FormCon>
                 <Form onSubmit={handleSubmit}method='post'>
-                    <Title>Sign Up</Title>
+                    <Title>Register</Title>
 
                     <LabelCon>
                         <Label>Username</Label>
                         <Input
                         type="text"
                         placeholder="User Name"
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
+                        value={data.username}
+                        onChange={e => setData({ ...data, username: e.target.value })}
                         required
                         />
                     </LabelCon>
@@ -277,8 +268,8 @@ export default function Signin ({users}) {
                         <Input
                         type="email"
                         placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={data.email}
+                        onChange={e => setData({ ...data, email: e.target.value })}
                         required
                         />
                     </LabelCon>
@@ -288,8 +279,8 @@ export default function Signin ({users}) {
                         <Input
                         type="password"
                         placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={data.password}
+                        onChange={e => setData({ ...data, password: e.target.value })}
                         required
                         />
                         {emailError && <ValidationText>{emailError}</ValidationText>}
@@ -307,7 +298,7 @@ export default function Signin ({users}) {
                         {passwordError && <ValidationText>{passwordError}</ValidationText>}                
                     </LabelCon>
 
-                    <TNC>
+                    {/* <TNC>
                         <Star>*</Star>
                         <P>At least 8 characters long but 12 or more is better.</P>
                     </TNC>
@@ -324,10 +315,10 @@ export default function Signin ({users}) {
                             <br/>
                             <A href='#'>Terms of Service</A> & <A href='#'>Privacy Policy</A>
                         </Txt>
-                    </SpanTc>
+                    </SpanTc> */}
 
                     <BtnCon>
-                        <Button type="submit" onClick={handleRegister}>Proceed</Button>
+                        <Button type="submit">Register</Button>
                     </BtnCon>
                 </Form>
             </FormCon>

@@ -447,7 +447,7 @@ export default function Header({ products }) {
     setFilteredP(filtered);
     setShowList(searchInput.length > 0);
   }, [searchInput, products]);
-  console.log(showList);
+  // console.log(showList);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
