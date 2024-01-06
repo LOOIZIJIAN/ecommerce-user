@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { useRouter } from "next/router";
 import { User } from "@/models/User";
 import { useEffect, useState } from "react";
+import Chatbox from "@/components/ChatBox";
 
 const Container = styled.div`
     margin-top: 4%;
@@ -26,16 +27,16 @@ export default function HomePage({featuredProduct, newProducts, allProduct, user
   const [userExist, setUserExist] = useState(false);
   const {data: session} = useSession();
   const router = useRouter();
-  const { userName, email } = router.query;
+  const { email } = router.query;
 
   // console.log(users);
-  // console.log(userExist);
-  
+  console.log("user:"+userExist);   
   useEffect(() => {
     const doesUserExist = users.some((u) => u.email === email);
     console.log('Does user exist?', doesUserExist);
     setUserExist(doesUserExist);
   }, [users, email]);
+
   if (!session) {
     return (
       <>
@@ -44,6 +45,7 @@ export default function HomePage({featuredProduct, newProducts, allProduct, user
           <SlideShow />
           <Login />
         </Container>
+        <Chatbox />
       </>
     );
   }
@@ -58,9 +60,10 @@ export default function HomePage({featuredProduct, newProducts, allProduct, user
         </Container>
         <button onClick={() => signOut()}>Sign out</button>
         <NewProducts products={newProducts} />
+        <Chatbox/>
       </>
     );
-  }
+  }x
 }
 
 export async function getServerSideProps() {

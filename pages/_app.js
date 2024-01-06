@@ -1,7 +1,7 @@
 import { CartContextProvider } from "@/components/CartContext";
 import { createGlobalStyle } from "styled-components";
 import { SessionProvider } from "next-auth/react";
-import '@/styles/globals.css';
+// import '@/styles/globals.css';
 
 const GlobalStyles = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');

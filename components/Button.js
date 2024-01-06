@@ -54,6 +54,17 @@ export const ButtonStyle = css`
 			background-color: transparent;
 			border: 1px solid ${primary};
 			color: ${primary};
+    }
+	`}
+
+	${props => props.cate && css`
+			background-color: #aeb2b8;
+			border: 2px solid ${primary};
+			color: #000;
+			
+			&:hover{
+				background-color: ${primary};
+			}
 	`}
 
 	${props => props.size === 'l' && css`
@@ -64,9 +75,6 @@ export const ButtonStyle = css`
 			}
 	`}
 
-	${props => props.google &&css`
-			
-	`}
 `;
 
 const StyledButton = styled.button`

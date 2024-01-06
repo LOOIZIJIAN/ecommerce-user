@@ -5,18 +5,24 @@ import {Product} from "@/models/Product";
 import ProductsGrid from "@/components/ProductsGrid";
 import Title from "@/components/Title";
 import dynamic from 'next/dynamic';
+import styled from "styled-components";
 
 // const Header = dynamic(() => import('@/components/Header'));
 // const Center = dynamic(() => import('@/components/Center'));
 // const ProductsGrid = dynamic(() => import('@/components/ProductsGrid'));
 // const Title = dynamic(() => import('@/components/Title'));
+const Wrapper = styled.div`
+  margin-top: 85px;
+`;
 export default function ProductsPage({products}) {
   return (
     <>
       <Header />
       <Center>
-        <Title>All products</Title>
-        <ProductsGrid products={products} />
+        <Wrapper>
+          <Title>All products</Title>
+          <ProductsGrid products={products} />
+        </Wrapper>
       </Center>
     </>
   );

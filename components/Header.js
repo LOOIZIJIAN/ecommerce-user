@@ -130,7 +130,6 @@ const SvgArw = styled.svg`
   height: 30px;
   padding-left: 4px;
   padding-top: 4px;
-
 `;
 
 const Path = styled.path`
@@ -251,15 +250,72 @@ const RightCol = styled.div`
   @media (min-width: 768px) {
     position: absolute;
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: flex-end;
     top: 0px;
     bottom: 0px;
     right: 0px;
-    padding-right: 10px;
-    margin-right: 3%;
+    /* padding-right: 10px; */
+    margin-right: 5.5%;
   }
 `;
+
+const Search = styled.div`
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  right: 11%;
+`;
+
+const ErrorMss = styled.div`
+  position: fixed;
+  margin-top: 1.8%;
+`;
+
+const ResultCon = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 258px;
+`;
+
+const SearchResultBtn = styled(DropBtn)`
+  width: 100%;
+`;
+
+const NotFBtn = styled(DropBtn)`
+  width: 100%;
+`;
+
+const CartIcon = styled.img`
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  filter: brightness(50%);
+  margin-left: -5px;
+`;
+
+const CartBtn = styled.button`
+  height: 100%;
+  width: 68px;
+  text-align: center;
+  margin-right: -20%;
+  border: none;
+  background-color: transparent;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+
+  cursor: pointer;
+
+  &:hover {
+    /* background: #292727; */
+    background: lightgray;
+
+    ${CartIcon} {
+      filter: brightness(0%);
+    }
+  }
+`;  
 
 const Span = styled.span`
   display: inline-flex;
@@ -277,6 +333,7 @@ const CartText = styled.span`
 
 const SearchIcon = styled.img`
   padding: 0 20px;
+  margin-left: 80px;
   cursor: pointer;
 `;
 
@@ -288,18 +345,99 @@ const Input = styled.input`
   font-size: 18px;
 `;
 
+const DropBar2 = styled.div`   // New styled component 
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  left: 73%;
+  width: 60%;
+  height: 100px;
+  background-color: red;
+`;
+
+const DropBtn2 = styled.button` // New styled component 
+  text-align: left;
+  border: none;
+  padding: 8px 10px;
+  width: 108%;
+  
+  font-family: Poppins;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    background-color: gray;
+
+    color: white;
+    font-weight: 500;
+  }
+
+`;
+
 export default function Header({ products }) {
   const [showMenu, setShowMenu] = useState(false);
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
   const [filteredP, setFilteredP] = useState([]);
   const [showList, setShowList] = useState(false);
+
+  // Show the DropBar 2 
+  // const handleMouseOver = (value) => {    // New Code
+  //   const DrpBtn2 = document.getElementById('dropbar2');
+
+  //   switch(value) {
+  //     case 1:
+  //       DrpBtn2.style.marginTop = '0px';
+  //       break;
+
+  //     case 2:
+  //       DrpBtn2.style.marginTop = '36.5px';
+  //       break;
+        
+  //     case 3:
+  //       DrpBtn2.style.marginTop = '73.5px';
+  //       break;
+
+  //     case 4:
+  //       DrpBtn2.style.marginTop = '130.5px';
+  //       break;
+      
+  //     case 5:
+  //       DrpBtn2.style.marginTop = '168px';
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  //   console.log(value); // Show Value
+  //   Showoption();
+  //   DrpBtn2.style.display = 'flex';
+
+  //   function Showoption () {
+  //     for (let i = 1; i <= 4; i++) {
+  //       const button = document.getElementById(`b${i}`);
+        
+  //       if(i == 1) {
+  //         button.textContent = "Iphone";
+  //       } else if(i == 2) {
+  //         button.textContent = "Samsung";
+  //       } else if(i == 3) {
+  //         button.textContent = "XiaoMi";
+  //       } else if(i == 4) {
+  //         button.style.display = 'none';
+  //       }
+  //     }
+  //   };
+  // };
+  
 
   useEffect(() => {
     if (!products) {
       return;
     }
 
-    const filtered = products.filter(product => {
+    const filtered = products.filter((product) => {
       const lowerCaseSearchInput = searchInput.toLowerCase();
       const lowerCaseProductTitle = product.title.toLowerCase();
 
@@ -310,7 +448,7 @@ export default function Header({ products }) {
     setShowList(searchInput.length > 0);
   }, [searchInput, products]);
   console.log(showList);
-  
+
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -359,9 +497,9 @@ export default function Header({ products }) {
           </Button>{" "}
           {/* Add the page name behide the / */}
           {/* Option 2 */}
-          <Button onClick={() => router.push("/")}>
+          {/* <Button onClick={() => router.push("/")}>
             <A>Promotion</A>
-          </Button>{" "}
+          </Button>{" "} */}
           {/* Add the page name behide the / */}
           {/* Option 3 */}
           <SharedBtn>
@@ -385,13 +523,11 @@ export default function Header({ products }) {
             <DropDisplay>
               <DropBar>
                 <DropBtn>
-                  <DropA href="products">All products</DropA>
+                  <DropA href="/products">All products</DropA>
                 </DropBtn>
                 {categories.map((c) => (
                   <DropBtn key={c._id}>
-                    <DropA href={`/category/${c._id}`}>
-                      {c.name}
-                    </DropA>
+                    <DropA href={`/category/${c._id}`}>{c.name}</DropA>
                   </DropBtn>
                 ))}
               </DropBar>
@@ -429,33 +565,34 @@ export default function Header({ products }) {
 
         <RightCol>
           {/* Search Input Start */}
-          <Input
-            placeholder="Type to search..."
-            value={searchInput}
-            onChange={(ev) => {
-              setSearchInput(ev.target.value);
-              setShowList(true);
-            }}
-          />
+          <Search>
+            <Input
+              placeholder="Type to search..."
+              value={searchInput}
+              onChange={(ev) => {
+                setSearchInput(ev.target.value);
+                setShowList(true);
+              }}
+            />
 
-          {showList && (
-            <div>
-              {filteredP.length > 0 ? (
-                filteredP.map((f) => (
-                  <DropBtn key={f._id}>
-                    <DropA href={`/product/${f._id}`}>
-                      {f.title}
-                    </DropA>
-                  </DropBtn>
-                ))
-              ) : (
-                <DropBtn>Not Found</DropBtn>  
-              )}
-            </div>
-          )}
+            {showList && (
+              <ErrorMss>
+                <ResultCon>
+                  {filteredP.length > 0 ? (
+                    filteredP.map((f) => (
+                      <SearchResultBtn key={f._id}>
+                        <DropA href={`/product/${f._id}`}>{f.title}</DropA>
+                      </SearchResultBtn>
+                    ))
+                  ) : (
+                    <NotFBtn>Not Found</NotFBtn>
+                  )}
+                </ResultCon>
+              </ErrorMss>
+            )}
+          </Search>
 
           <Span>
-          
             <SearchIcon
               src="Search_Icon.png"
               alt="Search Icon Error"
@@ -467,9 +604,13 @@ export default function Header({ products }) {
             {/* <CartText>MYR</CartText> */}
             {/* Currency Text End*/}
           </Span>
+
+          <CartBtn onClick={() => router.push("/cart")}>
+            <CartIcon src="afterLogin/Shopping_Cart.png" />
+          </CartBtn>
+
         </RightCol>
       </Container>
     </div>
   );
 }
-

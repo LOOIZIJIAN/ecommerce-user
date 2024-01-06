@@ -1,5 +1,12 @@
 import styled from "styled-components";
 import CategoryLeft from "@/components/CategoryLeft";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import Button from "./Button";
+import { CartContext } from "./CartContext";
+import { FcLikePlaceholder } from "react-icons/fc";
+import CartIcon from "./icons/CartIcon";
+
 
 // Cart Top Start
 const CartCon = styled.div`
@@ -157,9 +164,50 @@ const P = styled.p`
 const Container = styled.div`
   margin-top: -30px;
   background-color: #f0f0f0;
+  min-height: 91.5vh;
+  height: auto;                                                                               
+`;
+
+const Price = styled.div`
+  font-size: 1rem;
+  font-weight:200;
+  text-align: right;
+  color: #000;
+  margin-right: 15px;
+  @media screen and (min-width: 768px) {
+    font-size: 1.2rem;
+    font-weight:600;
+    text-align: left;
+  }
 `;
 
 export default function Category({product}) {
+  // console.log(product[0].category);
+  const [filteredCategory, setFilteredCategory] = useState([]);
+  const [cate, setCate] = useState([]);
+  const {addProduct} = useContext(CartContext);
+  
+  // useEffect(async () => {
+  //   try {
+  //     const response = await axios.get('/api/category');
+  //     const categories = response.data;
+  
+  //     // Ensure that cate is initialized as an array
+  //     setCate(categories);
+  //     console.log(cate);
+  
+  //     // Check if product[0] exists and has a valid category value
+  //     // if ( product[0] && product[0].category) {
+  //     //   const filtered = categories.filter(c => c._id === product[0].category);
+  //     //   setFilteredCategory(filtered);
+  //     // }
+  //   } catch (error) {
+  //     console.error('Error fetching categories:', error);
+  //   }
+  // }, [product]);
+  
+  
+
   return (
     <div>
       {/* 这个 */}
@@ -168,9 +216,11 @@ export default function Category({product}) {
         <CategoryLeft />
         {/* Left Bar End */}
 
+
+
         <CartCon>
           <CartTop>
-            <H1>Phone</H1>
+            <H1>{filteredCategory.name}</H1>  
 
           </CartTop>
 
@@ -185,7 +235,7 @@ export default function Category({product}) {
                   {/* Item Detail Start */}
                   <DetailCon>
                     <H2>{p.title}</H2>
-                    <P>{p.price}</P>
+                    <Price>${p.price}</Price>
                   </DetailCon>
                   {/* Item Detail End */}
                 </ItemTxtCon>
@@ -193,13 +243,11 @@ export default function Category({product}) {
 
               {/* Cart / Like Icon Start */}
               <OtherCon>
-                <LeftBtn href="#">
-                  <Img src="./Item/Cart_Icon.png" alt="Cart" />
-                  <p>Add to Cart</p>
-                </LeftBtn>
-
+                <Button onClick={() => addProduct(_id)} cate>
+                 <CartIcon/> Add to cart
+                </Button>
                 <RightBtn href="#">
-                  <RBtnIcon src="AfterLogin/Like_Icon.png" title="Like" />
+                  <FcLikePlaceholder />
                 </RightBtn>
               </OtherCon>
               {/* Cart / Like Icon End */}

@@ -9,6 +9,14 @@ export default async function handler(req, res){
     return;
   }
 
+  // if (method === 'GET') {
+  //   if (req.query?.id) {
+  //     res.json(await Product.findOne({_id:req.query.id}));
+  //   } else {  
+  //     res.json(await Product.find());
+  //   }
+  // }
+
   if(req.method === 'POST'){
     const {username, email, password} = req.body;
     const register = await User.create({

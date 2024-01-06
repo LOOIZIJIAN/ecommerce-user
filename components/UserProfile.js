@@ -84,8 +84,11 @@ const Hr = styled.hr`
 
 const DownCon = styled(UpCon)`
   height: 68px;
+  width: fit-content;
   padding: 0;
   border-radius: 15px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const Icon = styled.img`
@@ -116,6 +119,8 @@ const Btn1 = styled(Btn)`
   border-bottom-left-radius: 15px;
 `;
 const Btn2 = styled(Btn)`
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
 `;
 const Btn3 = styled(Btn)``;
 const Btn4 = styled(Btn)`
@@ -146,15 +151,15 @@ export default function AfterLogin() {
         <Btn1>
           <Icon src="afterLogin/Like_Icon.png" />
         </Btn1>
-        <Btn2 onClick={()=> router.push('/cart')}>
+        <Btn2 onClick={() => router.push("/cart")}>
           <Icon src="afterLogin/Shopping_Cart.png" />
         </Btn2>
-        <Btn3>
+        {/* <Btn3>
           <Icon src="afterLogin/Delivery_Icon.png" />
         </Btn3>
         <Btn4>
           <Icon src="afterLogin/Coupon_Icon.png" />
-        </Btn4>
+        </Btn4> */}
       </DownCon>
     </Container>
   );

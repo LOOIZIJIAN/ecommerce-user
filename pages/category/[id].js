@@ -9,11 +9,14 @@ export default function CategoryPage({ initialProduct }) {
   const router = useRouter();
   const id = router.query.id; 
   const [filteredProduct, setFilteredProduct] = useState(initialProduct);
+  
 
   useEffect(() => {
     if (id && initialProduct) {
       const filtered = initialProduct.filter(product => product.category === id);
+      // const filteredCate = category.filter(c => c.id === filtered.category);
       setFilteredProduct(filtered);
+      // setFilteredCategory(filteredCate);
     }
   }, [id, initialProduct]);
 
@@ -25,12 +28,11 @@ export default function CategoryPage({ initialProduct }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   await mongooseConnect();
   
   // Fetch all products from the database
   const products = await Product.find();
-  
   return {
     props: {
       initialProduct: JSON.parse(JSON.stringify(products)),

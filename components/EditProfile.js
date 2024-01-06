@@ -1,10 +1,11 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import LeftSetting from "./LeftSetting";
+import { useSession } from "next-auth/react";
 
 const Container = styled.div`
   margin-top: -30px;
-  width: ;
+  width: 100%;
   min-height: 808px;
   background-color: #f0f0f0;
 `;
@@ -186,6 +187,8 @@ const Btn = styled.button`
 export default function EditProfile() {
   const fileInputRef = useRef(null);
 
+  const {data : session} = useSession();
+
   const handleClick = () => {
     fileInputRef.current.click();
   };
@@ -211,47 +214,24 @@ export default function EditProfile() {
         <CartDet>
           <form method="post">
             <Row1>
-              <Img image={image}></Img>
+              <Img image={session?.user?.image}></Img>
 
               <Col>
                 <Inputfile type="file" ref={fileInputRef} onChange={loadFile} />
-                <LabelBtn for="file" onClick={handleClick}>
-                  Select Image
-                </LabelBtn>
-
-                <Div>
-                  <Span2>File size</Span2>
-                  <Span>: Maximum 1 MB</Span>
-                </Div>
-
-                <Div>
-                  <Span2>File extension</Span2>
-                  <Span>: . JPEG, . PNG</Span>
-                </Div>
               </Col>
             </Row1>
 
             <Row>
-              <MainDet>Username</MainDet>
-              <DisplayUN>Najib</DisplayUN>  {/* import username from database */}
+              <MainDet>Username:</MainDet>
+              <DisplayUN>{session?.user?.name}</DisplayUN>  {/* import username from database */}
             </Row>
 
             <Row>
-              <MainDet>Name</MainDet>
-              <Input type="text" placeholder="Name" />
+              <MainDet>Email:</MainDet>
+              <Input type="email" placeholder="xxx@gmail.com" value={session?.user?.email} />
             </Row>
 
-            <Row>
-              <MainDet>Email</MainDet>
-              <Input type="email" placeholder="xxx@gmail.com" />
-            </Row>
-
-            <Row>
-              <MainDet>Phone No</MainDet>
-              <Input id="phone" type="tel" placeholder="01111379833" />
-            </Row>
-
-            <Btn>Save</Btn>
+    
           </form>
         </CartDet>
       </CartCon>

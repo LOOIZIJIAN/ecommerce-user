@@ -68,7 +68,7 @@ const CityHolder = styled.div`
 `;
 
 export default function CartPage() {
-  const {cartProducts,addProduct,removeProduct,clearCart} = useContext(CartContext);
+  const {onCartProducts,addProduct,removeProduct,clearCart} = useContext(CartContext);
   const [products,setProducts] = useState([]);
   const [account, setAccount] = useState('');
   const [name,setName] = useState('');
@@ -87,15 +87,15 @@ export default function CartPage() {
     }
   }, [session]);
   useEffect(() => {
-    if (cartProducts.length > 0) {
-      axios.post('/api/cart', {ids:cartProducts})
+    if (onCartProducts.length > 0) {
+      axios.post('/api/cart', {ids:onCartProducts})
         .then(response => {
           setProducts(response.data);
         })
     } else {
       setProducts([]);
     }
-  }, [cartProducts]);
+  }, [onCartProducts]);
   useEffect(() => {
     if (typeof window === 'undefined') {
       return;
@@ -114,14 +114,14 @@ export default function CartPage() {
   async function goToPayment() {
     const response = await axios.post('/api/checkout', {
       account,name,email,city,postalCode,streetAddress,country,
-      cartProducts,
+      onCartProducts,
     });
     if (response.data.url) {
       window.location = response.data.url;
     }
   }
   let total = 0;
-  for (const productId of cartProducts) {
+  for (const productId of onCartProducts) {
     const price = products.find(p => p._id === productId)?.price || 0;
     total += price;
   }
@@ -141,6 +141,10 @@ export default function CartPage() {
       </>
     );
   }
+  // useEffect(()=>{
+  //   removeProduct();
+  //   clearCart();
+  // });
   return (
     <>
       <Header />
@@ -148,7 +152,7 @@ export default function CartPage() {
         <ColumnsWrapper>
           <Box>
             <h2>Cart</h2>
-            {!cartProducts?.length && (
+            {!onCartProducts?.length && (
               <div>Your cart is empty</div>
             )}
             {products?.length > 0 && (
@@ -192,7 +196,7 @@ export default function CartPage() {
               </Table>
             )}
           </Box>
-          {!!cartProducts?.length && (
+          {!!onCartProducts?.length && (
             <Box>
               <h2>Order information</h2>
               <Input type="text"

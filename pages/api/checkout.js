@@ -11,7 +11,7 @@ export default async function handler(req,res) {
   const {
     account,name,email,city,
     postalCode,streetAddress,country,
-    cartProducts,
+    onCartProducts,
   } = req.body;
   await mongooseConnect();
   const productsIds = cartProducts;

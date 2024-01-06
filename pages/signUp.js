@@ -231,7 +231,9 @@ export default function Signin ({users}) {
     const router = useRouter();
 
     const handleRegister = async (ev) => {
+        console.log("55")
         ev.preventDefault();
+        
         const data = { userName, email, password };
       
         try {
@@ -239,7 +241,7 @@ export default function Signin ({users}) {
           console.log('Registration successful:', response.data);
           router.push({
 						pathname: '/',
-						query: { userName, email },
+						query: { email },
 					});
         } catch (error) {
           console.error('Registration error:', error.response.data);

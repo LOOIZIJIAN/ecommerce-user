@@ -2,7 +2,6 @@ import NextAuth from "next-auth/next"
 import GoogleProvider from 'next-auth/providers/google'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 import clientPromise from '@/lib/mongodb'
-import EmailProvider from "next-auth/providers/email";
 
 export const authOptions = {
   providers: [ 

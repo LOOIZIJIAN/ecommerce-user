@@ -12,13 +12,13 @@ import {useContext} from "react";
 import {CartContext} from "@/components/CartContext";
 
 const ColWrapper = styled.div`
+  margin-top: 85px;
   display: grid;
   grid-template-columns: 1fr;
   @media screen and (min-width: 768px) {
     grid-template-columns: .8fr 1.2fr;
   }
   gap: 40px;
-  margin: 40px 0;
 `;
 const PriceRow = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ export default function ProductPage({product}) {
                 <Price>${product.price}</Price>
               </div>
               <div>
-                <Button primary onClick={() => addProduct(product._id)}>
+                <Button cate onClick={() => addProduct(product._id)}>
                   <CartIcon />Add to cart
                 </Button>
               </div>
