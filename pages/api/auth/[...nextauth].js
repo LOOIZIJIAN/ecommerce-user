@@ -43,7 +43,7 @@ export const authOptions = {
         
             const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword);
 
-            console.log('Password match:', passwordMatch);
+            // console.log('Password match:', passwordMatch);
         
             if (!passwordMatch) {
               throw new Error('Incorrect password');
@@ -69,7 +69,7 @@ export const authOptions = {
   callbacks: {
 
     async jwt({token, user, session}) {
-      console.log('JWT Token:', token);
+      // console.log('JWT Token:', token);
       if(user) {
         return{
           ...token,
@@ -81,7 +81,7 @@ export const authOptions = {
     },
 
     async session({ session, token, user }) {
-      console.log('Session:', session);
+      // console.log('Session:', session);
       return{
         ...session,
         id: token.id,

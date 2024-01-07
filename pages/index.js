@@ -6,10 +6,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import dynamic from "next/dynamic";
 import styled from 'styled-components';
 import { useRouter } from "next/router";
-import { User } from "@/models/User";
-import { useEffect, useState } from "react";
 import Chatbox from "@/components/ChatBox";
-
 const Container = styled.div`
     margin-top: 4%;
     margin-left: -8px;
@@ -20,17 +17,16 @@ const Container = styled.div`
     flex-direction: row;
 `;
 
-export default function HomePage({featuredProduct, newProducts, allProduct, user}) {
+export default function HomePage({ newProducts }) {
   const SlideShow = dynamic(() => import("@/components/SlideShow"), { ssr: false });
   const Header = dynamic(() => import('@/components/Header'), { ssr: false });
   const UserProfile = dynamic(()=> import('@/components/UserProfile'), {ssr: false});
   const {data: session} = useSession();
-  const router = useRouter();
-  console.log(session.id)
+
   if (!session) {
     return (
       <>
-        <Header products={allProduct} />
+        <Header />
         <Container>
           <SlideShow />
           <Login />
@@ -41,7 +37,7 @@ export default function HomePage({featuredProduct, newProducts, allProduct, user
   }
   return (
     <>
-      <Header products={allProduct} />
+      <Header />
       <Container>
         <SlideShow />
         <UserProfile />
@@ -54,18 +50,11 @@ export default function HomePage({featuredProduct, newProducts, allProduct, user
 }
 
 export async function getServerSideProps() {
-  const featuredProductId = '651f78824a83d693d7039520';
   await mongooseConnect();
-  const featuredProduct = await Product.findById(featuredProductId);
   const newProducts = await Product.find({}, null, {sort: {'_id':-1}, limit:10});
-  const allProduct = await Product.find();
-  const user = await User.find();
   return{
     props: {
-      featuredProduct: JSON.parse(JSON.stringify(featuredProduct)),
-      newProducts: JSON.parse(JSON.stringify(newProducts)),
-      allProduct: JSON.parse(JSON.stringify(allProduct)),
-      user: JSON.parse(JSON.stringify(user)),
+      newProducts: JSON.parse(JSON.stringify(newProducts)),  
     },
   };
 }

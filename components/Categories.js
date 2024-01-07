@@ -181,32 +181,11 @@ const Price = styled.div`
   }
 `;
 
-export default function Category({product}) {
-  // console.log(product[0].category);
+export default function Categories({product}) {
+  // console.log(product);
   const [filteredCategory, setFilteredCategory] = useState([]);
   const [cate, setCate] = useState([]);
   const {addProduct} = useContext(CartContext);
-  
-  // useEffect(async () => {
-  //   try {
-  //     const response = await axios.get('/api/category');
-  //     const categories = response.data;
-  
-  //     // Ensure that cate is initialized as an array
-  //     setCate(categories);
-  //     console.log(cate);
-  
-  //     // Check if product[0] exists and has a valid category value
-  //     // if ( product[0] && product[0].category) {
-  //     //   const filtered = categories.filter(c => c._id === product[0].category);
-  //     //   setFilteredCategory(filtered);
-  //     // }
-  //   } catch (error) {
-  //     console.error('Error fetching categories:', error);
-  //   }
-  // }, [product]);
-  
-  
 
   return (
     <div>

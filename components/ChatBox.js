@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
+import { FcSms } from "react-icons/fc";
 
 const Main = styled.div`
   width: 100%;
 `;
 
 const Container = styled.div`
-  background-color: lightblue;
+  /* background-color: lightblue; */
   border-radius: 100%;
   height: 80px;
   width: 80px;
@@ -21,7 +22,7 @@ const Container = styled.div`
   }
 `;
 
-const Img = styled.img`
+const Icon = styled.span`
   position: absolute;
   top: 14px;
   left: 13px;
@@ -647,7 +648,9 @@ export default function Chatbox() {
     <div>
       <Main>
         <Container onClick={ShowMessage}>
-          <Img src="./cs_icon.png" alt="Icon Error" />
+          <Icon>
+            <FcSms />
+          </Icon>
         </Container>
 
         <ContainerBox id="ContainerBox">

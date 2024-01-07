@@ -171,7 +171,7 @@ const DropDisplay = styled.div`
   display: none;
   width: 92%;
   z-index: 2;
-  margin-top: 295px;
+  margin-top: 185px;
   margin-left: -133px;
 `;
 
@@ -376,61 +376,18 @@ const DropBtn2 = styled.button` // New styled component
 
 `;
 
-export default function Header({ products }) {
+export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [filteredP, setFilteredP] = useState([]);
   const [showList, setShowList] = useState(false);
+  const [products, setProducts] = useState([]);
 
-  // Show the DropBar 2 
-  // const handleMouseOver = (value) => {    // New Code
-  //   const DrpBtn2 = document.getElementById('dropbar2');
-
-  //   switch(value) {
-  //     case 1:
-  //       DrpBtn2.style.marginTop = '0px';
-  //       break;
-
-  //     case 2:
-  //       DrpBtn2.style.marginTop = '36.5px';
-  //       break;
-        
-  //     case 3:
-  //       DrpBtn2.style.marginTop = '73.5px';
-  //       break;
-
-  //     case 4:
-  //       DrpBtn2.style.marginTop = '130.5px';
-  //       break;
-      
-  //     case 5:
-  //       DrpBtn2.style.marginTop = '168px';
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  //   console.log(value); // Show Value
-  //   Showoption();
-  //   DrpBtn2.style.display = 'flex';
-
-  //   function Showoption () {
-  //     for (let i = 1; i <= 4; i++) {
-  //       const button = document.getElementById(`b${i}`);
-        
-  //       if(i == 1) {
-  //         button.textContent = "Iphone";
-  //       } else if(i == 2) {
-  //         button.textContent = "Samsung";
-  //       } else if(i == 3) {
-  //         button.textContent = "XiaoMi";
-  //       } else if(i == 4) {
-  //         button.style.display = 'none';
-  //       }
-  //     }
-  //   };
-  // };
-  
+  useEffect(()=>{
+    axios.get('/api/products').then(res=>{
+      setProducts(res.data);
+    })
+  },[])
 
   useEffect(() => {
     if (!products) {
@@ -474,38 +431,49 @@ export default function Header({ products }) {
   useEffect(() => {
     axios.get("/api/category").then((res) => {
       setCategories(res.data);
+      // console.log(categories);
     });
   }, []);
+
+  const [parents, setParents] = useState([]);
+  const [cate, setCate] = useState([]);
+
+  useEffect(() => {
+    const uniqueParents = new Set();
+    const uniqueCate = new Set();
+
+    categories.forEach(category => {
+      if (category.parent) {
+        uniqueCate.add(category);
+      } else {
+        uniqueParents.add(category);
+      }
+    });
+
+    setParents(Array.from(uniqueParents));
+    setCate(Array.from(uniqueCate));
+  }, [categories]);
+
+  // console.log("Root:", parents);
+  // console.log("Cate:", cate);
+
+
 
   return (
     <div>
       <Container>
-        {/* Company Logo Start */}
         <LogoContainer>
           <LogoSubContainer>
             <LogoImg src="Company_Logo.png" onClick={() => router.push("/")} />{" "}
-            {/* Add the page name behide the / */}
           </LogoSubContainer>
         </LogoContainer>
-        {/* Company Logo End */}
-
-        {/* Navigation Option Start */}
+              
         <List showMenu={showMenu}>
-          {/* Option 1 */}
           <Button onClick={() => router.push("/")}>
             <A>Home</A>
           </Button>{" "}
-          {/* Add the page name behide the / */}
-          {/* Option 2 */}
-          {/* <Button onClick={() => router.push("/")}>
-            <A>Promotion</A>
-          </Button>{" "} */}
-          {/* Add the page name behide the / */}
-          {/* Option 3 */}
           <SharedBtn>
             <A>Category</A>
-
-            {/* Arrow Down Icon Start */}
             <SvgArw viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
               <g
@@ -517,17 +485,14 @@ export default function Header({ products }) {
                 <Path d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z"></Path>
               </g>
             </SvgArw>
-            {/* Arrow Down Icon End */}
-
-            {/* Category Drop Down List Start */}
             <DropDisplay>
               <DropBar>
                 <DropBtn>
                   <DropA href="/products">All products</DropA>
                 </DropBtn>
-                {categories.map((c) => (
-                  <DropBtn key={c._id}>
-                    <DropA href={`/category/${c._id}`}>{c.name}</DropA>
+                {parents.map((p) => (
+                  <DropBtn key={p._id}>
+                    <DropA href={`/category/${p._id}`}>{p.name}</DropA>
                   </DropBtn>
                 ))}
               </DropBar>

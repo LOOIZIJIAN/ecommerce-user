@@ -141,10 +141,6 @@ export default function CartPage() {
       </>
     );
   }
-  // useEffect(()=>{
-  //   removeProduct();
-  //   clearCart();
-  // });
   return (
     <>
       <Header />
@@ -177,13 +173,13 @@ export default function CartPage() {
                         <Button
                           onClick={() => lessOfThisProduct(product._id)}>-</Button>
                         <QuantityLabel>
-                          {cartProducts.filter(id => id === product._id).length}
+                          {onCartProducts.filter(id => id === product._id).length}
                         </QuantityLabel>
                         <Button
                           onClick={() => moreOfThisProduct(product._id)}>+</Button>
                       </td>
                       <td>
-                        ${cartProducts.filter(id => id === product._id).length * product.price}
+                        ${onCartProducts.filter(id => id === product._id).length * product.price}
                       </td>
                     </tr>
                   ))}
