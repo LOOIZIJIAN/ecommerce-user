@@ -1,7 +1,13 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+// import { GiShoppingCart } from "react-icons/gi";
 import axios from "axios";
+import dynamic from 'next/dynamic';
+
+const GiShoppingCart = dynamic(() => import('react-icons/gi').then((module) => module.GiShoppingCart), {
+  loading: () => <span>Loading...</span>,
+});
 
 const Container = styled.div`
   position: fixed;
@@ -100,7 +106,7 @@ const Svg = styled.svg`
 
 const List = styled.div`
   display: ${(props) => (props.showMenu ? "flex" : "none")};
-  margin-right: -5rem;
+  margin-right: 0.5rem;
 
   @media (min-width: 768px) {
     display: flex;
@@ -172,7 +178,7 @@ const DropDisplay = styled.div`
   width: 92%;
   z-index: 2;
   margin-top: 185px;
-  margin-left: -133px;
+  margin-left: -132.5px;
 `;
 
 const SharedBtn = styled.div`
@@ -464,7 +470,7 @@ export default function Header() {
       <Container>
         <LogoContainer>
           <LogoSubContainer>
-            <LogoImg src="Company_Logo.png" onClick={() => router.push("/")} />{" "}
+            <LogoImg src="/Company_Logo_Black_Mode.png" onClick={() => router.push("/")} />{" "}
           </LogoSubContainer>
         </LogoContainer>
               
@@ -559,19 +565,15 @@ export default function Header() {
 
           <Span>
             <SearchIcon
-              src="Search_Icon.png"
+              src="/Search_Icon.png"
               alt="Search Icon Error"
               title="Search"
             ></SearchIcon>
-            {/* Search Cart Icon End*/}
-
-            {/* Currency Text Start*/}
-            {/* <CartText>MYR</CartText> */}
-            {/* Currency Text End*/}
+           
           </Span>
 
           <CartBtn onClick={() => router.push("/cart")}>
-            <CartIcon src="afterLogin/Shopping_Cart.png" />
+            <GiShoppingCart style={{ fontSize: "3em", color: "white"}}/>
           </CartBtn>
 
         </RightCol>

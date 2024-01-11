@@ -81,7 +81,7 @@ export default function CartPage() {
   const {data: session} = useSession();
   
   useEffect(() => {
-    if (session && session.user && session.user.email) {
+    if (session?.user?.email) {
       const userEmail = session.user.email;
       setAccount(userEmail);
     }

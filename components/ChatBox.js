@@ -26,8 +26,7 @@ const Icon = styled.span`
   position: absolute;
   top: 14px;
   left: 13px;
-  height: 55px;
-  width: 55px;
+  font-size: 4em;
 `;
 
 const ContainerBox = styled.div`

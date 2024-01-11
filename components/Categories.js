@@ -35,6 +35,7 @@ const H1 = styled.h1`
   margin: 0;
   display: flex;
   align-items: center;
+  color: #000;
 `;
 // Cart Top End
 
@@ -181,26 +182,14 @@ const Price = styled.div`
   }
 `;
 
-export default function Categories({product}) {
-  // console.log(product);
-  const [filteredCategory, setFilteredCategory] = useState([]);
-  const [cate, setCate] = useState([]);
+export default function Categories({product, cate}) {
   const {addProduct} = useContext(CartContext);
-
   return (
     <div>
-      {/* 这个 */}
       <Container>
-        {/* Left Bar Start */}
-        <CategoryLeft />
-        {/* Left Bar End */}
-
-
-
         <CartCon>
           <CartTop>
-            <H1>{filteredCategory.name}</H1>  
-
+            {cate && cate[0] && <H1>{cate[0].name}</H1>}
           </CartTop>
 
           {/* Row Item Start */}
