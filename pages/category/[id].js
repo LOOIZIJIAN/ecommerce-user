@@ -14,43 +14,57 @@ export default function CategoryPage({ initialProduct, categories }) {
   const [filterCate, setFilterCate] = useState(categories);
   const [currentParent, setCurrentParent] = useState({});
   const [root, setRoot] = useState(false);
+  console.log("Root:" + root);
 
   useEffect(() => {
     if (id && categories) {
       const checkedId = categories.filter((cate) => cate.parent === id);
       setFilterCate(checkedId);
-      checkedId ? setRoot(true) : setRoot(false);
-      console.log("rootC:"+root);
+  
       const checkName = categories.filter((cate) => cate._id === id);
       setCurrentParent(checkName);
-      // console.log("Matched root categories:", JSON.stringify(checkedId));
     }
   }, [id, categories]);
-  
+
+  useEffect(() => {
+    if(filterCate != null && filterCate.length > 0){
+      setRoot(true)
+    }else{
+      setRoot(false);
+    }
+    console.log("FILTER:" + filterCate);
+  }, [filterCate]);
+
+  useEffect(() => {
+    console.log("RootC:" + root);
+  }, [root]);
+
   useEffect(() => {
     if (id && initialProduct && filterCate) {
       const filteredProducts = initialProduct.filter((product) =>
         filterCate.some((cate) => product.category === cate._id)
       );
       setFilteredProduct(filteredProducts);
-    }
-    else if(id && initialProduct && !filterCate && currentParent){
+    } else if(id && initialProduct && filterCate.length < 0 && currentParent){
       const filteredProducts = initialProduct.filter((product) =>
-        currentParent.some((cate) => product.category === cate._id)
+        currentParent.some((cp) => product.category === cp._id)
       );
       setFilteredProduct(filteredProducts);
     }
   }, [id, initialProduct, filterCate]);
 
+  // console.log("mi:" + filteredProduct);
+  // console.log("root1:" + root);
+
   return (
     <div>
       <Header />
-      <CategoryLeft category={categories} currentId={id} root={root}/>
+      <CategoryLeft category={categories} currentId={id} root={root} filterCate={filterCate}/>
       <Categories product={filteredProduct} cate={currentParent} />
     </div>
   );
-
 }
+
 
 export async function getServerSideProps() {
   await mongooseConnect();

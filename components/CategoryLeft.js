@@ -150,22 +150,19 @@ const A = styled.a`
   text-decoration: none;
 `;
 
-  export default function CategoryLeft({category, currentId, root}) {
-    console.log("Cate:"+category);
-    console.log("CP:"+currentId);
-    console.log("Root:"+root);
+  export default function CategoryLeft({ root, filterCate }) {
     
-    // const [cate, setCate] = useState([]);
-    const [filterCate, setFilterCate] = useState([]);
+    const [filter, setFilter] = useState([]);
     const [checkedOption, setCheckedOption] = useState('');
-    useEffect(()=>{
-      if(root){
-        const filtered = category.filter(c => c.parent === currentId);
-        setFilterCate(filtered);
-      }else{
-        setFilterCate(prev => [...prev]);
+    useEffect(() => {
+      console.log("Root:" + root);
+      if (root) {
+        setFilter(filterCate);
       }
-    },[category, root, currentId]);
+    }, [root, filterCate]);
+    
+    
+    console.log("fc:" + filter);
 
   return (
     <LeftCon>
@@ -181,7 +178,7 @@ const A = styled.a`
         </BrandTopCon>
 
         <OptionCon>
-          {filterCate && filterCate.map(fc => (
+          {filter && filter.map(fc => (
             <Label key={fc._id}>
               <Input
                 type="radio"

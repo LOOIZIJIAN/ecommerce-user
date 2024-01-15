@@ -183,6 +183,7 @@ const Price = styled.div`
 `;
 
 export default function Categories({product, cate}) {
+  console.log("product:"+product);
   const {addProduct} = useContext(CartContext);
   return (
     <div>
