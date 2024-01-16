@@ -184,13 +184,16 @@ const Price = styled.div`
 
 export default function Categories({product, cate}) {
   console.log("product:"+product);
+  console.log("cate name:"+cate);
+
   const {addProduct} = useContext(CartContext);
   return (
     <div>
       <Container>
         <CartCon>
           <CartTop>
-            {cate && cate[0] && <H1>{cate[0].name}</H1>}
+            {/* {cate && cate[0] && <H1>{cate[0].name}</H1>} */}
+            <H1>{cate.name}</H1>  {/* changed to this only , i not sure correct not , but it run */}
           </CartTop>
 
           {/* Row Item Start */}

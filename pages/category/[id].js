@@ -14,25 +14,26 @@ export default function CategoryPage({ initialProduct, categories }) {
   const [filterCate, setFilterCate] = useState(categories);
   const [currentParent, setCurrentParent] = useState({});
   const [root, setRoot] = useState(false);
-  console.log("Root:" + root);
+  console.log("RootC:" + root);
 
   useEffect(() => {
     if (id && categories) {
       const checkedId = categories.filter((cate) => cate.parent === id);
       setFilterCate(checkedId);
-  
-      const checkName = categories.filter((cate) => cate._id === id);
+
+      const checkName = categories.find((cate) => cate._id === id); // changed from .filter to .find
       setCurrentParent(checkName);
+
+      console.log("Test 1 : " + filterCate);
     }
+    console.log("Test 2 : " + filterCate);
+
   }, [id, categories]);
 
+  console.log("Test 3: " + filterCate);
+
   useEffect(() => {
-    if(filterCate != null && filterCate.length > 0){
-      setRoot(true)
-    }else{
-      setRoot(false);
-    }
-    console.log("FILTER:" + filterCate);
+    setRoot(filterCate && filterCate.length > 0);
   }, [filterCate]);
 
   useEffect(() => {
@@ -40,21 +41,21 @@ export default function CategoryPage({ initialProduct, categories }) {
   }, [root]);
 
   useEffect(() => {
-    if (id && initialProduct && filterCate) {
+    if (id && initialProduct && filterCate && filterCate.length > 0) {
       const filteredProducts = initialProduct.filter((product) =>
         filterCate.some((cate) => product.category === cate._id)
       );
       setFilteredProduct(filteredProducts);
-    } else if(id && initialProduct && filterCate.length < 0 && currentParent){
+
+    } else if (id && initialProduct && filterCate && filterCate.length === 0) { // changed
       const filteredProducts = initialProduct.filter((product) =>
-        currentParent.some((cp) => product.category === cp._id)
+        product.category === currentParent._id  // changed
       );
       setFilteredProduct(filteredProducts);
     }
-  }, [id, initialProduct, filterCate]);
+    console.log("Test 4: " + filterCate);
 
-  // console.log("mi:" + filteredProduct);
-  // console.log("root1:" + root);
+  }, [id, initialProduct, filterCate, currentParent]);  // added currentParent
 
   return (
     <div>
@@ -64,7 +65,6 @@ export default function CategoryPage({ initialProduct, categories }) {
     </div>
   );
 }
-
 
 export async function getServerSideProps() {
   await mongooseConnect();
@@ -77,5 +77,3 @@ export async function getServerSideProps() {
     },
   };
 }
-
-
