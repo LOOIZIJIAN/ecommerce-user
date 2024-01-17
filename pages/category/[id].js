@@ -13,58 +13,42 @@ export default function CategoryPage({ initialProduct, categories }) {
   const [filteredProduct, setFilteredProduct] = useState(initialProduct);
   const [filterCate, setFilterCate] = useState(categories);
   const [currentParent, setCurrentParent] = useState({});
-  const [root, setRoot] = useState(false);
-  console.log("Root:" + root);
+  const [leftBarCate, setLeftBarCate] = useState([]);
 
   useEffect(() => {
     if (id && categories) {
       const checkedId = categories.filter((cate) => cate.parent === id);
+      console.log("checkedId:", checkedId);
+      setLeftBarCate((prev) => (checkedId.length > 0 ? checkedId : prev));
       setFilterCate(checkedId);
   
-      const checkName = categories.filter((cate) => cate._id === id);
+      const checkName = categories.find((cate) => cate._id === id); 
       setCurrentParent(checkName);
     }
-  }, [id, categories]);
+  }, [id, categories]);  
 
   useEffect(() => {
-    if(filterCate != null && filterCate.length > 0){
-      setRoot(true)
-    }else{
-      setRoot(false);
-    }
-    console.log("FILTER:" + filterCate);
-  }, [filterCate]);
-
-  useEffect(() => {
-    console.log("RootC:" + root);
-  }, [root]);
-
-  useEffect(() => {
-    if (id && initialProduct && filterCate) {
+    if (initialProduct && filterCate.length > 0) {      //filter under root product
       const filteredProducts = initialProduct.filter((product) =>
-        filterCate.some((cate) => product.category === cate._id)
-      );
+        filterCate.some((cate) => product.category === cate._id));
       setFilteredProduct(filteredProducts);
-    } else if(id && initialProduct && filterCate.length < 0 && currentParent){
+
+    } else if (initialProduct && filterCate.length === 0) {  //filter under second root product
       const filteredProducts = initialProduct.filter((product) =>
-        currentParent.some((cp) => product.category === cp._id)
-      );
+        product.category === currentParent._id);
       setFilteredProduct(filteredProducts);
     }
-  }, [id, initialProduct, filterCate]);
-
-  // console.log("mi:" + filteredProduct);
-  // console.log("root1:" + root);
+  }, [initialProduct, filterCate, currentParent]);  
+  console.log("CIBAI", leftBarCate.length > 0 ? leftBarCate : "Empty Array");
 
   return (
     <div>
       <Header />
-      <CategoryLeft category={categories} currentId={id} root={root} filterCate={filterCate}/>
+      <CategoryLeft filterCate={leftBarCate}/>
       <Categories product={filteredProduct} cate={currentParent} />
     </div>
   );
 }
-
 
 export async function getServerSideProps() {
   await mongooseConnect();
@@ -77,5 +61,3 @@ export async function getServerSideProps() {
     },
   };
 }
-
-

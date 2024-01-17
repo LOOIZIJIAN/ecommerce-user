@@ -150,62 +150,53 @@ const A = styled.a`
   text-decoration: none;
 `;
 
-  export default function CategoryLeft({ root, filterCate }) {
-    
-    const [filter, setFilter] = useState([]);
+  export default function CategoryLeft({ filterCate }) {
+
+    // console.log("FC:"+filterCate);
     const [checkedOption, setCheckedOption] = useState('');
-    useEffect(() => {
-      console.log("Root:" + root);
-      if (root) {
-        setFilter(filterCate);
-      }
-    }, [root, filterCate]);
-    
-    
-    console.log("fc:" + filter);
 
-  return (
-    <LeftCon>
-      <LeftUpCon>
-        <FcFilledFilter style={{ fontSize: "3em" }}/>
-        <H1>Filter</H1>
-      </LeftUpCon>
+    return (
+      <LeftCon>
+        <LeftUpCon>
+          <FcFilledFilter style={{ fontSize: "3em" }}/>
+          <H1>Filter</H1>
+        </LeftUpCon>
 
-      <BrandCon>
-        <BrandTopCon>
-          <H2>Brand</H2>
-          <HiArchive style={{ fontSize: "2em" }}/>
-        </BrandTopCon>
+        <BrandCon>
+          <BrandTopCon>
+            <H2>Brand</H2>
+            <HiArchive style={{ fontSize: "2em" }}/>
+          </BrandTopCon>
 
-        <OptionCon>
-          {filter && filter.map(fc => (
-            <Label key={fc._id}>
-              <Input
-                type="radio"
-                checked={checkedOption === fc._id} 
-                onChange={() => setCheckedOption(fc._id)}
-                name="radio"
-              />
-              <Span checked={checkedOption === fc._id}>{fc.name}</Span>
-            </Label>
-          ))}                  
-        </OptionCon>
-      </BrandCon>
+          <OptionCon>
+            {filterCate && filterCate.map(fc => (
+              <Label key={fc._id}>
+                <Input
+                  type="radio"
+                  checked={checkedOption === fc._id} 
+                  onChange={() => setCheckedOption(fc._id)}
+                  name="radio"
+                />
+                <Span checked={checkedOption === fc._id}>{fc.name}</Span>
+              </Label>
+            ))}                  
+          </OptionCon>
+        </BrandCon>
 
-      <PriceCon>
-        <PriceTopCon>
-          <H2>Price</H2>
-          <GiPriceTag style={{ fontSize: "2em" }}/>
-        </PriceTopCon>
+        <PriceCon>
+          <PriceTopCon>
+            <H2>Price</H2>
+            <GiPriceTag style={{ fontSize: "2em" }}/>
+          </PriceTopCon>
 
-        <RangeSlider />
-      </PriceCon>
+          <RangeSlider />
+        </PriceCon>
 
-      <Btm>
-        <A href={`/category/${checkedOption}`}>
-          <Button>Update</Button>
-        </A>
-      </Btm>
-    </LeftCon>
-  );
+        <Btm>
+          <A href={`/category/${checkedOption}`}>
+            <Button>Update</Button>
+          </A>
+        </Btm>
+      </LeftCon>
+    );
 }
