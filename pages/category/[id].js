@@ -10,7 +10,7 @@ import CategoryLeft from "@/components/CategoryLeft";
 export default function CategoryPage({ initialProduct, categories }) {
   const router = useRouter();
   const id = router.query.id;
-  const [filteredProduct, setFilteredProduct] = useState(initialProduct);
+  const [filteredProduct, setFilteredProduct] = useState(initialProduct); 
   const [filterCate, setFilterCate] = useState(categories);
   const [currentParent, setCurrentParent] = useState({});
   const [leftBarCate, setLeftBarCate] = useState([]);

@@ -193,7 +193,7 @@ export default function Categories({product, cate}) {
         <CartCon>
           <CartTop>
             {/* {cate && cate[0] && <H1>{cate[0].name}</H1>} */}
-            <H1>{cate.name}</H1>  {/* changed to this only , i not sure correct not , but it run */}
+            <H1>{cate.name}</H1>  
           </CartTop>
 
         
