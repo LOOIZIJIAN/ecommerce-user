@@ -183,8 +183,8 @@ const Price = styled.div`
 `;
 
 export default function Categories({product, cate}) {
-  console.log("product:"+product);
-  console.log("cate name:"+cate);
+  // console.log("product:"+product);
+  // console.log("cate name:"+cate);
 
   const {addProduct} = useContext(CartContext);
   return (
@@ -196,24 +196,23 @@ export default function Categories({product, cate}) {
             <H1>{cate.name}</H1>  {/* changed to this only , i not sure correct not , but it run */}
           </CartTop>
 
-          {/* Row Item Start */}
+        
           <CartItem>
-            {/* Item 1 Start */}
+           
             {product.map(p=>(
               <Item>
               <A href={`/product/${p._id}`}>
                 <ItemImg src={p.images} alt="Item Image" />
                 <ItemTxtCon>
-                  {/* Item Detail Start */}
+                 
                   <DetailCon>
                     <H2>{p.title}</H2>
                     <Price>${p.price}</Price>
                   </DetailCon>
-                  {/* Item Detail End */}
+                 
                 </ItemTxtCon>
               </A>
 
-              {/* Cart / Like Icon Start */}
               <OtherCon>
                 <Button onClick={() => addProduct(_id)} cate>
                  <CartIcon/> Add to cart
@@ -222,12 +221,10 @@ export default function Categories({product, cate}) {
                   <FcLikePlaceholder />
                 </RightBtn>
               </OtherCon>
-              {/* Cart / Like Icon End */}
             </Item>
             ))}
             
           </CartItem>
-          {/* Row Item End */}
         </CartCon>
       </Container>
     </div>
