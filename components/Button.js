@@ -4,13 +4,18 @@ import {primary} from "@/lib/colors";
 export const ButtonStyle = css`
 	border:0;
 	padding: 5px 15px;
+
+	width:100%;
+	height:100%;
 	border-radius: 5px;
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
 	text-decoration: none;
 	font-family: sans-serif;
-  font-weight:500;
+	
+  	white-space: nowrap;
+
 
 	svg{
 			height: 16px;
@@ -58,13 +63,18 @@ export const ButtonStyle = css`
 	`}
 
 	${props => props.cate && css`
-			background-color: #aeb2b8;
-			border: 2px solid ${primary};
-			color: #000;
-			
+			background-color: transparent;
+			border: none ${primary};
+			color: #252323;
+			border-top-right-radius:0px;
+			border-bottom-right-radius:0px;
 			&:hover{
-				background-color: ${primary};
-			}
+				background-color: #000;
+				color: #fff;
+			  }
+			// &:hover{
+			// 	background-color: ${primary};
+			// }
 	`}
 
 	${props => props.size === 'l' && css`

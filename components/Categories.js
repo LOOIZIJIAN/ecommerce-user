@@ -79,14 +79,19 @@ const OtherCon = styled.div`
   align-items: center;
   text-align: center;
 
-  width: 100%;
+  width: fit-content;
   height: 100%;
   margin-top: -38px;
+  border-radius:5px;
+  // border : 1px solid;
+
 `;
 
 const Item = styled.div`
   display: flex;
   flex-direction: column;
+  // justify-content: center;
+  align-items: center;
   width: 210px;
   height: 320px;
   margin-right: 25px;
@@ -132,9 +137,15 @@ const Img = styled.img`
 `;
 
 const RightBtn = styled(Btn)`
-  width: 30%;
+  width: 100%;
+  padding-left:10px;
+  padding-right:10px;
+  border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   margin-left: 0;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const RBtnIcon = styled.img`
@@ -145,9 +156,10 @@ const RBtnIcon = styled.img`
 const H2 = styled.h2`
   color: #000;
   text-align: center;
-  font-family: Poppins;
-  font-size: 16px;
-  font-weight: 400;
+  // font-family: Poppins;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 17px;
+  // font-weight: 400;
   margin-top: 0;
   padding: 0;
 `;
@@ -172,9 +184,11 @@ const Container = styled.div`
 const Price = styled.div`
   font-size: 1rem;
   font-weight:200;
-  text-align: right;
+  // text-align: right;
+  display:flex;
+  justify-content: center;
   color: #000;
-  margin-right: 15px;
+  // margin-right: 15px;
   @media screen and (min-width: 768px) {
     font-size: 1.2rem;
     font-weight:600;

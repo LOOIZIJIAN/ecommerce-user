@@ -9,28 +9,52 @@ const ProductWrapper = styled.div`
 const WhiteBox = styled(Link)`
   background-color: #fff;
   padding: 20px;
-  height: 140px;
-  width: 180px;
+  height: 235px;
+  width: 190px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   border-radius: 10px;
+
   img{
     max-width: 100%;
-    max-height: 90px;
+    // max-height: 100%;
+    max-height: fit-content;
   }
-  
+  position: relative;
+
+  &:hover{
+    &::before{
+      content: "";
+      position: absolute;
+      inset :0;
+      z-index:0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+    }
+  }
 `;
 
 const Title = styled(Link)`
-  font-weight: normal;
-  font-size:.9rem;
   color:#000;
   text-decoration:none;
   margin:0;
-  
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity: 0; /* 初始时设置为透明 */
+  transition: opacity 0.8s ease; /* 添加过渡效果，时长为0.5秒，使用 ease 函数 */
+  // visibility:hidden;
+  font-weight: bold;
+  font-size:1.45rem;
+  // font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'San Francisco', Helvetica, Arial, san-serif;
+  ${WhiteBox}:hover & {
+    // visibility: visible;
+    opacity: 1;
+    color: #000000; /* 在 WhiteBox 悬停时修改 Title 的颜色 */
+  }
 `;
 
 const ProductInfoBox = styled.div`
@@ -60,6 +84,11 @@ const Price = styled.div`
     font-weight:600;
     text-align: left;
   }
+  visibility: hidden;
+
+  // &:hover{
+  //     visibility: visible;
+  // }
 `;
 
 export default function ProductBox({_id,title,description,price,images}) {
@@ -71,9 +100,9 @@ export default function ProductBox({_id,title,description,price,images}) {
         <ProductInfoBox>
         <Title href={url}>{title}</Title>
         <PriceRow>
-          <Price>
+          {/* <Price>
             ${price}
-          </Price>
+          </Price> */}
         </PriceRow>
       </ProductInfoBox>
       </WhiteBox>
