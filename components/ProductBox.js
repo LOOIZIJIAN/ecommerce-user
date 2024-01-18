@@ -7,7 +7,8 @@ const ProductWrapper = styled.div`
 `;
 
 const WhiteBox = styled(Link)`
-  background-color: #fff;
+  background-color: #ffF;
+  // background-color: #E9ECEF;
   padding: 20px;
   height: 235px;
   width: 190px;
@@ -15,24 +16,34 @@ const WhiteBox = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   border-radius: 10px;
+  position: relative;
+  overflow: hidden;
 
   img{
     max-width: 100%;
     // max-height: 100%;
     max-height: fit-content;
+    object-fit: cover;
+    transition: transform 0.8s ease; /* Add transition for transform */
+    transform: scale(1);
   }
-  position: relative;
+  
 
   &:hover{
     &::before{
       content: "";
       position: absolute;
       inset :0;
-      z-index:0;
+      z-index:1;
       background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
     }
+    img{
+      transition: transform 0.8s ease; /* Add transition for transform */
+      transform: scale(1.15);
+    }
+    
   }
 `;
 
@@ -44,14 +55,14 @@ const Title = styled(Link)`
   justify-content:center;
   align-items:center;
   opacity: 0; /* 初始时设置为透明 */
-  transition: opacity 0.8s ease; /* 添加过渡效果，时长为0.5秒，使用 ease 函数 */
-  // visibility:hidden;
+  transition: opacity 0.8s ease; 
+  
   font-weight: bold;
   font-size:1.45rem;
   // font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-family: 'San Francisco', Helvetica, Arial, san-serif;
+
   ${WhiteBox}:hover & {
-    // visibility: visible;
     opacity: 1;
     color: #000000; /* 在 WhiteBox 悬停时修改 Title 的颜色 */
   }

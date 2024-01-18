@@ -66,15 +66,21 @@ export const ButtonStyle = css`
 			background-color: transparent;
 			border: none ${primary};
 			color: #252323;
+			border-top-left-radius:10px;
+			border-bottom-left-radius:10px;
 			border-top-right-radius:0px;
 			border-bottom-right-radius:0px;
 			&:hover{
 				background-color: #000;
 				color: #fff;
+					transition: transform 0.5s ease, border-radius 0.5s ease; /* Add transition for transform and border-radius */
+					transform: scale(1.2,1.2); /* Enlarge the button */
+					border-top-right-radius: 10px; /* Adjust border-radius on hover */
+					border-bottom-right-radius: 10px;
+					
+		
 			  }
-			// &:hover{
-			// 	background-color: ${primary};
-			// }
+			
 	`}
 
 	${props => props.size === 'l' && css`

@@ -13,6 +13,7 @@ const Title = styled.h2`
 `;
 
 const Wrapper = styled.div`
+  width: 80%;
   margin-bottom: 45px;
 `;
 
@@ -21,6 +22,7 @@ export default function NewProducts({products}) {
     <Center>
       <Wrapper>
         <Title>New Arrivals</Title>
+        <hr></hr>
         <ProductsGrid products={products} />
       </Wrapper>
     </Center>
