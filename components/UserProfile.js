@@ -122,11 +122,7 @@ const Btn2 = styled(Btn)`
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 `;
-const Btn3 = styled(Btn)``;
-const Btn4 = styled(Btn)`
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-`;
+
 export default function AfterLogin() {
   const { data: session } = useSession();
   const router = useRouter();
@@ -136,7 +132,6 @@ export default function AfterLogin() {
         <Img src={session?.user?.image} />
         <Details>
           <H1>{session?.user?.name}</H1>
-          {/* <P>Default Address</P> */}
           <P>{session?.user?.email}</P>
         </Details>
 
@@ -154,12 +149,6 @@ export default function AfterLogin() {
         <Btn2 onClick={() => router.push("/cart")}>
           <Icon src="afterLogin/Shopping_Cart.png" />
         </Btn2>
-        {/* <Btn3>
-          <Icon src="afterLogin/Delivery_Icon.png" />
-        </Btn3>
-        <Btn4>
-          <Icon src="afterLogin/Coupon_Icon.png" />
-        </Btn4> */}
       </DownCon>
     </Container>
   );

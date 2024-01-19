@@ -1,6 +1,5 @@
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
@@ -55,7 +54,7 @@ const Label = styled.label`
 const Input = styled.input`
   border-radius: 8px;
   border: 1px solid #dee2e6;
-  width: 284px;
+  width: 336.5px;
   height: 28px;
   flex-shrink: 0;
   background-color: transparent;
@@ -107,6 +106,7 @@ const SharedSpan = styled(Span)`
 const SubmitBtn = styled.button`
   width: 150px;
   height: 39px;
+  margin-right: 130px;
   text-align: center;
   font-family: Poppins;
   font-size: 16px;
@@ -144,7 +144,7 @@ const Legend = styled.legend`
 // Container for Icon & Text
 const OthContainer = styled.div`
   color: #718096;
-  font-weight: 600;
+  font-weight: 550;
   background-color: transparent;
   border-radius: 0.375rem;
   font-size: 20px;
@@ -170,12 +170,12 @@ const Svg = styled.svg`
 
 // Google, Fb Sharing Btn
 const SharedBtn = styled.button`
-  width: 150px;
+  width: 350px;
   height: 64px;
-  border-radius: 17px;
+  border-radius: 13px;
   border: 1px solid gray;
   background: rgba(217, 217, 217, 0);
-  margin: 0 21px;
+  margin: 0px;
   margin-top: -12px;
   cursor: pointer;
 
@@ -196,17 +196,8 @@ const SharedBtn = styled.button`
   }
 `;
 
-// Fb Btn
-const FbBtn = styled(SharedBtn)`
-  &:hover {
-    Svg {
-      fill: #316ff6;
-    }
-  }
-`;
-
-// Google Btn
 const GooBtn = styled(SharedBtn)`
+
   &:hover {
     ${GImg} {
       filter: brightness(100%);
@@ -264,13 +255,9 @@ export default function Login() {
           value={data.password}
           onChange={e => setData({ ...data, password: e.target.value })}
         />
-        {/* Password Input End */}
-
         <MiniCon>
           <ColCon>
-            {/* Forgot Password */}
-            <SharedSpan>Forgot Password</SharedSpan>
-            {/* Sign Up New Account */}
+            <SharedSpan>Forgot Password</SharedSpan>         
             <Span>
               New User?{" "}
               <Span2>
@@ -279,49 +266,24 @@ export default function Login() {
             </Span>
           </ColCon>
 
-          {/* Login Button Start */}
           <SubmitBtn type="submit">
             Login
           </SubmitBtn>
-          {/* Login Button End */}
+         
         </MiniCon>
 
-        {/* Have a dot dot line */}
+      
         <Field>
           <Legend>or</Legend>
         </Field>
 
-        {/* Google LOGIN BTN Start */}
-        {/* onClick={()=> signIn('google')} */}
+       
         <GooBtn type="button" onClick={() => signIn("google")}>
-          <OthContainer>
-            {/* Google Img Start */}
-            {/* <GImg
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              loading="lazy"
-              alt="google logo"
-            /> */}
-            <FcGoogle/>
-            {/* Google Img End */}
-             
+          <OthContainer>            
+            Continue with<FcGoogle style={{marginLeft: "6px"}}/>oogle            
           </OthContainer>
-        </GooBtn>
-        {/* Google LOGIN BTN End */}
-
-        {/* FB LOGIN BTN Start */}
-        <FbBtn type="button">
-          <OthContainer>
-            {/* Fb Icon Start */}
-            <Svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"></path>
-            </Svg>
-            {/* Fb Icon End */}
-            Facebook
-          </OthContainer>
-        </FbBtn>
-        {/* FB LOGIN BTN End */}
+        </GooBtn>      
       </Form>
-      {/* Form End */}
     </Container>
   );
 }
