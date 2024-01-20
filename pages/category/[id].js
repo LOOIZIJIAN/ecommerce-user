@@ -21,14 +21,23 @@ export default function CategoryPage({ initialProduct, categories }) {
   },[categories])
 
   useEffect(() => {
+    
     if (id && categories) {
-      const checkedId = categories.filter((cate) => cate.parent === id);
-      console.log("checkedId:", checkedId);
-      setLeftBarCate((prev) => (checkedId.length > 0 ? checkedId : prev));
-      setFilterCate(checkedId);
-  
-      const checkName = categories.find((cate) => cate._id === id); 
-      setCurrentParent(checkName);
+          
+      const currentCategory = categories.find((cate) => cate._id === id);
+      
+      if (currentCategory) {
+            
+        const checkedId = categories.filter((cate) => cate.parent === currentCategory.parent);
+         
+        const checkedProd = categories.filter((cate) => cate.parent === id);
+               
+        setLeftBarCate(() => (checkedProd.length > 0 ? checkedProd : checkedId));
+               
+        setFilterCate(checkedProd);
+        
+        setCurrentParent(currentCategory);
+      }
     }
   }, [id, categories]);  
 
