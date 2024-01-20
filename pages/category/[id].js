@@ -11,21 +11,26 @@ export default function CategoryPage({ initialProduct, categories }) {
   const router = useRouter();
   const id = router.query.id;
   const [filteredProduct, setFilteredProduct] = useState(initialProduct); 
-  const [filterCate, setFilterCate] = useState(categories);
+  const [filterCate, setFilterCate] = useState([]);
   const [currentParent, setCurrentParent] = useState({});
   const [leftBarCate, setLeftBarCate] = useState([]);
+  const [clientCategories, setClientCategories] = useState(categories);
+
+  useEffect(()=>{
+    setClientCategories(categories);
+  },[categories])
 
   useEffect(() => {
-    if (id && categories) {
-      const checkedId = categories.filter((cate) => cate.parent === id);
+    if (id && clientCategories) {
+      const checkedId = clientCategories.filter((cate) => cate.parent === id);
       console.log("checkedId:", checkedId);
       setLeftBarCate((prev) => (checkedId.length > 0 ? checkedId : prev));
       setFilterCate(checkedId);
   
-      const checkName = categories.find((cate) => cate._id === id); 
+      const checkName = clientCategories.find((cate) => cate._id === id); 
       setCurrentParent(checkName);
     }
-  }, [id, categories]);  
+  }, [id, clientCategories]);  
 
   useEffect(() => {
     if (initialProduct && filterCate.length > 0) {      //filter under root product
