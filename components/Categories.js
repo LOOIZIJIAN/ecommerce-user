@@ -214,7 +214,7 @@ export default function Categories({product, cate}) {
               </A>
 
               <OtherCon>
-                <Button onClick={() => addProduct(_id)} cate>
+                <Button onClick={() => addProduct(p._id)} cate> {/* added p. */}
                  <CartIcon/> Add to cart
                 </Button>
                 <RightBtn href="#">

@@ -21,24 +21,24 @@ export default function CategoryPage({ initialProduct, categories }) {
   },[categories])
 
   useEffect(() => {
-    if (id && clientCategories) {
-      const checkedId = clientCategories.filter((cate) => cate.parent === id);
+    if (id && categories) {
+      const checkedId = categories.filter((cate) => cate.parent === id);
       console.log("checkedId:", checkedId);
       setLeftBarCate((prev) => (checkedId.length > 0 ? checkedId : prev));
       setFilterCate(checkedId);
   
-      const checkName = clientCategories.find((cate) => cate._id === id); 
+      const checkName = categories.find((cate) => cate._id === id); 
       setCurrentParent(checkName);
     }
-  }, [id, clientCategories]);  
+  }, [id, categories]);  
 
   useEffect(() => {
-    if (initialProduct && filterCate.length > 0) {      //filter under root product
+    if (initialProduct && filterCate.length > 0) {      //  filter under root product
       const filteredProducts = initialProduct.filter((product) =>
         filterCate.some((cate) => product.category === cate._id));
       setFilteredProduct(filteredProducts);
 
-    } else if (initialProduct && filterCate.length === 0) {  //filter under second root product
+    } else if (initialProduct && filterCate.length === 0) {  // filter under second root product
       const filteredProducts = initialProduct.filter((product) =>
         product.category === currentParent._id);
       setFilteredProduct(filteredProducts);
