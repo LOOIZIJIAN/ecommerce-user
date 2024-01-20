@@ -16,28 +16,21 @@ export default function CategoryPage({ initialProduct, categories }) {
   const [leftBarCate, setLeftBarCate] = useState([]);
 
   useEffect(() => {
-    // Check if both 'id' and 'categories' are present
+    
     if (id && categories) {
-      
-      // Find the category with the matching '_id'
+          
       const currentCategory = categories.find((cate) => cate._id === id);
       
-      // Check if the current category exists
       if (currentCategory) {
-        
-        // Find categories with the same parent as the current category
+            
         const checkedId = categories.filter((cate) => cate.parent === currentCategory.parent);
-  
-        // Find categories with the current category as the parent      
+         
         const checkedProd = categories.filter((cate) => cate.parent === id);
-        
-        // Update 'LeftBarCate' state with the appropriate categories
+               
         setLeftBarCate(() => (checkedProd.length > 0 ? checkedProd : checkedId));
-        
-        // Update 'FilterCate' state with categories having the current category as parent
+               
         setFilterCate(checkedProd);
         
-        // Set the current parent category
         setCurrentParent(currentCategory);
       }
     }
