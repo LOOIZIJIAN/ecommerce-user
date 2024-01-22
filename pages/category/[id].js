@@ -20,6 +20,25 @@ export default function CategoryPage({ initialProduct, categories }) {
     setClientCategories(categories);
   },[categories])
 
+  const [minPrice, setMinPrice] = useState([]);
+  const [maxPrice, setMaxPrice] = useState([]);
+
+  useEffect(() => {
+    // Parse query parameters for min and max prices
+    const queryParams = new URLSearchParams(window.location.search);
+    const minParam = queryParams.get('min');
+    const maxParam = queryParams.get('max');
+  
+    // Update state if query parameters are present
+    setMinPrice(Number(minParam) || 0);
+    setMaxPrice(Number(maxParam) || 10000);
+  }, [router.query]);
+  
+  useEffect(() => {
+    console.log("Min : " + minPrice);
+    console.log("Max : " + maxPrice);
+  }, [minPrice, maxPrice]);
+
   useEffect(() => {
     
     if (id && categories) {
@@ -45,14 +64,37 @@ export default function CategoryPage({ initialProduct, categories }) {
     if (initialProduct && filterCate.length > 0) {      //  filter under root product
       const filteredProducts = initialProduct.filter((product) =>
         filterCate.some((cate) => product.category === cate._id));
-      setFilteredProduct(filteredProducts);
+
+      // Apply additional filtering based on price range
+      const priceFilteredProducts = filteredProducts.filter((product) => {
+        return (
+          (minPrice === 0 || product.price >= minPrice) &&
+          (maxPrice === 10000 || product.price <= maxPrice)
+        );
+      });
+
+      // setFilteredProduct(filteredProducts);
+      setFilteredProduct(priceFilteredProducts);
 
     } else if (initialProduct && filterCate.length === 0) {  // filter under second root product
       const filteredProducts = initialProduct.filter((product) =>
         product.category === currentParent._id);
-      setFilteredProduct(filteredProducts);
+      
+        // Apply additional filtering based on price range
+      const priceFilteredProducts = filteredProducts.filter((product) => {
+        return (
+          (minPrice === 0 || product.price >= minPrice) &&
+          (maxPrice === 10000 || product.price <= maxPrice)
+        );
+      });
+
+      // setFilteredProduct(filteredProducts);
+      setFilteredProduct(priceFilteredProducts);
+
     }
-  }, [initialProduct, filterCate, currentParent]);  
+  // }, [initialProduct, filterCate, currentParent]);
+  }, [initialProduct, filterCate, currentParent, minPrice, maxPrice]);
+
   console.log("CIBAI", leftBarCate.length > 0 ? leftBarCate : "Empty Array");
 
   return (
