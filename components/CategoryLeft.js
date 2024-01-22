@@ -5,7 +5,7 @@ import { FcFilledFilter } from "react-icons/fc";
 import { HiArchive } from "react-icons/hi";
 import { GiPriceTag } from "react-icons/gi";
 
-const LeftCon = styled.div`
+const LeftCon = styled.form`
   position: fixed;
   width: 240px;
   height: 640px;
@@ -155,8 +155,28 @@ const A = styled.a`
     // console.log("FC:"+filterCate);
     const [checkedOption, setCheckedOption] = useState('');
 
+    const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
+
+    const handlePriceChange = (newPriceRange) => {
+      setPriceRange(newPriceRange);
+    };
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      let isValid = true;
+
+      if(!checkedOption){
+        alert("Please select a brand to continue !!");
+        isValid = false;
+      }
+
+      if(isValid){
+        window.location.href = '/category/'+ checkedOption + '?min=' + priceRange.min + '&max=' + priceRange.max ;
+      }
+    };
+
     return (
-      <LeftCon>
+      <LeftCon onSubmit={handleSubmit} method="post">
         <LeftUpCon>
           <FcFilledFilter style={{ fontSize: "3em" }}/>
           <H1>Filter</H1>
@@ -189,12 +209,12 @@ const A = styled.a`
             <GiPriceTag style={{ fontSize: "2em" }}/>
           </PriceTopCon>
 
-          <RangeSlider />
+          <RangeSlider onPriceChange={handlePriceChange} />
         </PriceCon>
 
         <Btm>
-          <A href={`/category/${checkedOption}`}>
-            <Button>Update</Button>
+          <A>
+            <Button type="submit">Update</Button>
           </A>
         </Btm>
       </LeftCon>

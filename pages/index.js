@@ -26,7 +26,7 @@ export default function HomePage({ newProducts }) {
   if (!session) {
     return (
       <>
-        <Header />
+        <Header session={false}/>
         <Container>
           <SlideShow />
           <Login />
@@ -37,12 +37,12 @@ export default function HomePage({ newProducts }) {
   }
   return (
     <>
-      <Header />
+      <Header session={true}/>
       <Container>
         <SlideShow />
         <UserProfile />
       </Container>
-      <button onClick={() => signOut()}>Sign out</button>
+      {/* <button onClick={() => signOut()}>Sign out</button> */}
       <NewProducts products={newProducts} />
       <Chatbox/>
     </>

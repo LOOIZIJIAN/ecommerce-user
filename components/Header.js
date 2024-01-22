@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 // import { GiShoppingCart } from "react-icons/gi";
 import axios from "axios";
 import dynamic from 'next/dynamic';
+import { IoLogOutOutline } from "react-icons/io5";
+import { signOut } from "next-auth/react";
 
 const GiShoppingCart = dynamic(() => import('react-icons/gi').then((module) => module.GiShoppingCart), {
   loading: () => <span>Loading...</span>,
@@ -252,7 +254,6 @@ const DropBtn = styled.button`
 
 const RightCol = styled.div`
   height: 65px;
-
   @media (min-width: 768px) {
     position: absolute;
     display: flex;
@@ -262,8 +263,8 @@ const RightCol = styled.div`
     top: 0px;
     bottom: 0px;
     right: 0px;
-    /* padding-right: 10px; */
-    margin-right: 5.5%;
+    left: 65%;
+    padding-right: 10px;
   }
 `;
 
@@ -271,7 +272,7 @@ const Search = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column;
-  right: 11%;
+  right: 14.2%;
 `;
 
 const ErrorMss = styled.div`
@@ -305,7 +306,6 @@ const CartBtn = styled.button`
   height: 100%;
   width: 68px;
   text-align: center;
-  margin-right: -20%;
   border: none;
   background-color: transparent;
   border-bottom-right-radius: 6px;
@@ -327,7 +327,8 @@ const Span = styled.span`
   display: inline-flex;
   border-radius: 6px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  padding-right: 12px;
+  position: absolute;
+  right: 35%;
 `;
 
 const CartText = styled.span`
@@ -338,8 +339,6 @@ const CartText = styled.span`
 `;
 
 const SearchIcon = styled.img`
-  padding: 0 20px;
-  margin-left: 80px;
   cursor: pointer;
 `;
 
@@ -382,7 +381,7 @@ const DropBtn2 = styled.button` // New styled component
 
 `;
 
-export default function Header() {
+export default function Header({session}) {
   const [showMenu, setShowMenu] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [filteredP, setFilteredP] = useState([]);
@@ -572,9 +571,18 @@ export default function Header() {
            
           </Span>
 
-          <CartBtn onClick={() => router.push("/cart")}>
-            <GiShoppingCart style={{ fontSize: "3em", color: "white"}}/>
-          </CartBtn>
+          {session && (
+            <div>
+              <CartBtn onClick={() => router.push("/cart")}>
+                <GiShoppingCart style={{ fontSize: "3em", color: "white"}}/>
+              </CartBtn>
+              
+              <CartBtn onClick={() => signOut()}>
+                <IoLogOutOutline style={{ color: 'white', width: '40px', height: '40px' }} />
+              </CartBtn>
+            </div>
+
+          )}
 
         </RightCol>
       </Container>
