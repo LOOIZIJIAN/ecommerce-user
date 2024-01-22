@@ -6,6 +6,7 @@ import Button from "./Button";
 import { CartContext } from "./CartContext";
 import { FcLikePlaceholder } from "react-icons/fc";
 import CartIcon from "./icons/CartIcon";
+import { AiOutlineFileSearch } from "react-icons/ai";
 
 
 // Cart Top Start
@@ -254,11 +255,25 @@ const Price = styled.div`
   }
 `;
 
+const Error = styled.div`
+  width: 98%; 
+  text-align: center;
+  justify-content: center;
+  color: gray;
+  font-size: 26px;
+`;
+
 export default function Categories({product, cate}) {
   // console.log("product:"+product);
   // console.log("cate name:"+cate);
 
   const {addProduct} = useContext(CartContext);
+  const [isErrorVisible, setIsErrorVisible] = useState(false);
+
+  useEffect(() => {
+    setIsErrorVisible(product.length === 0);
+  }, [product]);
+
   return (
     <div>
       <Container>
@@ -271,7 +286,7 @@ export default function Categories({product, cate}) {
         
           <CartItem>
            
-            {/* {product.map(p=>(
+             {/* {product.map(p=>(
               <Item>
               <A href={`/product/${p._id}`}>
                 <ItemImg src={p.images} alt="Item Image" />
@@ -284,16 +299,16 @@ export default function Categories({product, cate}) {
                  
                 
               <OtherCon>
-                <Button onClick={() => addProduct(_id)} cate>
-                 <CartIcon/> Add to cart
+                <Button onClick={() => addProduct(p._id)} cate> {/* added p. */}
+                 {/* <CartIcon/> Add to cart
                 </Button>
                 <RightBtn href="#">
                   <FcLikePlaceholder />
                 </RightBtn>
               </OtherCon>
-              </ItemTxtCon>
+              </ItemTxtCon> */}
               
-              </A>
+              {/* </A>
             </Item> */}
             
             
@@ -322,10 +337,17 @@ export default function Categories({product, cate}) {
             </Item>
             
             ))}
-
-
             
           </CartItem>
+
+
+          {isErrorVisible &&
+            <div>
+              <AiOutlineFileSearch style={{ width: '100%', height: '200px', textAlign: 'center', fill: 'gray', marginTop: '100px', marginBottom: '20px' }} />
+              <Error>Uh oh! We couldn't find any {cate.name} products listings.</Error>
+            </div>
+          }
+
         </CartCon>
       </Container>
     </div>

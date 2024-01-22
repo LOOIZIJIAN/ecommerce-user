@@ -11,34 +11,90 @@ export default function CategoryPage({ initialProduct, categories }) {
   const router = useRouter();
   const id = router.query.id;
   const [filteredProduct, setFilteredProduct] = useState(initialProduct); 
-  const [filterCate, setFilterCate] = useState(categories);
+  const [filterCate, setFilterCate] = useState([]);
   const [currentParent, setCurrentParent] = useState({});
   const [leftBarCate, setLeftBarCate] = useState([]);
+  const [clientCategories, setClientCategories] = useState(categories);
+
+  useEffect(()=>{
+    setClientCategories(categories);
+  },[categories])
+
+  const [minPrice, setMinPrice] = useState([]);
+  const [maxPrice, setMaxPrice] = useState([]);
 
   useEffect(() => {
-    if (id && categories) {
-      const checkedId = categories.filter((cate) => cate.parent === id);
-      console.log("checkedId:", checkedId);
-      setLeftBarCate((prev) => (checkedId.length > 0 ? checkedId : prev));
-      setFilterCate(checkedId);
+    // Parse query parameters for min and max prices
+    const queryParams = new URLSearchParams(window.location.search);
+    const minParam = queryParams.get('min');
+    const maxParam = queryParams.get('max');
   
-      const checkName = categories.find((cate) => cate._id === id); 
-      setCurrentParent(checkName);
+    // Update state if query parameters are present
+    setMinPrice(Number(minParam) || 0);
+    setMaxPrice(Number(maxParam) || 10000);
+  }, [router.query]);
+  
+  useEffect(() => {
+    console.log("Min : " + minPrice);
+    console.log("Max : " + maxPrice);
+  }, [minPrice, maxPrice]);
+
+  useEffect(() => {
+    
+    if (id && categories) {
+          
+      const currentCategory = categories.find((cate) => cate._id === id);
+      
+      if (currentCategory) {
+            
+        const checkedId = categories.filter((cate) => cate.parent === currentCategory.parent);
+         
+        const checkedProd = categories.filter((cate) => cate.parent === id);
+               
+        setLeftBarCate(() => (checkedProd.length > 0 ? checkedProd : checkedId));
+               
+        setFilterCate(checkedProd);
+        
+        setCurrentParent(currentCategory);
+      }
     }
   }, [id, categories]);  
 
   useEffect(() => {
-    if (initialProduct && filterCate.length > 0) {      //filter under root product
+    if (initialProduct && filterCate.length > 0) {      //  filter under root product
       const filteredProducts = initialProduct.filter((product) =>
         filterCate.some((cate) => product.category === cate._id));
-      setFilteredProduct(filteredProducts);
 
-    } else if (initialProduct && filterCate.length === 0) {  //filter under second root product
+      // Apply additional filtering based on price range
+      const priceFilteredProducts = filteredProducts.filter((product) => {
+        return (
+          (minPrice === 0 || product.price >= minPrice) &&
+          (maxPrice === 10000 || product.price <= maxPrice)
+        );
+      });
+
+      // setFilteredProduct(filteredProducts);
+      setFilteredProduct(priceFilteredProducts);
+
+    } else if (initialProduct && filterCate.length === 0) {  // filter under second root product
       const filteredProducts = initialProduct.filter((product) =>
         product.category === currentParent._id);
-      setFilteredProduct(filteredProducts);
+      
+        // Apply additional filtering based on price range
+      const priceFilteredProducts = filteredProducts.filter((product) => {
+        return (
+          (minPrice === 0 || product.price >= minPrice) &&
+          (maxPrice === 10000 || product.price <= maxPrice)
+        );
+      });
+
+      // setFilteredProduct(filteredProducts);
+      setFilteredProduct(priceFilteredProducts);
+
     }
-  }, [initialProduct, filterCate, currentParent]);  
+  // }, [initialProduct, filterCate, currentParent]);
+  }, [initialProduct, filterCate, currentParent, minPrice, maxPrice]);
+
   console.log("CIBAI", leftBarCate.length > 0 ? leftBarCate : "Empty Array");
 
   return (

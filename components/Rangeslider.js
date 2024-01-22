@@ -144,7 +144,8 @@ const Input = styled.input`
   }
 `;
 
-export default function RangeSlider() {
+export default function RangeSlider({ onPriceChange }) {  // new code
+
   const [minValue] = useState(0); // Set your minimum gap here
   const [maxValue] = useState(10000); // Set your minimum gap here
   const Gap = 100; // Set your minimum gap here
@@ -170,6 +171,8 @@ export default function RangeSlider() {
     }
 
     setValue(newValue);
+    onPriceChange(newValue);  // new code
+
   };
 
   const handleInputChange = (event) => {
@@ -194,6 +197,8 @@ export default function RangeSlider() {
     }
 
     setValue(newValue);
+    onPriceChange(newValue);  // new code
+
   };
 
     return (
