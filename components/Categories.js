@@ -135,7 +135,7 @@ const Img = styled.img`
 const RightBtn = styled(Btn)`
   width: 30%;
   border-bottom-right-radius: 10px;
-  margin-left: 0;
+  margin-left: 0px;
 `;
 
 const RBtnIcon = styled.img`
@@ -147,7 +147,7 @@ const H2 = styled.h2`
   color: #000;
   text-align: center;
   font-family: Poppins;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
   margin-top: 0;
   padding: 0;
@@ -171,15 +171,15 @@ const Container = styled.div`
 `;
 
 const Price = styled.div`
-  font-size: 1rem;
+  font-size: 16px;
   font-weight:200;
-  text-align: right;
+  text-align: center;
   color: #000;
   margin-right: 15px;
   @media screen and (min-width: 768px) {
     font-size: 1.2rem;
     font-weight:600;
-    text-align: left;
+    text-align: center;
   }
 `;
 
@@ -229,11 +229,17 @@ export default function Categories({product, cate}) {
               </A>
 
               <OtherCon>
-                <Button onClick={() => addProduct(p._id)} cate> {/* added p. */}  
+                <Button onClick={() => addProduct(p._id)} cate 
+                style={{gap: '5px', width: '70%', marginLeft: '10px'}}
+                > {/* added p. */}  
+
                  <CartIcon/> Add to cart
                 </Button>
+
+                <span style={{width: '10px'}}></span>
+
                 <RightBtn href="#">
-                  <FcLikePlaceholder />
+                  <FcLikePlaceholder style={{width: '20px', height: '20px'}}/>
                 </RightBtn>
               </OtherCon>
             </Item>
