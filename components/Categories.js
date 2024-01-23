@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import CategoryLeft from "@/components/CategoryLeft";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
@@ -53,6 +53,7 @@ const A = styled.a`
   text-decoration: none;
   color: black;
   cursor: default;
+  height:fit-content;
 `;
 
 const ItemImg = styled.img`
@@ -63,13 +64,59 @@ const ItemImg = styled.img`
 const ItemTxtCon = styled.div`
   display: flex;
   width: 100%;
-  height: 110px;
+  // height: 110px;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items:center;
 `;
 
 const DetailCon = styled.div`
-  margin-top: -38px;
+  
+`;
+
+const Item = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 210px;
+  height: 320px;
+  margin-right: 25px;
+
+  border-radius: 5px;
+  border: 0.5px solid #ced4da;
+  position: relative;
+  overflow: hidden;
+
+  box-shadow: -5px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  
+  img{
+    object-fit: cover;
+    transition: transform 0.8s ease; /* Add transition for transform */
+    transform: scale(1);
+  }
+  
+  &:hover{
+    &::before{
+      content: "";
+      position: absolute;
+      // inset :0; //2 select choose 1
+      top:0; //2 select choose 1
+      left: 0;
+      right: 0;
+      bottom:26.7%;
+
+      z-index:1;
+      transition: background 0.5s ease;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+      
+    }
+    img{
+      transition: transform 0.8s ease; /* Add transition for transform */
+      transform: translateY(20px) scale(1.15);
+
+    
+    }
 `;
 
 const OtherCon = styled.div`
@@ -80,22 +127,18 @@ const OtherCon = styled.div`
   align-items: center;
   text-align: center;
 
-  width: 100%;
-  height: 100%;
-  margin-top: -38px;
-`;
+  width: fit-content;
+  border-radius:10px;
+  // border : 1px solid;
+  margin-bottom: 6px;
+  z-index:1;
+  transition: transform 0.8s ease; 
 
-const Item = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 210px;
-  height: 320px;
-  margin-right: 25px;
+  ${Item}:hover & {
+    transform: translateY(-40%);
+    
 
-  border-radius: 5px;
-  border: 0.5px solid #ced4da;
-  background: #dee2e6;
-  box-shadow: -5px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  }
 `;
 
 const Btn = styled.a`
@@ -123,9 +166,26 @@ const Img = styled.img`
 `;
 
 const RightBtn = styled(Btn)`
-  width: 35%;
+  width: 100%;
+  padding-left:10px;
+  padding-right:10px;
+  border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-  margin-left: 0px;
+  margin-left: 0;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: transform 0.8s ease; /* Add transition for transform and border-radius */
+  transform: scale(1); 
+
+  &:hover {
+    transition: transform 0.5s ease, border-radius 0.5s ease; /* Add transition for transform and border-radius */
+    transform: scale(1.4,1.25); /* Enlarge the button */
+    border-top-left-radius: 10px; /* Adjust border-radius on hover */
+    border-bottom-left-radius: 10px;
+  }
+  
 `;
 
 const RBtnIcon = styled.img`
@@ -136,9 +196,10 @@ const RBtnIcon = styled.img`
 const H2 = styled.h2`
   color: #000;
   text-align: center;
-  font-family: Poppins;
-  font-size: 18px;
-  font-weight: 400;
+  // font-family: Poppins;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 17px;
+  // font-weight: 400;
   margin-top: 0;
   padding: 0;
 `;
@@ -163,13 +224,24 @@ const Container = styled.div`
 const Price = styled.div`
   font-size: 16px;
   font-weight:200;
-  text-align: center;
+  // text-align: right;
+  display:flex;
+  justify-content: center;
   color: #000;
-  margin-right: 15px;
+  // margin-right: 15px;
+  z-index:2;
   @media screen and (min-width: 768px) {
     font-size: 1.2rem;
     font-weight:600;
-    text-align: center;
+    text-align: left;
+  }
+  ${Item}:hover & {
+    position: relative;
+    transform: translateY(-150%);
+    font-size:2rem;
+    transition: transform 0.8s ease,font-size 0.8s ease;
+    color: #F8F9FA;
+
   }
 `;
 
@@ -253,7 +325,7 @@ export default function Categories({product, cate}) {
         
           <CartItem>
            
-            {product.map(p=>(
+             {/* {product.map(p=>(
               <Item>
               <A href={`/product/${p._id}`}>
                 <ItemImg src={p.images} alt="Item Image" />
@@ -264,14 +336,35 @@ export default function Categories({product, cate}) {
                     <Price>${p.price}</Price>
                   </DetailCon>
                  
-                </ItemTxtCon>
-              </A>
-
+                
               <OtherCon>
-                <Button onClick={() => addProduct(p._id)} cate 
-                style={{gap: '5px', width: '70%', marginLeft: '10px'}}
-                > {/* added p. */}  
+                <Button onClick={() => addProduct(p._id)} cate> {/* added p. */}
+                 {/* <CartIcon/> Add to cart
+                </Button>
+                <RightBtn href="#">
+                  <FcLikePlaceholder />
+                </RightBtn>
+              </OtherCon>
+              </ItemTxtCon> */}
+              
+              {/* </A>
+            </Item> */}
+            
+            
 
+            {product.map(p=>(
+              <Item>
+                <A href={`/product/${p._id}`}>
+                  <ItemImg src={p.images} alt="Item Image" />
+                </A>
+                <ItemTxtCon>
+                  <DetailCon>
+                    <H2>{p.title}</H2>
+                    <Price>${p.price}</Price>
+                  </DetailCon>
+
+                  <OtherCon>
+                <Button onClick={() => addProduct(_id)} cate>
                  <CartIcon/> Add to cart
                 </Button>
 
@@ -284,8 +377,12 @@ export default function Categories({product, cate}) {
                 </RightBtn>
 
               </OtherCon>
+                </ItemTxtCon>
+
             </Item>
+            
             ))}
+            
           </CartItem>
 
 

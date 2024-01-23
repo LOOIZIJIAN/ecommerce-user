@@ -14,6 +14,7 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Roboto', sans-serif; 
     overflow-x: hidden;
   }
+
 `;
 export default function App({ Component, pageProps: {session, ...pageProps} }) {
   return(
