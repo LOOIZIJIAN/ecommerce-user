@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import CategoryLeft from "@/components/CategoryLeft";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
@@ -117,6 +117,7 @@ const Item = styled.div`
 
     
     }
+  }
 `;
 
 const OtherCon = styled.div`
@@ -371,7 +372,7 @@ export default function Categories({product, cate}) {
                 <span style={{width: '10px'}}></span>
                 
                 {/* onChange value 0 can change to take value from database to decide it color of the like icon */}
-                <RightBtn type="button" onClick={() => changeIcon(p._id)} onChange={showIcon(p._id , 1)}>
+                <RightBtn type="button" onClick={() => changeIcon(p._id)} onChange={showIcon(p._id , 0)}>
                   <PinkLike id={`pinkLike_${p._id}`} />
                   <RedLike id={`redLike_${p._id}`} />
                 </RightBtn>
