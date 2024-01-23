@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import dynamic from 'next/dynamic';
 import { IoLogOutOutline } from "react-icons/io5";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 const GiShoppingCart = dynamic(() => import('react-icons/gi').then((module) => module.GiShoppingCart), {
   loading: () => <span>Loading...</span>,
@@ -381,12 +381,13 @@ const DropBtn2 = styled.button` // New styled component
 
 `;
 
-export default function Header({session}) {
+export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [filteredP, setFilteredP] = useState([]);
   const [showList, setShowList] = useState(false);
   const [products, setProducts] = useState([]);
+  const {data:session} = useSession();
 
   useEffect(()=>{
     axios.get('/api/products').then(res=>{
