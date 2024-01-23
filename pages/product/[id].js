@@ -8,8 +8,9 @@ import WhiteBox from "@/components/WhiteBox";
 import ProductImages from "@/components/ProductImages";
 import Button from "@/components/Button";
 import CartIcon from "@/components/icons/CartIcon";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {CartContext} from "@/components/CartContext";
+import { useSession } from "next-auth/react";
 
 const ColWrapper = styled.div`
   margin-top: 85px;
@@ -31,9 +32,11 @@ const Price = styled.span`
 
 export default function ProductPage({product}) {
   const {addProduct} = useContext(CartContext);
+  const {data:session} = useSession();  
+
   return (
     <>
-      <Header />
+      {session && <Header />}
       <Center>
         <ColWrapper>
           <WhiteBox>

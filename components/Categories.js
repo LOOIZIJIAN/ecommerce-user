@@ -278,7 +278,7 @@ export default function Categories({product, cate}) {
                 <span style={{width: '10px'}}></span>
                 
                 {/* onChange value 0 can change to take value from database to decide it color of the like icon */}
-                <RightBtn type="button" onClick={() => changeIcon(p._id)} onChange={showIcon(p._id , 0)}>
+                <RightBtn type="button" onClick={() => changeIcon(p._id)} onChange={showIcon(p._id , 1)}>
                   <PinkLike id={`pinkLike_${p._id}`} />
                   <RedLike id={`redLike_${p._id}`} />
                 </RightBtn>
