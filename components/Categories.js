@@ -4,7 +4,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import Button from "./Button";
 import { CartContext } from "./CartContext";
-import { FcLikePlaceholder } from "react-icons/fc";
+import { FcLikePlaceholder, FcLike } from 'react-icons/fc';
 import CartIcon from "./icons/CartIcon";
 import { AiOutlineFileSearch } from "react-icons/ai";
 
@@ -99,7 +99,6 @@ const Item = styled.div`
 `;
 
 const Btn = styled.a`
-  /* background-color: #CED4DA; */
   background-color: transparent;
   border: none;
   height: 45px;
@@ -114,26 +113,17 @@ const Btn = styled.a`
   font-family: Poppins;
   font-size: 16px;
   font-weight: 400;
-  cursor: default;
-
-  &:hover {
-    background: #f1645b;
-    color: white;
-  }
+  cursor: pointer;
 `;
 
-const LeftBtn = styled(Btn)`
-  width: 70%;
-  border-bottom-left-radius: 5px;
-  margin-right: 0;
-`;
+const LeftBtn = styled(Btn)``;
 
 const Img = styled.img`
   margin-right: 8px;
 `;
 
 const RightBtn = styled(Btn)`
-  width: 30%;
+  width: 35%;
   border-bottom-right-radius: 10px;
   margin-left: 0px;
 `;
@@ -191,12 +181,61 @@ const Error = styled.div`
   font-size: 26px;
 `;
 
+//  Pink Like Icon
+const PinkLike = styled(FcLikePlaceholder)`
+  width: 28px;
+  height: 28px;
+  display: block;
+`;
+
+//  Red Like Icon
+const RedLike = styled(FcLike)`
+  width: 28px;
+  height: 28px;
+  display: none;
+`;
+
 export default function Categories({product, cate}) {
   // console.log("product:"+product);
   // console.log("cate name:"+cate);
 
   const {addProduct} = useContext(CartContext);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const [LikeValue, setLikeValue] = useState(null);
+
+  const changeIcon = (id) => {
+    const pink = document.getElementById(`pinkLike_${id}`);
+    const red = document.getElementById(`redLike_${id}`);
+
+    if (pink.style.display === 'block') {
+      pink.style.display = 'none';
+      red.style.display = 'block';
+      setLikeValue(1);
+    } else {
+      red.style.display = 'none';
+      pink.style.display = 'block';
+      setLikeValue(0);
+    }
+  };
+
+  const showIcon = (id, value) => {
+    // Check if the window object is defined (to prevent server-side rendering issues)
+    if (typeof window !== 'undefined') {
+      const pink = document.getElementById(`pinkLike_${id}`);
+      const red = document.getElementById(`redLike_${id}`);
+
+      // Check if the elements exist and the LikeValue state is null
+      if (pink && red && LikeValue == null) {
+        if (value === 0 || value == null) {
+          red.style.display = 'none';
+          pink.style.display = 'block';
+        } else if (value === 1) {
+          pink.style.display = 'none';
+          red.style.display = 'block';
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     setIsErrorVisible(product.length === 0);
@@ -237,10 +276,13 @@ export default function Categories({product, cate}) {
                 </Button>
 
                 <span style={{width: '10px'}}></span>
-
-                <RightBtn href="#">
-                  <FcLikePlaceholder style={{width: '20px', height: '20px'}}/>
+                
+                {/* onChange value 0 can change to take value from database to decide it color of the like icon */}
+                <RightBtn type="button" onClick={() => changeIcon(p._id)} onChange={showIcon(p._id , 0)}>
+                  <PinkLike id={`pinkLike_${p._id}`} />
+                  <RedLike id={`redLike_${p._id}`} />
                 </RightBtn>
+
               </OtherCon>
             </Item>
             ))}
