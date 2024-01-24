@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
-import { FcSms } from "react-icons/fc";
+// import { FcSms } from "react-icons/fc";
+import { MdTextsms } from "react-icons/md";
+
+const ChatIcon = styled(MdTextsms)`
+  fill: lightgray;
+`;
 
 const Main = styled.div`
   width: 100%;
@@ -16,9 +21,13 @@ const Container = styled.div`
   bottom: 1vw;
   cursor: pointer;
   z-index: 2;
+  transform: scaleX(-1);
 
   &:hover {
-    background-color: rgb(162, 233, 255);
+    ${ChatIcon}{
+      fill: darkgray;
+    }
+    /* background-color: rgb(162, 233, 255); */
   }
 `;
 
@@ -315,7 +324,8 @@ export default function Chatbox() {
 
             for (let i = 1; i <= 6; i++) {
               const button = document.getElementById(`b${i}`);
-
+              button.style.display = "block";
+              
               switch (i) {
                 case 1:
                   button.textContent = "Product";
@@ -645,10 +655,12 @@ export default function Chatbox() {
 
   return (
     <div>
-      <Main>
+      <Main id="disMss">
         <Container onClick={ShowMessage}>
           <Icon>
-            <FcSms />
+            {/* <FcSms /> */}
+            <ChatIcon />
+
           </Icon>
         </Container>
 
