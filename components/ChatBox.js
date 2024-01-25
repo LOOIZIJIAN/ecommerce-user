@@ -13,6 +13,7 @@ const Main = styled.div`
 
 const Container = styled.div`
   /* background-color: lightblue; */
+  display: none;
   border-radius: 100%;
   height: 80px;
   width: 80px;
@@ -277,6 +278,13 @@ const Btn2 = styled(Btn)`
 `;
 
 export default function Chatbox() {
+  //  Show Icon after page load 2 second
+  useEffect(() => {
+    setTimeout(() => {
+      document.getElementById("disIcon").style.display = "block";
+    },2000);
+  },[]);
+
   // Show Message Box
   const ShowMessage = () => {
     const box = document.getElementById("ContainerBox");
@@ -655,12 +663,10 @@ export default function Chatbox() {
 
   return (
     <div>
-      <Main id="disMss">
-        <Container onClick={ShowMessage}>
+      <Main>
+        <Container onClick={ShowMessage} id="disIcon">
           <Icon>
-            {/* <FcSms /> */}
             <ChatIcon />
-
           </Icon>
         </Container>
 
