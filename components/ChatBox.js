@@ -277,6 +277,20 @@ const Btn2 = styled(Btn)`
   display: none;
 `;
 
+const End = styled.span`
+  font-size: 14px;
+  font-weight: 552;
+  color: lightgray;
+  text-align: center;
+  display: none;
+  margin-top: 20px;
+`;
+
+const Gap = styled.span`
+  letter-spacing: 4px;
+  color: lightgray;
+`;
+
 export default function Chatbox() {
   //  Show Icon after page load 2 second
   useEffect(() => {
@@ -578,6 +592,7 @@ export default function Chatbox() {
   const handleButtonClickSecond = (value) => {
     const RpyBox2 = document.getElementById("RpyBox2");
     const Rpytxt2 = document.getElementById("LeftRpy2");
+    const EndChat = document.getElementById("endChat");
 
     RpyBox2.style.display = "block";
 
@@ -658,6 +673,8 @@ export default function Chatbox() {
       } else {
         button2.style.display = "none";
       }
+
+      EndChat.style.display = 'block';
     }
   };
 
@@ -723,6 +740,8 @@ export default function Chatbox() {
           <RpyBox2 id="RpyBox2">
             <P2 id="LeftRpy2"></P2>
           </RpyBox2>
+
+          <TimeBox><End id="endChat"><Gap>----------</Gap> Chat End <Gap>----------</Gap></End></TimeBox>
 
           <BtnBox>
             <ChatBtn onClick={ChatPage}>
