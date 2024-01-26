@@ -283,7 +283,7 @@ const End = styled.span`
   color: lightgray;
   text-align: center;
   display: none;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 `;
 
 const Gap = styled.span`
@@ -307,7 +307,10 @@ export default function Chatbox() {
     const Rpytxt = document.getElementById("LeftRpy");
     const Selection2 = document.getElementById("Right2");
 
+    const EndChat = document.getElementById("endChat");
+
     Selection2.style.display = "none";
+    EndChat.style.display = 'none';
 
     if (!box.style.display || box.style.display == "none") {
       // Display Chat Box if the Chat Box haven display
@@ -573,14 +576,28 @@ export default function Chatbox() {
           }, 1000);
         }
 
-        if (i == 5) {
-          Rpytxt.innerHTML =
-            "Our Business Hours are as follows:<br/><br/>Monday - Friday<br/>9 am - 8 pm<br/><br/>Saturday<br/>10 am - 5 pm<br/><br/>Sunday & Public Holidays<br/>Closed<br/><br/>For further assistance, feel free to reach out to us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. Thank you for choosing us !";
-        }
+        // if (i == 5) {
+        //   Rpytxt.innerHTML =
+        //     "Our Business Hours are as follows:<br/><br/>Monday - Friday<br/>9 am - 8 pm<br/><br/>Saturday<br/>10 am - 5 pm<br/><br/>Sunday & Public Holidays<br/>Closed<br/><br/>For further assistance, feel free to reach out to us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. Thank you for choosing us !";
+        // }
 
-        if (i == 6) {
-          Rpytxt.innerHTML =
-            "Our company is located at:<br/><br/>Persiaran Multimedia, 63100 Cyberjaya, Selangor.<br/><br/>For any inquiries or assistance, please don't hesitate to contact us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. We look forward to serving you !";
+        // if (i == 6) {
+        //   Rpytxt.innerHTML =
+        //     "Our company is located at:<br/><br/>Persiaran Multimedia, 63100 Cyberjaya, Selangor.<br/><br/>For any inquiries or assistance, please don't hesitate to contact us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. We look forward to serving you !";
+        // }
+
+        if (i == 5 || i == 6) {
+          if (i == 5) {
+            Rpytxt.innerHTML =
+              "Our Business Hours are as follows:<br/><br/>Monday - Friday<br/>9 am - 8 pm<br/><br/>Saturday<br/>10 am - 5 pm<br/><br/>Sunday & Public Holidays<br/>Closed<br/><br/>For further assistance, feel free to reach out to us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. Thank you for choosing us !";
+          }
+
+          if (i == 6) {
+            Rpytxt.innerHTML =
+              "Our company is located at:<br/><br/>Persiaran Multimedia, 63100 Cyberjaya, Selangor.<br/><br/>For any inquiries or assistance, please don't hesitate to contact us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. We look forward to serving you !";
+          }
+          document.getElementById("endChat").style.display = 'block';
+          document.getElementById("endChat").style.marginTop = '-50px';
         }
       } else {
         button.style.display = "none";
@@ -675,6 +692,7 @@ export default function Chatbox() {
       }
 
       EndChat.style.display = 'block';
+      EndChat.style.marginTop = '20px';
     }
   };
 
