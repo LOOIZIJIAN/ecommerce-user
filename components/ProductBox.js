@@ -3,15 +3,21 @@ import Button from "@/components/Button";
 import Link from "next/link";
 
 const ProductWrapper = styled.div`
-  
+`;
+
+const Img = styled.img`
+  width: 210px;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.8s ease; /* Add transition for transform */
+  transform: scale(1);
+  margin: 0;
 `;
 
 const WhiteBox = styled(Link)`
   background-color: #ffF;
-  // background-color: #E9ECEF;
-  padding: 20px;
-  height: 235px;
-  width: 190px;
+  height: 100%;
+  width: 230px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -21,15 +27,8 @@ const WhiteBox = styled(Link)`
   position: relative;
   overflow: hidden;
 
-  img{
-    max-width: 100%;
-    // max-height: 100%;
-    max-height: fit-content;
-    object-fit: cover;
-    transition: transform 0.8s ease; /* Add transition for transform */
-    transform: scale(1);
-  }
-  
+  border: 0.5px solid #ced4da;
+  box-shadow: -5px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
   &:hover{
     &::before{
@@ -39,7 +38,7 @@ const WhiteBox = styled(Link)`
       z-index:1;
       background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
     }
-    img{
+    ${Img}{
       transition: transform 0.8s ease; /* Add transition for transform */
       transform: scale(1.15);
     }
@@ -48,29 +47,31 @@ const WhiteBox = styled(Link)`
 `;
 
 const Title = styled(Link)`
-  color:#000;
+  color: gray;
   text-decoration:none;
-  margin:0;
+  margin-top: 20px;
   display:flex;
   justify-content:center;
   align-items:center;
-  opacity: 0; /* 初始时设置为透明 */
-  transition: opacity 0.8s ease; 
+  /* opacity: 0; 初始时设置为透明 */
+  /* transition: opacity 0.8s ease;  */
   
   font-weight: bold;
-  font-size:1.45rem;
+  font-size:1.30rem;
   // font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-family: 'San Francisco', Helvetica, Arial, san-serif;
 
   ${WhiteBox}:hover & {
-    opacity: 1;
+    /* margin-top: 20px; */
+    /* opacity: 1; */
     color: #000000; /* 在 WhiteBox 悬停时修改 Title 的颜色 */
   }
 `;
 
 const ProductInfoBox = styled.div`
-  margin-top: 10px;
   float: left;
+  width: 100%;
+  height: 80px;
 `;
 
 const PriceRow = styled.div`
@@ -85,21 +86,30 @@ const PriceRow = styled.div`
 `;
 
 const Price = styled.div`
-  font-size: 1rem;
-  font-weight:200;
+  height: 30px;
+  width: 100%;
+  font-size: 22px;
+  font-weight:600;
   text-align: center;
   color: #000;
-  margin-right: 15px;
   @media screen and (min-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 22px;
     font-weight:600;
-    text-align: left;
+    text-align: center;
   }
-  visibility: hidden;
+  /* visibility: hidden; */
 
   // &:hover{
   //     visibility: visible;
   // }
+
+  opacity: 0; // 初始时设置为透明
+  transition: opacity 0.8s ease; 
+
+  ${WhiteBox}:hover & {
+    opacity: 1;
+    color: #000; // 在 WhiteBox 悬停时修改 Title 的颜色
+  }
 `;
 
 export default function ProductBox({_id,title,description,price,images}) {
@@ -107,13 +117,13 @@ export default function ProductBox({_id,title,description,price,images}) {
   return (
     <ProductWrapper>
       <WhiteBox href={url}>
-        <img src={images?.[0]} alt=""/>
+        <Img src={images?.[0]} alt=""/>
         <ProductInfoBox>
         <Title href={url}>{title}</Title>
         <PriceRow>
-          {/* <Price>
+          <Price>
             ${price}
-          </Price> */}
+          </Price>
         </PriceRow>
       </ProductInfoBox>
       </WhiteBox>
