@@ -269,29 +269,67 @@ const RightCol = styled.div`
 `;
 
 const Search = styled.div`
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  right: 14.2%;
+  // position: fixed;
+  // display: flex;
+  // flex-direction: column;
+  // right: 14.2%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  border-radius:50px;
+  background-color:#2f3640;
+  position: relative;
 `;
 
 const ErrorMss = styled.div`
-  position: fixed;
-  margin-top: 1.8%;
+  position: absolute;
+  transform: translateY(68%);
+  width: 88%;
+  border-radius: 50%;
+  
 `;
 
 const ResultCon = styled.div`
   display: flex;
   flex-direction: column;
-  width: 258px;
+  // width: 258px;
+  border-radius: 50%;
 `;
 
-const SearchResultBtn = styled(DropBtn)`
+const SearchResultBtn = styled.button`
+  text-align:left;
+  border:none;
+  padding: 8px 10px;
   width: 100%;
+  
+
+  &:hover {
+    background-color: #2f3640;
+
+    ${DropA} {
+      color: white;
+      font-weight: 500;
+    }
+  }
 `;
 
-const NotFBtn = styled(DropBtn)`
+const NotFBtn = styled.button`
+  text-align:left;
+  border:none;
+  padding: 8px 10px;
   width: 100%;
+  transform: translateY(44%);
+
+
+  &:hover {
+    background-color: #2f3640;
+
+    ${DropA} {
+      color: white;
+      font-weight: 500;
+    }
+  }
+  
 `;
 
 const CartIcon = styled.img`
@@ -323,14 +361,6 @@ const CartBtn = styled.button`
   }
 `;  
 
-const Span = styled.span`
-  display: inline-flex;
-  border-radius: 6px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  position: absolute;
-  right: 35%;
-`;
-
 const CartText = styled.span`
   font-family: Poppins;
   color: lightgray;
@@ -338,17 +368,83 @@ const CartText = styled.span`
   font-weight: 400;
 `;
 
-const SearchIcon = styled.img`
-  cursor: pointer;
-`;
 
 const Input = styled.input`
-  border-radius: 5px;
-  height: 22px;
-  width: 250px;
-  font-family: Poppins;
-  font-size: 18px;
+  // border-radius: 5px;
+  // height: 22px;
+  // width: 240px;
+  // font-family: Poppins;
+  // font-size: 18px;
+  // color: orange;
+  // padding-left: 10px;
+  // background-color: rgba(0,0 , 0, 0.5);
+  // backdrop-filter: blur(10px);
+  // border:none;
+  // border-bottom: 1px ridge orange;
+  
+  
+  // outline: none;
+
+  &::placeholder{
+    color: orange;
+  }
+  // &:focus{
+    
+  //   &::placeholder{
+  //     visibility: hidden;
+  //   }
+  // }
+
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  padding: 0;
+  color: white;
+  font-size:16px;
+  transition :0.4s;
+  line-height: 40px;
+  width:240px;
+  padding-left:8px;
+
+  // ${Search}:hover > &{
+  //   width:240px;
+  // }
+  
+
 `;
+const A_search = styled.a`
+  width:35px;
+  height:35px;
+
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-right:5px;
+  float: right;
+  border-radius:50%;
+  // background-color:blue;
+
+  
+`;
+const SearchIcon = styled.img`
+  cursor: pointer;
+  display: flex;
+  
+`;
+const Span = styled.span`
+  display: inline-flex;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  position: absolute;
+
+  right: 36%;
+  
+`;
+
 
 const DropBar2 = styled.div`   // New styled component 
   display: none;
@@ -463,7 +559,7 @@ export default function Header() {
   // console.log("Root:", parents);
   // console.log("Cate:", cate);
 
-
+  
 
   return (
     <div>
@@ -536,7 +632,7 @@ export default function Header() {
 
         <RightCol>
           {/* Search Input Start */}
-          <Search>
+          {/* <Search>
             <Input
               placeholder="Type to search..."
               value={searchInput}
@@ -561,16 +657,54 @@ export default function Header() {
                 </ResultCon>
               </ErrorMss>
             )}
+          </Search> */}
+
+          <Search>
+          <Input
+              placeholder="Type to search..."
+              value={searchInput}
+              onChange={(ev) => {
+                setSearchInput(ev.target.value);
+                setShowList(true);
+              }}
+              
+            />
+            {showList && (
+              <ErrorMss>
+                <ResultCon>
+                  {filteredP.length > 0 ? (
+                    filteredP.map((f) => (
+                      <SearchResultBtn key={f._id}>
+                        <DropA href={`/product/${f._id}`}>{f.title}</DropA>
+                      </SearchResultBtn>
+                    ))
+                  ) : (
+                    <NotFBtn>Not Found</NotFBtn>
+                  )}
+                </ResultCon>
+              </ErrorMss>
+            )}
+            <A_search>
+             
+              <SearchIcon
+                src="/Search_Icon.png"
+                alt="Search Icon Error"
+                title="Search">
+
+                </SearchIcon>
+            </A_search>
           </Search>
 
-          <Span>
+
+          {/* <Span>
             <SearchIcon
               src="/Search_Icon.png"
               alt="Search Icon Error"
-              title="Search"
-            ></SearchIcon>
+              title="Search">
+
+              </SearchIcon>
            
-          </Span>
+          </Span> */}
 
           {session && (
             <div>
