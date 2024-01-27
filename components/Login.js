@@ -205,6 +205,20 @@ const GooBtn = styled(SharedBtn)`
   }
 `;
 
+const BeforeHover = 'rgb(77, 77, 255)'; //  Global color for the Span3
+const AfterHover = 'rgb(128, 128, 255)';  //  Global color for the Span3
+
+const Span3 = styled.span`
+  color: ${BeforeHover};
+  text-decoration: underline;
+  text-decoration-color: ${BeforeHover};
+  
+  &:hover {
+    color: ${AfterHover};
+    text-decoration-color: ${AfterHover};
+  }
+`;
+
 export default function Login() {
   const [data, setData] = useState({email: '', password: ''});
   
@@ -261,7 +275,7 @@ export default function Login() {
             <Span>
               New User?{" "}
               <Span2>
-                <Link href={"register"}>Sign up</Link>
+                <Link href={"register"}><Span3 title="Sign Up">Sign up</Span3></Link>
               </Span2>
             </Span>
           </ColCon>

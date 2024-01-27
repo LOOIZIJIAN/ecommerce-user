@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
-import { FcSms } from "react-icons/fc";
+// import { FcSms } from "react-icons/fc";
+import { MdTextsms } from "react-icons/md";
+
+const ChatIcon = styled(MdTextsms)`
+  fill: lightgray;
+`;
 
 const Main = styled.div`
   width: 100%;
@@ -8,6 +13,7 @@ const Main = styled.div`
 
 const Container = styled.div`
   /* background-color: lightblue; */
+  display: none;
   border-radius: 100%;
   height: 80px;
   width: 80px;
@@ -16,9 +22,13 @@ const Container = styled.div`
   bottom: 1vw;
   cursor: pointer;
   z-index: 2;
+  transform: scaleX(-1);
 
   &:hover {
-    background-color: rgb(162, 233, 255);
+    ${ChatIcon}{
+      fill: darkgray;
+    }
+    /* background-color: rgb(162, 233, 255); */
   }
 `;
 
@@ -267,7 +277,28 @@ const Btn2 = styled(Btn)`
   display: none;
 `;
 
+const End = styled.span`
+  font-size: 14px;
+  font-weight: 552;
+  color: lightgray;
+  text-align: center;
+  display: none;
+  /* margin-top: 20px; */
+`;
+
+const Gap = styled.span`
+  letter-spacing: 4px;
+  color: lightgray;
+`;
+
 export default function Chatbox() {
+  //  Show Icon after page load 2 second
+  useEffect(() => {
+    setTimeout(() => {
+      document.getElementById("disIcon").style.display = "block";
+    },2000);
+  },[]);
+
   // Show Message Box
   const ShowMessage = () => {
     const box = document.getElementById("ContainerBox");
@@ -276,7 +307,10 @@ export default function Chatbox() {
     const Rpytxt = document.getElementById("LeftRpy");
     const Selection2 = document.getElementById("Right2");
 
+    const EndChat = document.getElementById("endChat");
+
     Selection2.style.display = "none";
+    EndChat.style.display = 'none';
 
     if (!box.style.display || box.style.display == "none") {
       // Display Chat Box if the Chat Box haven display
@@ -315,7 +349,8 @@ export default function Chatbox() {
 
             for (let i = 1; i <= 6; i++) {
               const button = document.getElementById(`b${i}`);
-
+              button.style.display = "block";
+              
               switch (i) {
                 case 1:
                   button.textContent = "Product";
@@ -541,14 +576,28 @@ export default function Chatbox() {
           }, 1000);
         }
 
-        if (i == 5) {
-          Rpytxt.innerHTML =
-            "Our Business Hours are as follows:<br/><br/>Monday - Friday<br/>9 am - 8 pm<br/><br/>Saturday<br/>10 am - 5 pm<br/><br/>Sunday & Public Holidays<br/>Closed<br/><br/>For further assistance, feel free to reach out to us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. Thank you for choosing us !";
-        }
+        // if (i == 5) {
+        //   Rpytxt.innerHTML =
+        //     "Our Business Hours are as follows:<br/><br/>Monday - Friday<br/>9 am - 8 pm<br/><br/>Saturday<br/>10 am - 5 pm<br/><br/>Sunday & Public Holidays<br/>Closed<br/><br/>For further assistance, feel free to reach out to us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. Thank you for choosing us !";
+        // }
 
-        if (i == 6) {
-          Rpytxt.innerHTML =
-            "Our company is located at:<br/><br/>Persiaran Multimedia, 63100 Cyberjaya, Selangor.<br/><br/>For any inquiries or assistance, please don't hesitate to contact us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. We look forward to serving you !";
+        // if (i == 6) {
+        //   Rpytxt.innerHTML =
+        //     "Our company is located at:<br/><br/>Persiaran Multimedia, 63100 Cyberjaya, Selangor.<br/><br/>For any inquiries or assistance, please don't hesitate to contact us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. We look forward to serving you !";
+        // }
+
+        if (i == 5 || i == 6) {
+          if (i == 5) {
+            Rpytxt.innerHTML =
+              "Our Business Hours are as follows:<br/><br/>Monday - Friday<br/>9 am - 8 pm<br/><br/>Saturday<br/>10 am - 5 pm<br/><br/>Sunday & Public Holidays<br/>Closed<br/><br/>For further assistance, feel free to reach out to us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. Thank you for choosing us !";
+          }
+
+          if (i == 6) {
+            Rpytxt.innerHTML =
+              "Our company is located at:<br/><br/>Persiaran Multimedia, 63100 Cyberjaya, Selangor.<br/><br/>For any inquiries or assistance, please don't hesitate to contact us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. We look forward to serving you !";
+          }
+          document.getElementById("endChat").style.display = 'block';
+          document.getElementById("endChat").style.marginTop = '-50px';
         }
       } else {
         button.style.display = "none";
@@ -560,6 +609,7 @@ export default function Chatbox() {
   const handleButtonClickSecond = (value) => {
     const RpyBox2 = document.getElementById("RpyBox2");
     const Rpytxt2 = document.getElementById("LeftRpy2");
+    const EndChat = document.getElementById("endChat");
 
     RpyBox2.style.display = "block";
 
@@ -640,15 +690,18 @@ export default function Chatbox() {
       } else {
         button2.style.display = "none";
       }
+
+      EndChat.style.display = 'block';
+      EndChat.style.marginTop = '20px';
     }
   };
 
   return (
     <div>
       <Main>
-        <Container onClick={ShowMessage}>
+        <Container onClick={ShowMessage} id="disIcon">
           <Icon>
-            <FcSms />
+            <ChatIcon />
           </Icon>
         </Container>
 
@@ -705,6 +758,8 @@ export default function Chatbox() {
           <RpyBox2 id="RpyBox2">
             <P2 id="LeftRpy2"></P2>
           </RpyBox2>
+
+          <TimeBox><End id="endChat"><Gap>----------</Gap> Chat End <Gap>----------</Gap></End></TimeBox>
 
           <BtnBox>
             <ChatBtn onClick={ChatPage}>
