@@ -5,20 +5,26 @@ export const ButtonStyle = css`
 	border:0;
 	padding: 5px 15px;
 
-	width:100%;
-	height:100%;
+	/* width:100%; */
+	/* height:100%; */
+
+	width: 30px;
+	height: 30px;
+	/* gap: 5px; */
+
 	border-radius: 5px;
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
+	justify-content: center;
 	text-decoration: none;
 	font-family: sans-serif;
-	
+	font-weight: 500;
+	font-size: 1rem;
   	white-space: nowrap;
 
-
 	svg{
-			height: 16px;
+			height: 18px;
 				
 	}
 
@@ -59,7 +65,6 @@ export const ButtonStyle = css`
 			background-color: transparent;
 			border: 1px solid ${primary};
 			color: ${primary};
-    }
 	`}
 
 	${props => props.cate && css`
@@ -68,8 +73,8 @@ export const ButtonStyle = css`
 			color: #252323;
 			border-top-left-radius:10px;
 			border-bottom-left-radius:10px;
-			border-top-right-radius:0px;
-			border-bottom-right-radius:0px;
+			border-top-right-radius:10px;
+			border-bottom-right-radius:10px;
 			&:hover{
 				background-color: #000;
 				color: #fff;
@@ -95,6 +100,7 @@ export const ButtonStyle = css`
 
 const StyledButton = styled.button`
 	${ButtonStyle}
+	border: 0.5px solid gray;
 `;
 
 export default function Button({children, ...rest}) {

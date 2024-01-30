@@ -365,7 +365,7 @@ export default function Categories({product, cate}) {
                   </DetailCon>
 
                   <OtherCon>
-                <Button onClick={() => addProduct(_id)} cate>
+                <Button onClick={() => addProduct(_id)} cate style={{width: '100%' , height: '100%'}}>
                  <CartIcon/> Add to cart
                 </Button>
 
