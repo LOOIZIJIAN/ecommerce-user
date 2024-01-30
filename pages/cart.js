@@ -199,11 +199,11 @@ export default function CartPage() {
                     <td style={{borderTop: 'none'}}>$ {Shipping.toFixed(2)}</td>
                   </tr>
 
-                  <tr style={{height: '30px'}}>
+                  {/* <tr style={{height: '30px'}}>
                     <td style={{borderTop: 'none'}}></td>
                     <td style={{textAlign: 'end' , paddingRight: '15px' , borderTop: 'none'}}>Tax ({Tax}%)</td>
                     <td style={{borderTop: 'none'}}>$ {(total*(Tax/100)).toFixed(2)}</td>
-                  </tr>
+                  </tr> */}
 
                   <tr style={{height: '30px'}}>
                     <td></td>
