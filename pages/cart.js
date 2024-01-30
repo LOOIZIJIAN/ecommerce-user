@@ -126,6 +126,9 @@ export default function CartPage() {
     total += price;
   }
 
+  let Shipping = 0; // Shipping Fee
+  let Tax = 0; // Taxt
+
   if (isSuccess) {
     return (
       <>
@@ -167,7 +170,7 @@ export default function CartPage() {
                         <ProductImageBox>
                           <img src={product.images[0]} alt=""/>
                         </ProductImageBox>
-                        {product.title}
+                        <div style={{marginTop: '10px'}}>{product.title}</div>
                       </ProductInfoCell>
                       <td>
                         <Button
@@ -179,15 +182,35 @@ export default function CartPage() {
                           onClick={() => moreOfThisProduct(product._id)}>+</Button>
                       </td>
                       <td>
-                        ${onCartProducts.filter(id => id === product._id).length * product.price}
+                        $ {onCartProducts.filter(id => id === product._id).length * product.price}
                       </td>
                     </tr>
                   ))}
-                  <tr>
+
+                  <tr style={{height: '30px'}}>
                     <td></td>
-                    <td></td>
-                    <td>${total}</td>
+                    <td style={{textAlign: 'end' , paddingRight: '15px'}}>Subtotal</td>
+                    <td>$ {total}</td>
                   </tr>
+
+                  <tr style={{height: '30px'}}>
+                    <td style={{borderTop: 'none'}}></td>
+                    <td style={{textAlign: 'end' , paddingRight: '15px' , borderTop: 'none'}}>Shipping Fee</td>
+                    <td style={{borderTop: 'none'}}>$ {Shipping.toFixed(2)}</td>
+                  </tr>
+
+                  <tr style={{height: '30px'}}>
+                    <td style={{borderTop: 'none'}}></td>
+                    <td style={{textAlign: 'end' , paddingRight: '15px' , borderTop: 'none'}}>Tax ({Tax}%)</td>
+                    <td style={{borderTop: 'none'}}>$ {(total*(Tax/100)).toFixed(2)}</td>
+                  </tr>
+
+                  <tr style={{height: '30px'}}>
+                    <td></td>
+                    <td style={{textAlign: 'end' , paddingRight: '15px'}}>Total</td>
+                    <td>$ {(total+Shipping+(total*(Tax/100)))}</td>
+                  </tr>
+
                 </tbody>
               </Table>
             )}
