@@ -11,6 +11,7 @@ import CartIcon from "@/components/icons/CartIcon";
 import {useContext, useState} from "react";
 import {CartContext} from "@/components/CartContext";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 import ItemDetail from "@/components/ItemDetail";
 
@@ -57,11 +58,68 @@ const ProtecImg = styled.img`
 `;
 export default function ProductPage({product}) {
   const {addProduct} = useContext(CartContext);
-  const {data:session} = useSession();  
+  const {data:session} = useSession();
 
+  const router = useRouter();
+
+  function ShowMss () {
+    const answer = confirm('Pls Login to add product to cart !');
+
+    if(answer) {
+      router.push("/");
+    } else {
+      const answer2 = confirm('Login to continue');
+
+      if(answer2) {
+        router.push("/");
+      } else {
+        ShowMss();
+      }
+    }
+  }
+
+  if(!session) {
+    return (
+      <>
+        <Header session={false}/>
+        <Center>
+          <ColWrapper>
+            <WhiteBox>
+              <ProductImages images={product.images} />
+
+              <Bottom>
+                <ProtecImg src="/Protect_Icon.png" alt="Icon"/>
+                <H4>100% Authentic Guarantee</H4>
+              </Bottom>
+
+            </WhiteBox>
+
+            <div style={{width: '450px' , height: '362px' , display: 'flex' , flexDirection: 'column'}}>
+              <Title>{product.title}</Title>
+
+              <p>{product.description}</p>
+
+              <PriceRow>
+                <Price>$ {product.price}</Price>
+              </PriceRow>
+
+              <ItemDetail />
+
+              <div style={{textAlign: 'center' , width: '400px'}}>
+                <Button cate onClick={() => ShowMss()} style={{width: '100%'}}>
+                  <CartIcon />Add Cart
+                </Button>
+              </div>
+
+            </div>
+          </ColWrapper>
+        </Center>
+      </>
+    );
+  }
   return (
     <>
-      {session && <Header />}
+      <Header session={true}/>
       <Center>
         <ColWrapper>
           <WhiteBox>
