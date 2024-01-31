@@ -31,6 +31,9 @@ export default function HomePage({ newProducts }) {
           <SlideShow />
           <Login />
         </Container>
+
+        <NewProducts products={newProducts} />
+
         <Chatbox />
       </>
     );

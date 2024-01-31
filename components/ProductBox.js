@@ -3,6 +3,7 @@ import Button from "@/components/Button";
 import Link from "next/link";
 
 const ProductWrapper = styled.div`
+  width: 230px;
 `;
 
 const Img = styled.img`
@@ -17,7 +18,7 @@ const Img = styled.img`
 const WhiteBox = styled(Link)`
   background-color: #ffF;
   height: 100%;
-  width: 230px;
+  width: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -46,7 +47,7 @@ const WhiteBox = styled(Link)`
   }
 `;
 
-const Title = styled(Link)`
+const Title = styled.span`
   color: gray;
   text-decoration:none;
   margin-top: 20px;
