@@ -8,8 +8,6 @@ import { FcLikePlaceholder, FcLike } from 'react-icons/fc';
 import CartIcon from "./icons/CartIcon";
 import { AiOutlineFileSearch } from "react-icons/ai";
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 
 // Cart Top Start
 const CartCon = styled.div`
@@ -277,33 +275,6 @@ export default function Categories({product, cate}) {
   const {addProduct} = useContext(CartContext);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
   const [LikeValue, setLikeValue] = useState(null);
-  const {data: session} = useSession();
-
-  const router = useRouter();
-
-  function ShowMss() {
-    const answer = confirm('Pls Login to add product to cart !');
-
-    if(answer) {
-      router.push("/");
-    } else {
-      const answer2 = confirm('Login to continue');
-
-      if(answer2) {
-        router.push("/");
-      } else {
-        ShowMss();
-      }
-    }
-  }
-
-  function CheckSess(id) {
-    if(session) {
-      addProduct(id);
-    } else {
-      ShowMss();
-    }
-  }
 
   const changeIcon = (id) => {
     const pink = document.getElementById(`pinkLike_${id}`);
@@ -394,7 +365,7 @@ export default function Categories({product, cate}) {
                   </DetailCon>
 
                   <OtherCon>
-                <Button onClick={() => CheckSess(p._id)} cate style={{width: '100%' , height: '100%'}}>
+                <Button onClick={() => addProduct(_id)} cate>
                  <CartIcon/> Add to cart
                 </Button>
 

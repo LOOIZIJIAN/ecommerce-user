@@ -6,11 +6,6 @@ const StyledProductsGrid = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   height: 300px;
-  width: auto;
-  place-items: center;
-  align-items: normal;
-  margin-top: 30px;
-
   @media screen and (min-width: 768px) {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }

@@ -6,7 +6,6 @@ import { Category } from "@/models/Category";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import CategoryLeft from "@/components/CategoryLeft";
-import { useSession } from "next-auth/react";
 
 export default function CategoryPage({ initialProduct, categories }) {
   const router = useRouter();
@@ -16,8 +15,6 @@ export default function CategoryPage({ initialProduct, categories }) {
   const [currentParent, setCurrentParent] = useState({});
   const [leftBarCate, setLeftBarCate] = useState([]);
   const [clientCategories, setClientCategories] = useState(categories);
-
-  const {data: session} = useSession();
 
   useEffect(()=>{
     setClientCategories(categories);
@@ -100,24 +97,13 @@ export default function CategoryPage({ initialProduct, categories }) {
 
   console.log("CIBAI", leftBarCate.length > 0 ? leftBarCate : "Empty Array");
 
-  if(!session) {
-    return (
-      <div>
-        <Header session={false}/>
-        <CategoryLeft filterCate={leftBarCate}/>
-        <Categories product={filteredProduct} cate={currentParent} />
-      </div>
-    );
-  }
-
   return (
     <div>
-      <Header session={true}/>
+      <Header />
       <CategoryLeft filterCate={leftBarCate}/>
       <Categories product={filteredProduct} cate={currentParent} />
     </div>
   );
-
 }
 
 export async function getServerSideProps() {
