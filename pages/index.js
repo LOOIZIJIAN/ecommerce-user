@@ -45,7 +45,7 @@ export default function HomePage({ newProducts, slide }) {
     <>
       <Header session={true}/>
       <Container>
-        <SlideShow slide={slide}/>
+        <SlideShow slides={slide}/>
         <UserProfile />
       </Container>
       {/* <button onClick={() => signOut()}>Sign out</button> */}
