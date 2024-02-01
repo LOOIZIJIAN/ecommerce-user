@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import styled from 'styled-components';
 import { useRouter } from "next/router";
 import Chatbox from "@/components/ChatBox";
+import { Slide } from "@/models/Slide";
 const Container = styled.div`
     margin-top: 4%;
     margin-left: -8px;
@@ -17,18 +18,18 @@ const Container = styled.div`
     flex-direction: row;
 `;
 
-export default function HomePage({ newProducts }) {
+export default function HomePage({ newProducts, slide }) {
   const SlideShow = dynamic(() => import("@/components/SlideShow"), { ssr: false });
   const Header = dynamic(() => import('@/components/Header'), { ssr: false });
   const UserProfile = dynamic(()=> import('@/components/UserProfile'), {ssr: false});
   const {data: session} = useSession();
-
+  console.log('indexSlide:'+slide);
   if (!session) {
     return (
       <>
         <Header session={false}/>
         <Container>
-          <SlideShow />
+          <SlideShow slides={slide}/>
           <Login />
         </Container>
 
@@ -42,7 +43,7 @@ export default function HomePage({ newProducts }) {
     <>
       <Header session={true}/>
       <Container>
-        <SlideShow />
+        <SlideShow slide={slide}/>
         <UserProfile />
       </Container>
       {/* <button onClick={() => signOut()}>Sign out</button> */}
@@ -55,9 +56,11 @@ export default function HomePage({ newProducts }) {
 export async function getServerSideProps() {
   await mongooseConnect();
   const newProducts = await Product.find({}, null, {sort: {'_id':-1}, limit:10});
+  const slide = await Slide.find();
   return{
     props: {
-      newProducts: JSON.parse(JSON.stringify(newProducts)),  
+      newProducts: JSON.parse(JSON.stringify(newProducts)), 
+      slide: JSON.parse((JSON.stringify(slide))),
     },
   };
 }
