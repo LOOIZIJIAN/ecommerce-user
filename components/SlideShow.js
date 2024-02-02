@@ -6,8 +6,8 @@ const Slideshow = styled.div`
   margin-bottom: 15px;
   margin-left: 60px;
   overflow: hidden;
-  width: 750px;
-  height: 950px;
+  width: 780px;
+  height: 425px;
   z-index: 0;
   border-radius: 20px;
 `;
@@ -21,13 +21,13 @@ const SlideshowSlider = styled.div`
 
 const Slide = styled.img`
   display: inline-block;
-  height: 356px;
+  height: 100%;
   width: 100%;
   border-radius: 20px;
 `;
 
 const SlideshowDots = styled.div`
-  margin-top: -48px;
+  margin-top: -100px;
   position: absolute;
   z-index: 3;
   width: 650px;

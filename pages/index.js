@@ -20,6 +20,7 @@ const Container = styled.div`
     // background: linear-gradient(285deg, #000 58.94%, rgba(0, 0, 0, 0.00) 113.07%, rgba(0, 0, 0, 0.11) 113.07%);
     display: flex;
     flex-direction: row;
+    gap: 50px;
 `;
 
 export default function HomePage({ newProducts, slide }) {

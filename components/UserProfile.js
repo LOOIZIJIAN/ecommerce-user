@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 
 const Container = styled.div`
-  margin-left: 130px;
+  margin-left: 30px;
   margin-top: 45px;
   padding-top: 20px;
   padding-left: 30px;

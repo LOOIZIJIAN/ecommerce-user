@@ -12,7 +12,6 @@ const Container = styled.div`
   width: 515px;
   height: 373px;
   flex-shrink: 0;
-  margin-left: 100px;
   margin-top: 45px;
   padding-top: 20px;
   padding-left: 30px;
