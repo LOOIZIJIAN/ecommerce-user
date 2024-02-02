@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import { useRouter } from "next/router";
 import Chatbox from "@/components/ChatBox";
 import { Slide } from "@/models/Slide";
+import Footer from "@/components/Footer";
+
 const Container = styled.div`
     margin-top: 4%;
     /* margin-left: -8px; */
@@ -38,6 +40,7 @@ export default function HomePage({ newProducts, slide }) {
         <NewProducts products={newProducts} />
 
         <Chatbox />
+        <Footer />
       </>
     );
   }
@@ -51,6 +54,7 @@ export default function HomePage({ newProducts, slide }) {
       {/* <button onClick={() => signOut()}>Sign out</button> */}
       <NewProducts products={newProducts} />
       <Chatbox/>
+      <Footer />
     </>
   );
 }

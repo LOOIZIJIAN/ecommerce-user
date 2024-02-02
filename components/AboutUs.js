@@ -8,6 +8,7 @@ const Div = styled.div`
     // background-color: black;
     padding : 0;
     height :fit-content;
+    margin-bottom: 30px;
 `;
 const Intro0 = styled.div`
     position: relative;

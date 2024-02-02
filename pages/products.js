@@ -6,6 +6,7 @@ import {Product} from "@/models/Product";
 import Title from "@/components/Title";
 import dynamic from 'next/dynamic';
 import styled from "styled-components";
+import Footer from "@/components/Footer";
 
 const Header = dynamic(() => import('@/components/Header'), { ssr: false });
 const ProductsGrid = dynamic(() => import('@/components/ProductsGrid'), { ssr: false });
@@ -22,6 +23,7 @@ export default function ProductsPage({products}) {
           <ProductsGrid products={products} />
         </Wrapper>
       </Center>
+      <Footer />
     </>
   );
 }
