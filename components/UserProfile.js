@@ -129,7 +129,9 @@ export default function AfterLogin() {
   return (
     <Container>
       <UpCon>
-        <Img src={session?.user?.image} />
+        {/* <Img src={session?.user?.image} /> */}
+        <Img src={session?.user?.image || "afterLogin/User_Icon.png"} />
+
         <Details>
           <H1>{session?.user?.name}</H1>
           <P>{session?.user?.email}</P>

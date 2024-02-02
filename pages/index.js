@@ -10,8 +10,10 @@ import Chatbox from "@/components/ChatBox";
 import { Slide } from "@/models/Slide";
 const Container = styled.div`
     margin-top: 4%;
-    margin-left: -8px;
-    width: 101.2%;
+    /* margin-left: -8px; */
+    place-content: center;  //  combines of align-content and justify-content
+    /* width: 101.2%; */
+    width: 95%;
     height: 517px;
     // background: linear-gradient(285deg, #000 58.94%, rgba(0, 0, 0, 0.00) 113.07%, rgba(0, 0, 0, 0.11) 113.07%);
     display: flex;
@@ -43,7 +45,7 @@ export default function HomePage({ newProducts, slide }) {
     <>
       <Header session={true}/>
       <Container>
-        <SlideShow slide={slide}/>
+        <SlideShow slides={slide}/>
         <UserProfile />
       </Container>
       {/* <button onClick={() => signOut()}>Sign out</button> */}
