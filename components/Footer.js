@@ -129,6 +129,7 @@ const Btn = styled.button`
     font-size: 14px;
     font-weight: 500;
     border-radius: 6px;
+    border: 0.1px solid gray;
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     box-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
     --tw-ring-offset-width: 2px;
@@ -147,7 +148,11 @@ const Btn = styled.button`
     }
 
     &:hover {
-        background-color: rgb(67 56 202);
+        /* background-color: rgb(67 56 202); */
+        cursor: pointer;
+        background-color: gray;
+        color: #fff;
+        border: 1px solid white;
     }
 `;
 const Table = styled.table`
@@ -296,8 +301,8 @@ export default function Footer() {
                 </Form>
                 <Dwn>
                     <SecIcon>
-                        <A href='#'><FBIcon /></A>
-                        <A href='#'><MessengerIcon /></A>
+                        <A href={'https://www.facebook.com/profile.php?id=61553355490093'}><FBIcon /></A>
+                        <A href={'https://www.messenger.com/t/154811617722587/?messaging_source=source%3Apages%3Amessage_shortlink&source_id=1441792&recurring_notification=0'}><MessengerIcon /></A>
                     </SecIcon>
                     <Cpy>© Copyright 2024. All Rights Reserved.</Cpy>
                 </Dwn>
