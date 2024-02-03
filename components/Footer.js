@@ -235,16 +235,21 @@ export default function Footer() {
 
     const {data: session} = useSession();
 
-    emailjs.init("_8lEGbHSZnpXt0u9i");
+    emailjs.init("0M1fdmyHbFTRLH2SI");
 
     const [formData, setFormData] = useState({email: ''});
 
     const sendMail = (e) => {
         e.preventDefault();
-
-        emailjs.send("service_3vd05dc","template_zu7rhdq", formData).then(() => {
-          toast.success("You're Now Subscribed. Thank You !");
-        });
+    
+        emailjs.send("service_n7raozq","template_vjogkes", formData)
+            .then(() => {
+                toast.success("You're Now Subscribed. Thank You !");
+            })
+            .catch((error) => {
+                console.error('Error sending email:', error);
+                toast.error("Failed to send email. Please try again later.");
+            });
     };
 
     const handleInputChange = (e) => {
