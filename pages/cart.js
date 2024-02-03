@@ -80,7 +80,7 @@ export default function CartPage() {
   const [country,setCountry] = useState('');
   const [isSuccess,setIsSuccess] = useState(false);
   const {data: session} = useSession();
-  
+
   useEffect(() => {
     if (session?.user?.email) {
       const userEmail = session.user.email;
@@ -130,7 +130,7 @@ export default function CartPage() {
   let Shipping = 0; // Shipping Fee
   let Tax = 0; // Taxt
 
-  if (isSuccess) {    
+  if (isSuccess) {
     return (
       <>
         <Header />
@@ -139,7 +139,7 @@ export default function CartPage() {
             <Box>
               <h1>Thanks for your order!</h1>
               <p>We will email you when your order will be sent.</p>
-              <Exit email={account} />
+              <Exit email={account} amount={total} />
             </Box>
           </ColumnsWrapper>
         </Center>
@@ -210,7 +210,7 @@ export default function CartPage() {
                   <tr style={{height: '30px'}}>
                     <td></td>
                     <td style={{textAlign: 'end' , paddingRight: '15px'}}>Total</td>
-                    <td>$ {(total+Shipping+(total*(Tax/100)))}</td>
+                    <td>$ (total+Shipping+(total*(Tax/100)))</td>
                   </tr>
 
                 </tbody>
