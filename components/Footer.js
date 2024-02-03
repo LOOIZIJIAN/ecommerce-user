@@ -5,6 +5,8 @@ import Link from 'next/link';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSession } from 'next-auth/react';
+import emailjs from 'emailjs-com';
+import toast from "react-hot-toast";
 
 const Container = styled.footer`
     display: flex;
@@ -233,6 +235,26 @@ export default function Footer() {
 
     const {data: session} = useSession();
 
+    emailjs.init("_8lEGbHSZnpXt0u9i");
+
+    const [formData, setFormData] = useState({email: ''});
+
+    const sendMail = (e) => {
+        e.preventDefault();
+
+        emailjs.send("service_3vd05dc","template_zu7rhdq", formData).then(() => {
+          toast.success("You're Now Subscribed. Thank You !");
+        });
+    };
+
+    const handleInputChange = (e) => {
+        const { id, value } = e.target;
+        setFormData((prevData) => ({
+          ...prevData,
+          [id]: value,
+        }));
+    };
+
     return (
         <Container>
             <Left>
@@ -290,9 +312,17 @@ export default function Footer() {
                     Stay updated on the latest trends and enhance 
                     your shopping experience. Don't miss out !
                 </P>
-                <Form>
+                <Form method='post' onSubmit={sendMail}>
                     <Label for="email-address"> Email address</Label>
-                    <Input type="email" name="email" id="email-address" autocomplete="email" required="" placeholder="E-Mail Address" />
+                    <Input 
+                        type="email" 
+                        name="email" 
+                        id="email" 
+                        autocomplete="email" 
+                        required="" 
+                        placeholder="E-Mail Address" 
+                        onChange={handleInputChange}
+                    />
                     <BtnCon>
                         <BtnSubCon>
                             <Btn type="submit">Subscribe</Btn>
