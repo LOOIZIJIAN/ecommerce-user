@@ -2,12 +2,13 @@ import Header from "@/components/Header";
 import styled from "styled-components";
 import Center from "@/components/Center";
 import Button from "@/components/Button";
-import {useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {CartContext} from "@/components/CartContext";
 import axios from "axios";
 import Table from "@/components/Table";
 import Input from "@/components/Input";
 import { useSession } from "next-auth/react";
+import Exit from "@/components/Exit";
 
 const ColumnsWrapper = styled.div`
   display: grid;
@@ -129,7 +130,7 @@ export default function CartPage() {
   let Shipping = 0; // Shipping Fee
   let Tax = 0; // Taxt
 
-  if (isSuccess) {
+  if (isSuccess) {    
     return (
       <>
         <Header />
@@ -138,6 +139,7 @@ export default function CartPage() {
             <Box>
               <h1>Thanks for your order!</h1>
               <p>We will email you when your order will be sent.</p>
+              <Exit email={account} />
             </Box>
           </ColumnsWrapper>
         </Center>
@@ -227,7 +229,8 @@ export default function CartPage() {
                      placeholder="Email"
                      value={email}
                      name="email"
-                     onChange={ev => setEmail(ev.target.value)}/>
+                     onChange={ev => setEmail(ev.target.value)}
+                    />
               <CityHolder>
                 <Input type="text"
                        placeholder="City"
