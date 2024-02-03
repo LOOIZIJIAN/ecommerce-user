@@ -296,7 +296,7 @@ export default function Chatbox() {
   useEffect(() => {
     setTimeout(() => {
       document.getElementById("disIcon").style.display = "block";
-    },2000);
+    },100); //  chaneg to set how long to display chaticon time
   },[]);
 
   // Show Message Box
