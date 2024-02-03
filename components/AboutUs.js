@@ -625,7 +625,7 @@ export default function Aboutus(){
                         <OL_Position>
                             <LI_Position>
                                 <SPAN_Position><SPAN_DIV_NAME>CTO</SPAN_DIV_NAME></SPAN_Position>
-                                <Selfi src="/afterLogin/User_Icon.png"></Selfi><br></br>
+                                <Selfi src="1704338657503 (1).jpg"></Selfi><br></br>
                                 Visionary behind our e-commerce innovation, ensuring tech strategies align with excellence.
                                 <br/><br/><cite>by Looi Zi Jian</cite>
                             </LI_Position>

@@ -29,6 +29,7 @@ export default function HomePage({ newProducts, slide }) {
   const UserProfile = dynamic(()=> import('@/components/UserProfile'), {ssr: false});
   const {data: session} = useSession();
   console.log('indexSlide:'+slide);
+
   if (!session) {
     return (
       <>
