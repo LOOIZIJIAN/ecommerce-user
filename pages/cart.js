@@ -13,19 +13,33 @@ import Exit from "@/components/Exit";
 const ColumnsWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  @media screen and (min-width: 768px) {
-    grid-template-columns: 1.2fr .8fr;
-  }
+  width: 100%;
   gap: 40px;
-  margin-top: 150px;
+  place-items: center;
+  background: linear-gradient(
+    285deg,
+    #000 58.94%,
+    rgba(0, 0, 0, 0) 113.07%,
+    rgba(0, 0, 0, 0.11) 113.07%
+  );
+  background-color: white;
 `;
 
 const Box = styled.div`
-  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: transparent;
   border-radius: 10px;
   padding: 30px;
+  color: #fff;
 `;
 
+const H = styled.h1`
+  font-weight: 800;
+  font-size: 34px;
+`;
+const P = styled.p`
+  font-size: 21px;
+`;
 const ProductInfoCell = styled.td`
   padding: 10px 0;
 `;
@@ -137,8 +151,8 @@ export default function CartPage() {
         <Center>
           <ColumnsWrapper>
             <Box>
-              <h1>Thanks for your order!</h1>
-              <p>We will email you when your order will be sent.</p>
+              <H>Thanks for your order !</H>
+              <P>We will email you when your order is sent.</P>
               <Exit email={account} amount={total} />
             </Box>
           </ColumnsWrapper>

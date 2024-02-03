@@ -4,8 +4,20 @@ import React, { useState , useEffect } from 'react';
 import toast from "react-hot-toast";
 import Button from "./Button";
 
+const Container = styled.div`
+    width: 100%;
+    text-align: right;
+`;
 const Btn = styled(Button)`
+    width: fit-content;
+    background-color: transparent;
+    color: #fff;
+    border-width: 2px;
 
+    &:hover {
+        background-color: #fff;
+        color: black;
+    }
 `;
 
 export default function Exit({email , amount}) {
@@ -63,12 +75,11 @@ export default function Exit({email , amount}) {
 
         console.log(`Date / Time : ${day} ${month} ${year} ${currentTime} ${amPm}`);
         // console.log("Date / Time : " + day + month + year + " " + time + ampm);
-
     };
 
     return(
-        <>
+        <Container>
             <Btn type="button" onClick={sendMail}>Proceed</Btn>
-        </>
+        </Container>
     )
 }
