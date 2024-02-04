@@ -2,29 +2,44 @@ import Header from "@/components/Header";
 import styled from "styled-components";
 import Center from "@/components/Center";
 import Button from "@/components/Button";
-import {useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {CartContext} from "@/components/CartContext";
 import axios from "axios";
 import Table from "@/components/Table";
 import Input from "@/components/Input";
 import { useSession } from "next-auth/react";
+import Exit from "@/components/Exit";
 
 const ColumnsWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  @media screen and (min-width: 768px) {
-    grid-template-columns: 1.2fr .8fr;
-  }
+  width: 100%;
   gap: 40px;
-  margin-top: 150px;
+  place-items: center;
+  background: linear-gradient(
+    285deg,
+    #000 58.94%,
+    rgba(0, 0, 0, 0) 113.07%,
+    rgba(0, 0, 0, 0.11) 113.07%
+  );
+  background-color: white;
 `;
 
 const Box = styled.div`
-  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: transparent;
   border-radius: 10px;
   padding: 30px;
+  color: #fff;
 `;
 
+const H = styled.h1`
+  font-weight: 800;
+  font-size: 34px;
+`;
+const P = styled.p`
+  font-size: 21px;
+`;
 const ProductInfoCell = styled.td`
   padding: 10px 0;
 `;
@@ -79,7 +94,7 @@ export default function CartPage() {
   const [country,setCountry] = useState('');
   const [isSuccess,setIsSuccess] = useState(false);
   const {data: session} = useSession();
-  
+
   useEffect(() => {
     if (session?.user?.email) {
       const userEmail = session.user.email;
@@ -136,8 +151,9 @@ export default function CartPage() {
         <Center>
           <ColumnsWrapper>
             <Box>
-              <h1>Thanks for your order!</h1>
-              <p>We will email you when your order will be sent.</p>
+              <H>Thanks for your order !</H>
+              <P>We will email you when your order is sent.</P>
+              <Exit email={account} amount={total} />
             </Box>
           </ColumnsWrapper>
         </Center>
@@ -208,7 +224,7 @@ export default function CartPage() {
                   <tr style={{height: '30px'}}>
                     <td></td>
                     <td style={{textAlign: 'end' , paddingRight: '15px'}}>Total</td>
-                    <td>$ {(total+Shipping+(total*(Tax/100)))}</td>
+                    <td>$ (total+Shipping+(total*(Tax/100)))</td>
                   </tr>
 
                 </tbody>
@@ -227,7 +243,8 @@ export default function CartPage() {
                      placeholder="Email"
                      value={email}
                      name="email"
-                     onChange={ev => setEmail(ev.target.value)}/>
+                     onChange={ev => setEmail(ev.target.value)}
+                    />
               <CityHolder>
                 <Input type="text"
                        placeholder="City"

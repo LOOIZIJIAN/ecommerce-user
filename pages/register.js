@@ -243,7 +243,7 @@ export default function Register ({users}) {
   return (
     <PageWrapper>
         <Left>
-            <LogoImg src="Company_Logo.png" alt="Company Logo" />
+            <LogoImg src="Company_Logo_Black_Mode.png" alt="Company Logo" />
             <Slogan>The Perfect Fit for Your Phone !</Slogan>
         </Left>
 
