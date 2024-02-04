@@ -35,6 +35,7 @@ export function CartContextProvider({children}) {
   
   function clearCart() {
     setOnCartProducts([]);
+    localStorage.clear();
   }
 
   return (

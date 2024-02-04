@@ -11,18 +11,21 @@ import { useSession } from "next-auth/react";
 import Exit from "@/components/Exit";
 
 const ColumnsWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  width: 100%;
-  gap: 40px;
-  place-items: center;
+  display: flex;
+  /* grid-template-columns: 1fr; */
+  /* width: 100%; */
+  width: auto;
+  margin-bottom: 150px;
+  gap: 30px;
+  align-items: center;
+  
   background: linear-gradient(
     285deg,
     #000 58.94%,
     rgba(0, 0, 0, 0) 113.07%,
     rgba(0, 0, 0, 0.11) 113.07%
   );
-  background-color: white;
+  /* background-color: white; */
 `;
 
 const Box = styled.div`
@@ -144,6 +147,8 @@ export default function CartPage() {
   let Shipping = 0; // Shipping Fee
   let Tax = 0; // Taxt
 
+  let ft = (total+Shipping+(total*(Tax/100)));
+
   if (isSuccess) {
     return (
       <>
@@ -224,7 +229,7 @@ export default function CartPage() {
                   <tr style={{height: '30px'}}>
                     <td></td>
                     <td style={{textAlign: 'end' , paddingRight: '15px'}}>Total</td>
-                    <td>$ (total+Shipping+(total*(Tax/100)))</td>
+                    <td>$ {ft}</td>
                   </tr>
 
                 </tbody>
