@@ -2,6 +2,15 @@ import React, { useRef , useState , useEffect } from 'react';
 
 import styled from "styled-components";
 import Modal from "./modal";
+import Header from '@/components/Header';
+import LeftSetting from '@/components/LeftSetting';
+
+const Container = styled.div`
+  margin-top: -30px;
+  width: 100%;
+  min-height: 808px;
+  background-color: #f0f0f0;
+`;
 
 const CartCon = styled.div`
     display: flex;
@@ -68,8 +77,7 @@ const Right_title = styled.div`
     /* flex:0 1 auto; */
         order:0;
         flex-grow:0;
-        align-self:auto;
-        margin-right: 50px;
+        align-self: self-end;
 `;
 const Button_dialog = styled.button`
     width : 110px;
@@ -235,7 +243,7 @@ const Icon = styled.img`
 `;
 
 const CartDet = styled.div`
-    width: 93%;
+    width: 88%;
     height: fit-content;
     min-height:540px;
     display: flex;
@@ -420,100 +428,103 @@ export default function Profile() {
     
     return (
         <div>
-            
-            <CartCon>
-                <CartTop>
-                    <Left_title>
-                        <Title>Bank & Card</Title>
-                        <MiniTitle>Manage Your Card</MiniTitle>
-                    </Left_title>
-                    <Right_title>
-                    <Button_dialog onClick={toggleModal}>Add new Card</Button_dialog>
-                    {modal && (
-                        <div>
-                        <Modal onSave={handleAddCard}></Modal>
-                        <Button_Close onClick={toggleModal}>&times;</Button_Close>
-                        </div>
-                        )}
+            <Header />
+            <Container>
+                <LeftSetting />
+                <CartCon>
+                    <CartTop>
+                        <Left_title>
+                            <Title>Bank & Card</Title>
+                            <MiniTitle>Manage Your Card</MiniTitle>
+                        </Left_title>
+                        <Right_title>
+                        <Button_dialog onClick={toggleModal}>Add new Card</Button_dialog>
+                        {modal && (
+                            <div>
+                            <Modal onSave={handleAddCard}></Modal>
+                            <Button_Close onClick={toggleModal}>&times;</Button_Close>
+                            </div>
+                            )}
+                        
+                        </Right_title>
+                    </CartTop>
                     
-                    </Right_title>
-                </CartTop>
-                
-                <CartDet>
-                    {cards.map((card, index) => (
-                    <CardContainer key={index}>
+                    <CartDet>
+                        {cards.map((card, index) => (
+                        <CardContainer key={index}>
 
-                        <Card_typeicon>
-                            <Icon_x src="Item/card.png"></Icon_x>
-                        </Card_typeicon>
+                            <Card_typeicon>
+                                <Icon_x src="Item/card.png"></Icon_x>
+                            </Card_typeicon>
 
-                        <Card_info>   
-                            <Card_type>
-                                <Card_typetitle>{card.cardType}</Card_typetitle>
-                                <Card_number id="card_number">{card.cardNumber}</Card_number>
-                            </Card_type>
+                            <Card_info>   
+                                <Card_type>
+                                    <Card_typetitle>{card.cardType}</Card_typetitle>
+                                    <Card_number id="card_number">{card.cardNumber}</Card_number>
+                                </Card_type>
 
-                            <Card_expdate>
-                                <Card_expdatetitle>Expire Date (MM/YY)</Card_expdatetitle>
-                                <Exp_date id="exp_date">{card.expireDate}</Exp_date>
-                            </Card_expdate>
-                        </Card_info>
+                                <Card_expdate>
+                                    <Card_expdatetitle>Expire Date (MM/YY)</Card_expdatetitle>
+                                    <Exp_date id="exp_date">{card.expireDate}</Exp_date>
+                                </Card_expdate>
+                            </Card_info>
 
-                        <Card_del>
-                            <Icon_x src="AfterLogin/delete.png" alt="default" id="delete" onClick={() => handleDeleteCard(index)}></Icon_x>
-                        </Card_del>
-                    </CardContainer>
-                    ))}
-                    
-                    {/* <CardContainer>
+                            <Card_del>
+                                <Icon_x src="AfterLogin/delete.png" alt="default" id="delete" onClick={() => handleDeleteCard(index)}></Icon_x>
+                            </Card_del>
+                        </CardContainer>
+                        ))}
+                        
+                        {/* <CardContainer>
 
-                        <Card_typeicon>
-                            <Icon_x src="Item/card.png"></Icon_x>
-                        </Card_typeicon>
+                            <Card_typeicon>
+                                <Icon_x src="Item/card.png"></Icon_x>
+                            </Card_typeicon>
 
-                        <Card_info>   
-                            <Card_type>
-                                <Card_typetitle>Master Card</Card_typetitle>
-                                <Card_number id="card_number">**** **** **** 1234</Card_number>
-                            </Card_type>
+                            <Card_info>   
+                                <Card_type>
+                                    <Card_typetitle>Master Card</Card_typetitle>
+                                    <Card_number id="card_number">**** **** **** 1234</Card_number>
+                                </Card_type>
 
-                            <Card_expdate>
-                                <Card_expdatetitle>Expire Date (MM/YY)</Card_expdatetitle>
-                                <Exp_date id="exp_date">8/29</Exp_date>
-                            </Card_expdate>
-                        </Card_info>
+                                <Card_expdate>
+                                    <Card_expdatetitle>Expire Date (MM/YY)</Card_expdatetitle>
+                                    <Exp_date id="exp_date">8/29</Exp_date>
+                                </Card_expdate>
+                            </Card_info>
 
-                        <Card_del>
-                            <Icon_x src="AfterLogin/delete.png" alt="default" id="delete"></Icon_x>
-                        </Card_del>
+                            <Card_del>
+                                <Icon_x src="AfterLogin/delete.png" alt="default" id="delete"></Icon_x>
+                            </Card_del>
 
-                    </CardContainer>
+                        </CardContainer>
 
-                    <CardContainer>
+                        <CardContainer>
 
-                        <Card_typeicon>
-                            <Icon_x src="Item/card.png"></Icon_x>
-                        </Card_typeicon>
+                            <Card_typeicon>
+                                <Icon_x src="Item/card.png"></Icon_x>
+                            </Card_typeicon>
 
-                        <Card_info>   
-                            <Card_type>
-                                <Card_typetitle>Master Card</Card_typetitle>
-                                <Card_number id="card_number">**** **** **** 1234</Card_number>
-                            </Card_type>
+                            <Card_info>   
+                                <Card_type>
+                                    <Card_typetitle>Master Card</Card_typetitle>
+                                    <Card_number id="card_number">**** **** **** 1234</Card_number>
+                                </Card_type>
 
-                            <Card_expdate>
-                                <Card_expdatetitle>Expire Date (MM/YY)</Card_expdatetitle>
-                                <Exp_date id="exp_date">8/29</Exp_date>
-                            </Card_expdate>
-                        </Card_info>
+                                <Card_expdate>
+                                    <Card_expdatetitle>Expire Date (MM/YY)</Card_expdatetitle>
+                                    <Exp_date id="exp_date">8/29</Exp_date>
+                                </Card_expdate>
+                            </Card_info>
 
-                        <Card_del>
-                            <Icon_x src="AfterLogin/delete.png" alt="default" id="delete"></Icon_x>
-                        </Card_del>
+                            <Card_del>
+                                <Icon_x src="AfterLogin/delete.png" alt="default" id="delete"></Icon_x>
+                            </Card_del>
 
-                    </CardContainer> */}
-                </CartDet>
-            </CartCon>
+                        </CardContainer> */}
+                    </CartDet>
+                </CartCon>
+            </Container>
         </div>
     );
 }
