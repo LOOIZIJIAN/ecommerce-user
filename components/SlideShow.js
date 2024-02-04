@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Slideshow = styled.div`
-  margin-top: 15px;
+  margin-top: 30px;
   margin-bottom: 15px;
   margin-left: 60px;
   overflow: hidden;
@@ -13,9 +13,11 @@ const Slideshow = styled.div`
 `;
 
 const SlideshowSlider = styled.div`
+  width: 100%;
+  height: 100%;
   white-space: nowrap;
   transition: ease 1000ms;
-  margin-top: 30px;
+  /* margin-top: 30px; */
   transform: translate3d(${props => -props.index * 100}%, 0, 0);
 `;
 
@@ -27,14 +29,11 @@ const Slide = styled.img`
 `;
 
 const SlideshowDots = styled.div`
-  margin-top: -100px;
+  margin-top: -25px;
   position: absolute;
   z-index: 3;
-  width: 650px;
-  /* text-align: center; */
-  /* margin-left: auto; */
-  /* margin-right: auto; */
-  margin-left: 325px; 
+  width: 780px;
+  text-align: center;
 `;
 
 const SlideshowDot = styled.div`
@@ -43,9 +42,7 @@ const SlideshowDot = styled.div`
   width: 10px;
   border-radius: 50%;
   cursor: pointer;
-  margin-top: 15px;
   margin-right: 7px;
-  margin-bottom: 0px;
   margin-left: 3px;
   background-color: ${props => (props.index === props.i ? '#e0dede' : '#403d3d')};
 `;
