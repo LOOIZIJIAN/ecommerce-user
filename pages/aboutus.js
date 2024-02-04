@@ -32,9 +32,24 @@ const Empty_span = styled.span`
   align-items: center;
   min-width:100%;   
   min-height:654px;
-  background-image: url("pic.png");
+  background-image: url("direct_test_2.png");
     background-size: cover;
     background-attachment: fixed;
+`;
+const DIV_A = styled.div`
+  background-color:red;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  transform: rotate(-25deg);
+  position: relative;
+`;
+const A = styled.a`
+  font-size:100px;  
+  text-align: right;
+  margin-left: 37%;
+  position:absolute;
 `;
 const Intro_container = styled.div`
     // //background-color: #ADB5BD;
@@ -528,7 +543,6 @@ export default function Aboutus(){
     const imageRef = useRef(null);
     const Header = dynamic(() => import('@/components/Header'), { ssr: false });
 
-
     // useEffect(() => {
     //     const handleScroll = () => {
     //       const rect = imageRef.current.getBoundingClientRect();
@@ -557,7 +571,11 @@ export default function Aboutus(){
             
             <Intro_container id="container">
                 <Intro0>
-                    <Empty_span>.</Empty_span>
+                    <Empty_span>
+                        <DIV_A>
+                        <A></A>
+                        </DIV_A>
+                    </Empty_span>
                     {/* <Image0 src="/pic.png"></Image0> */}
                 </Intro0>
 
