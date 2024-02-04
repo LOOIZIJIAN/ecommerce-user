@@ -87,7 +87,7 @@ export default function SlideShow({ slides }) {
         <Slideshow>
           <SlideshowSlider index={index}>
             {slides.map((sl, i) => (
-              <Slide key={i} src={sl.slides} alt={`Slide ${i + 1}`} />
+              <Slide key={i} src={sl.slides} alt={`Slide ${i + 1}`} />// error error
             ))}
           </SlideshowSlider>
           <SlideshowDots>
