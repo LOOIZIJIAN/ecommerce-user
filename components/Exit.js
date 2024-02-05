@@ -20,7 +20,7 @@ const Btn = styled(Button)`
     }
 `;
 
-export default function Exit({email , amount}) {
+export default function Exit({email , amount , products , tax , ship}) {
     const [currentTime, setCurrentTime] = useState('');
     const [amPm, setAmPm] = useState('');
     const [day , setDay] = useState('');
@@ -57,24 +57,57 @@ export default function Exit({email , amount}) {
         DisplayTime();
         CurrentDate();
     },[]);
-      
-    emailjs.init("aQmAikkvlmMBVFXdP");
+    
+    // emailjs.init("aQmAikkvlmMBVFXdP");  // old account key yout86331
+    emailjs.init("j-pkLD5KS0uUTrmAA");  // new account key kylew
         
-    const sendMail = () => {        
-        emailjs.send("service_7xsu58o","template_dx06ebh", {
+    const sendMail = () => {
+        const productDetails = products.map(product => ({
+            name: product.name,
+            quantity: product.quantity,
+            price: (product.price).toFixed(2),
+            total: (product.price * product.quantity).toFixed(2),
+            image: product.images[0]
+        }));
+
+        // emailjs.send("service_7xsu58o","template_dx06ebh" , {   // old account yout86331
+        emailjs.send("service_w6z7h4s","template_vtagjle", {    // new account kylew
             email: email,
-            amount: amount,
+            amount: (amount).toFixed(2),
             day: day,
             month: month,
             year: year,
             time: currentTime,
-            ap: amPm
+            ap: amPm,
+            products: productDetails,
+            tax: tax,
+            taxAmount: (amount*(tax/100)).toFixed(2),
+            ship: ship.toFixed(2)
         }).then(() => {
             toast.success("Pls check your email. Thank You !");
         });
 
+        products.forEach((product, index) => {
+            console.log(`Product ${index + 1}:`);
+            
+            if (product.images && product.images.length > 0) {
+                console.log("Product Image : ", product.images[0]);
+                // console.log("Product Image New : ", product.images);
+            } else {
+                console.log("Product Image : No Image Available");
+            }
+            console.log("Product Image New : ", product.images);
+            console.log("Product Name: ", product.name);
+            console.log("Product Price: ", product.price);
+            console.log("Product Quantity: ", product.quantity);
+            console.log("Total Price : ", (product.price * product.quantity).toFixed(2));
+        });
+
         console.log(`Date / Time : ${day} ${month} ${year} ${currentTime} ${amPm}`);
-        // console.log("Date / Time : " + day + month + year + " " + time + ampm);
+        console.log(`Subtotal : ${amount.toFixed(2)}`);
+        console.log(`Tax : ${tax} %`);
+        console.log(`Tax Amount : ${(amount*(tax/100)).toFixed(2)}`);
+        console.log(`Shipping Fee : ${ship.toFixed(2)}`);
     };
 
     return(

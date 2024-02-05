@@ -158,7 +158,18 @@ export default function CartPage() {
             <Box>
               <H>Thanks for your order !</H>
               <P>We will email you when your order is sent.</P>
-              <Exit email={account} amount={total} />
+              <Exit 
+                email={account} 
+                amount={ft} 
+                products={products.map(product => ({
+                  images: product.images,
+                  name: product.title,
+                  price: product.price,
+                  quantity: onCartProducts.filter(id => id === product._id).length
+                }))}
+                tax={Tax}
+                ship={Shipping}
+              />
             </Box>
           </ColumnsWrapper>
         </Center>
