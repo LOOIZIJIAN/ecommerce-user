@@ -8,7 +8,7 @@ export function CartContextProvider({children}) {
   const [onCartProducts, setOnCartProducts] = useState([]);
   
   useEffect(() => {
-    if (onCartProducts?.length > 0) {
+    if (onCartProducts?.length >= 0) {
       ls?.setItem('cart', JSON.stringify(onCartProducts));
     }
   }, [onCartProducts]);
@@ -23,6 +23,7 @@ export function CartContextProvider({children}) {
     setOnCartProducts(prev => [...prev,productId]);
     toast.success("Added to cart!");
   }
+
   function removeProduct(productId) {
     setOnCartProducts(prev => {
       const pos = prev.indexOf(productId);
