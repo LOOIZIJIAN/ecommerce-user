@@ -53,7 +53,6 @@ export default function HomePage({ newProducts, slide }) {
         <SlideShow slides={slide}/>
         <UserProfile />
       </Container>
-      {/* <button onClick={() => signOut()}>Sign out</button> */}
       <NewProducts products={newProducts} />
       <Chatbox/>
       <Footer />

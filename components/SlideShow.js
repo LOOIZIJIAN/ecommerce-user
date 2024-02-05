@@ -52,9 +52,7 @@ const delay = 2500;
 export default function SlideShow({ slides }) {
   const [index, setIndex] = useState(0);
   const isReversed = React.useRef(false);
-  // for (let i = 0; i < slides.length; i++) {
-  //   console.log('slides:'+i+slides[i].slides);
-  // }
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (slides && slides.length) {
