@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const LeftCon = styled.div`
     position: fixed;
@@ -136,6 +137,7 @@ const A = styled.a`
 
 export default function LeftSetting(){
     const {data : session} = useSession();
+    const router = useRouter();
 
     return (
         <LeftCon>
@@ -167,21 +169,21 @@ export default function LeftSetting(){
                 {/* Details Start */}
                 <Detail>
                     <Img2 src="AfterLogin/Like_Icon.png" alt="Like"/>
-                    <H2>Wishlist</H2>
+                    <H2 onClick={() => router.push('')}>Wishlist</H2>
                 </Detail>
                 {/* Details End */}
 
                 {/* Details Start */}
                 <Detail>
                     <Img2 src="AfterLogin/Shopping_Cart.png" alt="Cart"/>
-                    <H2>Purchase</H2>
+                    <H2 onClick={() => router.push('purchasehistory')}>Purchase History</H2>
                 </Detail>
                 {/* Details End */}
 
                 {/* Details Start */}
                 <Detail>
                     <Img2 src="AfterLogin/Coupon_Icon.png" alt="Coupon"/>
-                    <H2>Voucher</H2>
+                    <H2 onClick={() => router.push('')}>Voucher</H2>
                 </Detail>
                 {/* Details End */}
 
