@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { useSession } from "next-auth/react";
 
 const LeftCon = styled.div`
     position: fixed;
@@ -44,7 +45,7 @@ const H1 = styled.h1`
 `;
 
 const Img1 = styled.img`
-    width: 12px;
+    width: 18px;
     margin-right: 5px;
     filter: grayscale(30%) brightness(70%);
 `;
@@ -134,14 +135,16 @@ const A = styled.a`
 // Left Selection End
 
 export default function LeftSetting(){
+    const {data : session} = useSession();
+
     return (
         <LeftCon>
             <LeftUpCon>
                 <Img src="AfterLogin/User_Icon.png"/>
                 <TxtCon>
-                    <H1>Cresswell</H1>
+                    <H1>{session?.user?.name}</H1>
                     <Span href="#">
-                        <Img1 src="AfterLogin/Edit_Icon.png" alt="Edit" />
+                        <Img1 src="AfterLogin/User_Setting_Icon.png" alt="Edit" />
                         Edit
                     </Span>
                 </TxtCon>
@@ -154,8 +157,8 @@ export default function LeftSetting(){
                     <Img2 src="AfterLogin/User_Icon.png" alt="User"/>
                     <SubDetail>
                         <H2>My Account</H2>
-                        <A href="profile">Profile</A>
-                        <A href="#">Bank & Cards</A>
+                        <A href="account">Profile</A>
+                        <A href="card">Bank & Cards</A>
                         <A href="#">Address</A>
                     </SubDetail>
                 </Detail1>

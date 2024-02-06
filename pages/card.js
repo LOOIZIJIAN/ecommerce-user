@@ -2,6 +2,15 @@ import React, { useRef , useState , useEffect } from 'react';
 
 import styled from "styled-components";
 import Modal from "./modal";
+import Header from '@/components/Header';
+import LeftSetting from '@/components/LeftSetting';
+
+const Container = styled.div`
+  margin-top: -30px;
+  width: 100%;
+  min-height: 808px;
+  background-color: #f0f0f0;
+`;
 
 const CartCon = styled.div`
     display: flex;
@@ -68,8 +77,7 @@ const Right_title = styled.div`
     /* flex:0 1 auto; */
         order:0;
         flex-grow:0;
-        align-self:auto;
-        margin-right: 50px;
+        align-self: self-end;
 `;
 const Button_dialog = styled.button`
     width : 110px;
@@ -150,7 +158,7 @@ const Card_typeicon = styled.div`
     justify-content: flex-end ;
     align-items: center;
     flex-direction: row;
-    // background: #ffecb3;
+    background-color: transparent;
 `;
 
 const Card_del = styled.button`
@@ -161,18 +169,12 @@ const Card_del = styled.button`
     border-radius:5px;
     width: 30px;
     height: 30px;
-    &:hover{
-        background-color: #343A40;
-    }
+    background-color: transparent;
 `;
 const Icon_x = styled.img`
     scale: 0.8;
     cursor: pointer;
     border-radius: 4px;
-    &:hover{
-        background-color: #343A40;
-        content: url('AfterLogin/delete_white.png');
-    }
 `;
 const Card_info = styled.div`
     /* flex:1 1 auto; */
@@ -235,7 +237,7 @@ const Icon = styled.img`
 `;
 
 const CartDet = styled.div`
-    width: 93%;
+    width: 88%;
     height: fit-content;
     min-height:540px;
     display: flex;
@@ -375,14 +377,13 @@ const Button_Close = styled.button`
     }
     position: fixed;
     z-index:2;
-    transform: translateX(-295px) translateY(-52px);
+    transform: translateX(-400px) translateY(-40px);
 `;
 
 export default function Profile() {
-
-    
     const [modal, setModal] = useState(false)
-      
+    const [iconSrc, setIconSrc] = useState("icon/delete.png");
+
     const toggleModal = () =>{
         setModal(!modal);
     }
@@ -395,125 +396,182 @@ export default function Profile() {
             document.body.style.overflow = 'visible';
           }
         }
-      }, [modal]);
+    }, [modal]);
     
       
-    const [cards, setCards] = useState([
-        // Initialize with existing cards if any
-        // Example:
-        { cardType: "Master Card", cardNumber: "**** **** **** 1234", expireDate: "8/29" },
-      ]);
-    
-        const handleAddCard = (newCard) => {
-          setCards([...cards, newCard]);
-          toggleModal();
-        };
+    const [cards, setCards] = useState([]);
+    const [previousCard, setPreviousCard] = useState([]);
 
-        const handleDeleteCard = (index) => {
-            // 复制当前的卡片数组
-            const updatedCards = [...cards];
-            // 根据索引删除对应的卡片
-            updatedCards.splice(index, 1);
-            // 更新卡片数组
-            setCards(updatedCards);
-          };
+    useEffect(() => {
+        const CrdCon = document.getElementById("crdCon");
+        
+        if (CrdCon) {
+            CrdCon.style.display = 'none';
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const cardNumber = urlParams.get('cardNumber');
+        const expireDate = urlParams.get('expireDate');
+
+        if (cardNumber && expireDate) {
+            if (CrdCon) {
+                CrdCon.style.display = 'block';
+            }
+
+            const newCard = {
+                cardType: 'Master Card',
+                cardNumber: cardNumber,
+                expireDate: expireDate,
+            };
+
+            setCards(() => [previousCard , newCard]);
+            setPreviousCard(() => [cards]);
+
+            setTimeout(() => {
+                const newUrl = window.location.href.split('?')[0];
+                window.history.pushState({}, '', newUrl.toString());
+            },100);
+        }
+    }, [cards]);
+
+    const handleAddCard = (newCard) => {
+        toggleModal();
+    };
+
+    const handleDeleteCard = (index) => {
+        // 复制当前的卡片数组
+        const updatedCards = [...cards];
+        // 根据索引删除对应的卡片
+        updatedCards.splice(index, 1);
+        // 更新卡片数组
+        setCards(updatedCards);
+    };
     
+    // Modify the maskCardNumber function to show asterisks for the first 12 digits
+    const maskCardNumber = (fullCardNumber) => {
+        const visibleDigits = 4; // Number of visible digits
+    
+        if (!fullCardNumber || typeof fullCardNumber !== 'string') {
+            return ''; // or any other default value
+        }
+    
+        if (fullCardNumber.length <= visibleDigits) {
+            return '* '.repeat(fullCardNumber.length);
+        }
+    
+        const maskedPart = '*'.repeat(fullCardNumber.length - visibleDigits);
+        return maskedPart + fullCardNumber.slice(-visibleDigits);
+    };
+
     return (
         <div>
-            
-            <CartCon>
-                <CartTop>
-                    <Left_title>
-                        <Title>Bank & Card</Title>
-                        <MiniTitle>Manage Your Card</MiniTitle>
-                    </Left_title>
-                    <Right_title>
-                    <Button_dialog onClick={toggleModal}>Add new Card</Button_dialog>
-                    {modal && (
-                        <div>
-                        <Modal onSave={handleAddCard}></Modal>
-                        <Button_Close onClick={toggleModal}>&times;</Button_Close>
-                        </div>
+            <Header />
+            <Container>
+                <LeftSetting />
+                <CartCon>
+                    <CartTop>
+                        <Left_title>
+                            <Title>Bank & Card</Title>
+                            <MiniTitle>Manage Your Card</MiniTitle>
+                        </Left_title>
+                        <Right_title>
+                        <Button_dialog onClick={toggleModal}>Add new Card</Button_dialog>
+                        {modal && (
+                            <div>
+                            <Modal onSave={handleAddCard}></Modal>
+                            <Button_Close onClick={toggleModal}>&times;</Button_Close>
+                            </div>
                         )}
+                        
+                        </Right_title>
+                    </CartTop>
                     
-                    </Right_title>
-                </CartTop>
-                
-                <CartDet>
-                    {cards.map((card, index) => (
-                    <CardContainer key={index}>
+                    <CartDet>
+                        {cards.map((card, index) => (
+                        <CardContainer key={index} id='crdCon'>
 
-                        <Card_typeicon>
-                            <Icon_x src="Item/card.png"></Icon_x>
-                        </Card_typeicon>
+                            <Card_typeicon>
+                                <Icon_x src="icon/card.png" style={{cursor: "default"}}></Icon_x>
+                            </Card_typeicon>
 
-                        <Card_info>   
-                            <Card_type>
-                                <Card_typetitle>{card.cardType}</Card_typetitle>
-                                <Card_number id="card_number">{card.cardNumber}</Card_number>
-                            </Card_type>
+                            <Card_info>   
+                                <Card_type>
+                                    <Card_typetitle>{card.cardType}</Card_typetitle>
+                                    <Card_number id="card_number">{maskCardNumber(card.cardNumber)}</Card_number>
+                                </Card_type>
 
-                            <Card_expdate>
-                                <Card_expdatetitle>Expire Date (MM/YY)</Card_expdatetitle>
-                                <Exp_date id="exp_date">{card.expireDate}</Exp_date>
-                            </Card_expdate>
-                        </Card_info>
+                                <Card_expdate>
+                                    <Card_expdatetitle>Expire Date (MM/YY)</Card_expdatetitle>
+                                    <Exp_date id="exp_date">{card.expireDate}</Exp_date>
+                                </Card_expdate>
+                            </Card_info>
 
-                        <Card_del>
-                            <Icon_x src="AfterLogin/delete.png" alt="default" id="delete" onClick={() => handleDeleteCard(index)}></Icon_x>
-                        </Card_del>
-                    </CardContainer>
-                    ))}
-                    
-                    {/* <CardContainer>
+                            <Card_del>
+                                <Icon_x src={iconSrc} alt="default" id="delete" title='Delete'
+                                    onClick={() => handleDeleteCard(index)}
+                                    onMouseOver={() => {
+                                        setIconSrc("icon/delete2.png");
+                                        document.getElementById("delete").style.filter = "brightness(0)";
+                                    }}
+                                    onMouseOut={() => {
+                                        setIconSrc("icon/delete.png");
+                                        document.getElementById("delete").style.filter = "none";
+                                    }}
+                                ></Icon_x>
+                            </Card_del>
+                        </CardContainer>
+                        ))}
+                        
+                        {/* <CardContainer>
 
-                        <Card_typeicon>
-                            <Icon_x src="Item/card.png"></Icon_x>
-                        </Card_typeicon>
+                            <Card_typeicon>
+                                <Icon_x src="Item/card.png"></Icon_x>
+                            </Card_typeicon>
 
-                        <Card_info>   
-                            <Card_type>
-                                <Card_typetitle>Master Card</Card_typetitle>
-                                <Card_number id="card_number">**** **** **** 1234</Card_number>
-                            </Card_type>
+                            <Card_info>   
+                                <Card_type>
+                                    <Card_typetitle>Master Card</Card_typetitle>
+                                    <Card_number id="card_number">**** **** **** 1234</Card_number>
+                                </Card_type>
 
-                            <Card_expdate>
-                                <Card_expdatetitle>Expire Date (MM/YY)</Card_expdatetitle>
-                                <Exp_date id="exp_date">8/29</Exp_date>
-                            </Card_expdate>
-                        </Card_info>
+                                <Card_expdate>
+                                    <Card_expdatetitle>Expire Date (MM/YY)</Card_expdatetitle>
+                                    <Exp_date id="exp_date">8/29</Exp_date>
+                                </Card_expdate>
+                            </Card_info>
 
-                        <Card_del>
-                            <Icon_x src="AfterLogin/delete.png" alt="default" id="delete"></Icon_x>
-                        </Card_del>
+                            <Card_del>
+                                <Icon_x src="AfterLogin/delete.png" alt="default" id="delete"></Icon_x>
+                            </Card_del>
 
-                    </CardContainer>
+                        </CardContainer>
 
-                    <CardContainer>
+                        <CardContainer>
 
-                        <Card_typeicon>
-                            <Icon_x src="Item/card.png"></Icon_x>
-                        </Card_typeicon>
+                            <Card_typeicon>
+                                <Icon_x src="Item/card.png"></Icon_x>
+                            </Card_typeicon>
 
-                        <Card_info>   
-                            <Card_type>
-                                <Card_typetitle>Master Card</Card_typetitle>
-                                <Card_number id="card_number">**** **** **** 1234</Card_number>
-                            </Card_type>
+                            <Card_info>   
+                                <Card_type>
+                                    <Card_typetitle>Master Card</Card_typetitle>
+                                    <Card_number id="card_number">**** **** **** 1234</Card_number>
+                                </Card_type>
 
-                            <Card_expdate>
-                                <Card_expdatetitle>Expire Date (MM/YY)</Card_expdatetitle>
-                                <Exp_date id="exp_date">8/29</Exp_date>
-                            </Card_expdate>
-                        </Card_info>
+                                <Card_expdate>
+                                    <Card_expdatetitle>Expire Date (MM/YY)</Card_expdatetitle>
+                                    <Exp_date id="exp_date">8/29</Exp_date>
+                                </Card_expdate>
+                            </Card_info>
 
-                        <Card_del>
-                            <Icon_x src="AfterLogin/delete.png" alt="default" id="delete"></Icon_x>
-                        </Card_del>
+                            <Card_del>
+                                <Icon_x src="AfterLogin/delete.png" alt="default" id="delete"></Icon_x>
+                            </Card_del>
 
-                    </CardContainer> */}
-                </CartDet>
-            </CartCon>
+                        </CardContainer> */}
+                    </CartDet>
+                </CartCon>
+            </Container>
         </div>
     );
 }

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 
 const Container = styled.div`
-  margin-left: 130px;
+  margin-left: 30px;
   margin-top: 45px;
   padding-top: 20px;
   padding-left: 30px;
@@ -129,7 +129,9 @@ export default function AfterLogin() {
   return (
     <Container>
       <UpCon>
-        <Img src={session?.user?.image} />
+        {/* <Img src={session?.user?.image} /> */}
+        <Img src={session?.user?.image || "afterLogin/User_Icon.png"} />
+
         <Details>
           <H1>{session?.user?.name}</H1>
           <P>{session?.user?.email}</P>

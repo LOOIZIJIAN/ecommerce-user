@@ -2,29 +2,47 @@ import Header from "@/components/Header";
 import styled from "styled-components";
 import Center from "@/components/Center";
 import Button from "@/components/Button";
-import {useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {CartContext} from "@/components/CartContext";
 import axios from "axios";
 import Table from "@/components/Table";
 import Input from "@/components/Input";
 import { useSession } from "next-auth/react";
+import Exit from "@/components/Exit";
 
 const ColumnsWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  @media screen and (min-width: 768px) {
-    grid-template-columns: 1.2fr .8fr;
-  }
-  gap: 40px;
-  margin-top: 150px;
+  display: flex;
+  /* grid-template-columns: 1fr; */
+  /* width: 100%; */
+  width: auto;
+  margin-bottom: 150px;
+  gap: 30px;
+  align-items: center;
+  
+  background: linear-gradient(
+    285deg,
+    #000 58.94%,
+    rgba(0, 0, 0, 0) 113.07%,
+    rgba(0, 0, 0, 0.11) 113.07%
+  );
+  /* background-color: white; */
 `;
 
 const Box = styled.div`
-  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: transparent;
   border-radius: 10px;
   padding: 30px;
+  color: #fff;
 `;
 
+const H = styled.h1`
+  font-weight: 800;
+  font-size: 34px;
+`;
+const P = styled.p`
+  font-size: 21px;
+`;
 const ProductInfoCell = styled.td`
   padding: 10px 0;
 `;
@@ -79,7 +97,8 @@ export default function CartPage() {
   const [country,setCountry] = useState('');
   const [isSuccess,setIsSuccess] = useState(false);
   const {data: session} = useSession();
-  
+  const [inputEmail, setInputEmail] = useState('');
+
   useEffect(() => {
     if (session?.user?.email) {
       const userEmail = session.user.email;
@@ -126,15 +145,37 @@ export default function CartPage() {
     total += price;
   }
 
+  let Shipping = 0; // Shipping Fee
+  let Tax = 0; // Taxt
+
+  let ft = (total+Shipping+(total*(Tax/100)));
+
   if (isSuccess) {
+
+    const queryParams = new URLSearchParams(window.location.search);
+    const originalEmail = decodeURIComponent(queryParams.get('email'));
+    
     return (
       <>
         <Header />
         <Center>
           <ColumnsWrapper>
             <Box>
-              <h1>Thanks for your order!</h1>
-              <p>We will email you when your order will be sent.</p>
+              <H>Thanks for your order !</H>
+              <P>We will email you when your order is sent.</P>
+              <Exit 
+                email={account} 
+                amount={ft} 
+                products={products.map(product => ({
+                  images: product.images,
+                  name: product.title,
+                  price: product.price,
+                  quantity: onCartProducts.filter(id => id === product._id).length
+                }))}
+                tax={Tax}
+                ship={Shipping}
+                to={originalEmail}
+              />
             </Box>
           </ColumnsWrapper>
         </Center>
@@ -167,7 +208,7 @@ export default function CartPage() {
                         <ProductImageBox>
                           <img src={product.images[0]} alt=""/>
                         </ProductImageBox>
-                        {product.title}
+                        <div style={{marginTop: '10px'}}>{product.title}</div>
                       </ProductInfoCell>
                       <td>
                         <Button
@@ -179,15 +220,35 @@ export default function CartPage() {
                           onClick={() => moreOfThisProduct(product._id)}>+</Button>
                       </td>
                       <td>
-                        ${onCartProducts.filter(id => id === product._id).length * product.price}
+                        $ {onCartProducts.filter(id => id === product._id).length * product.price}
                       </td>
                     </tr>
                   ))}
-                  <tr>
+
+                  <tr style={{height: '30px'}}>
                     <td></td>
-                    <td></td>
-                    <td>${total}</td>
+                    <td style={{textAlign: 'end' , paddingRight: '15px'}}>Subtotal</td>
+                    <td>$ {total}</td>
                   </tr>
+
+                  <tr style={{height: '30px'}}>
+                    <td style={{borderTop: 'none'}}></td>
+                    <td style={{textAlign: 'end' , paddingRight: '15px' , borderTop: 'none'}}>Shipping Fee</td>
+                    <td style={{borderTop: 'none'}}>$ {Shipping.toFixed(2)}</td>
+                  </tr>
+
+                  {/* <tr style={{height: '30px'}}>
+                    <td style={{borderTop: 'none'}}></td>
+                    <td style={{textAlign: 'end' , paddingRight: '15px' , borderTop: 'none'}}>Tax ({Tax}%)</td>
+                    <td style={{borderTop: 'none'}}>$ {(total*(Tax/100)).toFixed(2)}</td>
+                  </tr> */}
+
+                  <tr style={{height: '30px'}}>
+                    <td></td>
+                    <td style={{textAlign: 'end' , paddingRight: '15px'}}>Total</td>
+                    <td>$ {ft}</td>
+                  </tr>
+
                 </tbody>
               </Table>
             )}

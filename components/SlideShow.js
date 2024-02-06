@@ -1,40 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Slideshow = styled.div`
-  margin-top: 15px;
+  margin-top: 30px;
   margin-bottom: 15px;
   margin-left: 60px;
   overflow: hidden;
-  width: 750px;
-  height: 950px;
+  width: 780px;
+  height: 425px;
   z-index: 0;
   border-radius: 20px;
 `;
 
 const SlideshowSlider = styled.div`
+  width: 100%;
+  height: 100%;
   white-space: nowrap;
   transition: ease 1000ms;
-  margin-top: 30px;
+  /* margin-top: 30px; */
   transform: translate3d(${props => -props.index * 100}%, 0, 0);
 `;
 
 const Slide = styled.img`
   display: inline-block;
-  height: 356px;
+  height: 100%;
   width: 100%;
   border-radius: 20px;
 `;
 
 const SlideshowDots = styled.div`
-  margin-top: -48px;
+  margin-top: -25px;
   position: absolute;
   z-index: 3;
-  width: 650px;
-  /* text-align: center; */
-  /* margin-left: auto; */
-  /* margin-right: auto; */
-  margin-left: 325px; 
+  width: 780px;
+  text-align: center;
 `;
 
 const SlideshowDot = styled.div`
@@ -43,60 +42,66 @@ const SlideshowDot = styled.div`
   width: 10px;
   border-radius: 50%;
   cursor: pointer;
-  margin-top: 15px;
   margin-right: 7px;
-  margin-bottom: 0px;
   margin-left: 3px;
   background-color: ${props => (props.index === props.i ? '#e0dede' : '#403d3d')};
 `;
 
-// Image Array URLs
-const imageUrls = ["image3.jpeg", "image1.jpg", "image2.jpg"];
-
-// Delay between slides
 const delay = 2500;
 
-export default function SlideShow() {
-  const [index, setIndex] = React.useState(0);
+export default function SlideShow({ slides }) {
+  const [index, setIndex] = useState(0);
   const isReversed = React.useRef(false);
 
-  // Change Slide Effect
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (isReversed.current) {     // If reversed, go to previous slide
-        setIndex((prevIndex) => (prevIndex - 1 < 0 ? imageUrls.length - 1 : prevIndex - 1));
-      } else {     // If not reversed, go to next slide
-        setIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
+      if (slides && slides.length) {
+        if (isReversed.current) {
+          setIndex((prevIndex) => (prevIndex - 1 < 0 ? slides.length - 1 : prevIndex - 1));
+        } else {
+          setIndex((prevIndex) => (prevIndex + 1) % slides.length);
+        }
       }
     }, delay);
 
-    // Clear timeout
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [index]);
+  }, [index, slides, delay]);
 
-  // Change slideshow direction
   useEffect(() => {
-    if (index === 4) {  // If the last slide, reverse the direction
-      isReversed.current = true;
-    } else if (index === 0) {  // If the first slide, set the direction forward
-      isReversed.current = false;
+    if (slides && slides.length) { 
+      if (index === slides.length - 1) {
+        isReversed.current = true;
+      } else if (index === 0) {
+        isReversed.current = false;
+      }
     }
-  }, [index]);
+  }, [index, slides]);
 
   return (
     <div>
+      {slides && slides.length > 0 && ( 
         <Slideshow>
-            <SlideshowSlider index={index}>
-                {imageUrls.map((imageUrl, i) => (<Slide key={i} src={imageUrl} alt={`Slide ${i + 1}`} />))}
-            </SlideshowSlider>
-            <SlideshowDots>
-                {imageUrls.map((_, i) => (
-                    <SlideshowDot key={i} index={index} i={i} onClick={() => {setIndex(i);}}></SlideshowDot>
-                ))}
-            </SlideshowDots>
+          <SlideshowSlider index={index}>
+            {slides.map((sl, i) => (
+              <Slide key={i} src={sl.slides} alt={`Slide ${i + 1}`} />// error error
+            ))}
+          </SlideshowSlider>
+          <SlideshowDots>
+            {slides.map((_, i) => (
+              <SlideshowDot
+                key={i}
+                index={index}
+                i={i}
+                onClick={() => {
+                  setIndex(i);
+                }}
+              ></SlideshowDot>
+            ))}
+          </SlideshowDots>
         </Slideshow>
+      )}
     </div>
   );
 }

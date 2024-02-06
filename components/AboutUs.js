@@ -1,9 +1,6 @@
-import dynamic from "next/dynamic";
-import { useSession} from "next-auth/react";
-import Aboutus from "@/components/AboutUs";
-import Footer from "@/components/Footer";
+import React, { useRef , useState , useEffect } from 'react';
+import styled, { css, keyframes } from "styled-components";
 
-export default function AboutPage(){
 // import GlobalStyles from './fontstyle';
 
 const Div = styled.div`
@@ -11,6 +8,7 @@ const Div = styled.div`
     // background-color: black;
     padding : 0;
     height :fit-content;
+    margin-bottom: 30px;
 `;
 const Intro0 = styled.div`
     position: relative;
@@ -35,24 +33,9 @@ const Empty_span = styled.span`
   align-items: center;
   min-width:100%;   
   min-height:654px;
-  background-image: url("direct_test_2.png");
-    background-size: cover;
-    background-attachment: fixed;
-`;
-const DIV_A = styled.div`
-  background-color:red;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-
-  transform: rotate(-25deg);
-  position: relative;
-`;
-const A = styled.a`
-  font-size:100px;  
-  text-align: right;
-  margin-left: 37%;
-  position:absolute;
+  background-image: url("pic.png");
+  background-size: cover;
+  background-attachment: fixed;
 `;
 const Intro_container = styled.div`
     // //background-color: #ADB5BD;
@@ -129,6 +112,7 @@ const Text_1_2 = styled.span`
     width:45%;
     display:flex;
     align-items: center;
+    text-align: justify;
     flex-direction: column;
     line-height:1.7em;
     font-weight:200;
@@ -387,11 +371,12 @@ const LI_2 = styled.li`
     white-space: pre-wrap;
     padding:20px 20px 100px 20px;
     width: 20%;
-    height: 20%;
+    /* height: 20%; */
     margin:0 10px;
     font-family: 'Roboto Mono', monospace;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.3);
+    text-align: center;
 `;
 const SPAN = styled.span`
     text-align:center;
@@ -520,7 +505,7 @@ const LI_Position = styled.li`
     white-space: pre-wrap;
    
     width: fit-centent;
-    height: fit-content;
+    /* height: fit-content; */
     margin:0 10px;
     padding-bottom: 20px;
     padding-left: 15px;
@@ -544,9 +529,7 @@ const SPAN_Position = styled.span`
 `;
 export default function Aboutus(){
     const imageRef = useRef(null);
-    const Header = dynamic(() => import('@/components/Header'), { ssr: false });
-
-
+  
     // useEffect(() => {
     //     const handleScroll = () => {
     //       const rect = imageRef.current.getBoundingClientRect();
@@ -568,93 +551,101 @@ export default function Aboutus(){
     //       window.removeEventListener('scroll', handleScroll);
     //     };
     //   }, []);
-    
+
     return(
-        <Div id="div">
-         {/* <GlobalStyles/> */}
-            
-            <Intro_container id="container">
-                <Intro0>
-                    <Empty_span>.</Empty_span>
-                    {/* <Image0 src="/pic.png"></Image0> */}
-                </Intro0>
+        <>
+            <Div id="div">
+            {/* <GlobalStyles/> */}
+                <Intro_container id="container">
+                    <Intro0>
+                        <Empty_span></Empty_span>
+                        {/* <Image0 src="/pic.png"></Image0> */}
+                    </Intro0>
 
-            <Intro1>
-                <Label>About Us</Label>
-                <Content_1>
-                    <TextArea>
-                        <Text_1_1>Welcome to <H1>Direct</H1>, </Text_1_1>
-                        <Text_1_2>
-                        an exalted realm where mobile sophistication meets a crescendo of opulence. 
-                        As your premier online destination for mobile phone accessories, our platform stands as a testament to our unwavering commitment to 
-                        Excellence, Innovation, and Customer Satisfaction.
-                        </Text_1_2>
-                    </TextArea>
-                    {/* <Image src="/pic.png"></Image> */}
-                </Content_1>
-            </Intro1>
+                    <Intro1>
+                        <Label>About Us</Label>
+                        <Content_1>
+                            <TextArea>
+                                <Text_1_1>Welcome to <H1>Direct</H1>, </Text_1_1>
+                                <Text_1_2>
+                                an exalted realm where mobile sophistication meets a crescendo of opulence. 
+                                As your premier online destination for mobile phone accessories, our platform stands as a testament to our unwavering commitment to 
+                                Excellence, Innovation, and Customer Satisfaction.
+                                </Text_1_2>
+                            </TextArea>
+                            {/* <Image src="/pic.png"></Image> */}
+                        </Content_1>
+                    </Intro1>
 
-            <Intro2 id="intro2">
-                <Label>Our Vision</Label>
-                <Content_2>
-                    <TextArea>
-                        <Text_1_2>
-                        In the symphony of technological refinement, we weave a narrative of unparalleled luxury. Our curated collection transcends the ordinary, redefining mobile perfection with each meticulously crafted accessory. Embark on a journey where Innovation takes center stage—an exploration of cutting-edge marvels that seamlessly blend form and function. Here, avant-garde meets the extraordinary, shaping a tomorrow that mirrors the pulse of innovation. Your experience is a bespoke journey, a continuous voyage where desires are not just met but exceeded, elevating satisfaction to an art form.Indulge in the zenith of mobile elegance at Direct, where every accessory is a testament to a lifestyle curated with precision and sophistication. Welcome to a world where Excellence, Innovation, and Customer Satisfaction converge, elevating your mobile experience to unparalleled heights.
-                        </Text_1_2>
-                    </TextArea>
-                        <Image_2 src="/image 3.png"></Image_2>
-                    <Bottom_2>
-                        <Bottom_Container>
-                            <OL_2>
-                                <LI_2><SPAN><SPAN_DIV>1</SPAN_DIV></SPAN>Become the go-to source for all your mobile accessory needs</LI_2>
-                                <LI_2><SPAN><SPAN_DIV>2</SPAN_DIV></SPAN>A badge of quality</LI_2>
-                                <LI_2><SPAN><SPAN_DIV>3</SPAN_DIV></SPAN>Ensuring that every product we offer is both a statement of style</LI_2>
-                            </OL_2>
-                        </Bottom_Container>
-                    </Bottom_2>
-                </Content_2>
-            </Intro2>
-            <Intro3>
-                <Label>Our Commitment</Label>
-                    <Content_3>
-                        <Left_3Container>
-                            <TextArea_3>
-                                <Text_3_1_1>With an expansive range of products including cases, 
-                                    chargers, and screen protectors, 
-                                            we are committed to offering you quality and reliability.
-                                </Text_3_1_1>
-                            </TextArea_3>
-                            <Image_3 src="\image 4.png"></Image_3>
-                        </Left_3Container>
-                        <Right_3Container>
-                                <Image_4 src="/image 5.png"></Image_4>
-                            <TextArea_3>
-                                <Text_3_1> Our user-friendly website ensures an effortless search, 
-                                    with a secure and diverse payment system to match your convenience..
-                                </Text_3_1>
-                            </TextArea_3>
-                            
-                        </Right_3Container>
-                    </Content_3>
-            </Intro3>
-            <Intro4>
-                <OL_Position>
-                   <LI_Position><SPAN_Position><SPAN_DIV_NAME>Position name??</SPAN_DIV_NAME></SPAN_Position></LI_Position>
-                   <LI_Position>
-                        <SPAN_Position><SPAN_DIV_NAME>Position name??</SPAN_DIV_NAME></SPAN_Position>
-                        <Selfi src="/Screenshot 2023-09-11 152049111.png"></Selfi><br></br>
-                            你好，大家，我曾经为了救我朋友，被驴踢。
-                        <br/><br/><cite>by Lew Kien Yew</cite>
-                    </LI_Position>
-                    <LI_Position>
-                        <SPAN_Position><SPAN_DIV_NAME>Position name??</SPAN_DIV_NAME></SPAN_Position>
-                        <Selfi src="/WhatsApp Image 2024-01-20 at 00.19.50_4fc49159.jpg"></Selfi><br></br>
-                        wo xie han yu pin yin ,lao shi ni ying gai bu zhi dao ba. ni zhe diao mao  
-                        <br/><br/><cite>by Sim Boon Xun</cite>
-                    </LI_Position>
-                </OL_Position>
-            </Intro4>
-            </Intro_container>
-        </Div>
+                    <Intro2 id="intro2">
+                        <Label>Our Vision</Label>
+                        <Content_2>
+                            <TextArea>
+                                <Text_1_2>
+                                In the symphony of technological refinement, we weave a narrative of unparalleled luxury. Our curated collection transcends the ordinary, redefining mobile perfection with each meticulously crafted accessory. Embark on a journey where Innovation takes center stage—an exploration of cutting-edge marvels that seamlessly blend form and function. Here, avant-garde meets the extraordinary, shaping a tomorrow that mirrors the pulse of innovation. Your experience is a bespoke journey, a continuous voyage where desires are not just met but exceeded, elevating satisfaction to an art form.Indulge in the zenith of mobile elegance at Direct, where every accessory is a testament to a lifestyle curated with precision and sophistication. Welcome to a world where Excellence, Innovation, and Customer Satisfaction converge, elevating your mobile experience to unparalleled heights.
+                                </Text_1_2>
+                            </TextArea>
+                                <Image_2 src="/image 3.png"></Image_2>
+                            <Bottom_2>
+                                <Bottom_Container>
+                                    <OL_2>
+                                        <LI_2><SPAN><SPAN_DIV>1</SPAN_DIV></SPAN>Become the go-to source for all your mobile accessory needs</LI_2>
+                                        <LI_2><SPAN><SPAN_DIV>2</SPAN_DIV></SPAN>A badge of quality</LI_2>
+                                        <LI_2><SPAN><SPAN_DIV>3</SPAN_DIV></SPAN>Ensuring that every product we offer is both a statement of style</LI_2>
+                                    </OL_2>
+                                </Bottom_Container>
+                            </Bottom_2>
+                        </Content_2>
+                    </Intro2>
+
+                    <Intro3>
+                        <Label>Our Commitment</Label>
+                            <Content_3>
+                                <Left_3Container>
+                                    <TextArea_3>
+                                        <Text_3_1_1>
+                                            With an expansive range of products including cases, chargers, and screen protectors, we are committed to offering you quality and reliability.
+                                        </Text_3_1_1>
+                                    </TextArea_3>
+                                    <Image_3 src="\image 4.png"></Image_3>
+                                </Left_3Container>
+                                <Right_3Container>
+                                        <Image_4 src="/image 5.png"></Image_4>
+                                    <TextArea_3>
+                                        <Text_3_1> Our user-friendly website ensures an effortless search, 
+                                            with a secure and diverse payment system to match your convenience..
+                                        </Text_3_1>
+                                    </TextArea_3>
+                                    
+                                </Right_3Container>
+                            </Content_3>
+                    </Intro3>
+
+                    <Intro4>
+                        <OL_Position>
+                            <LI_Position>
+                                <SPAN_Position><SPAN_DIV_NAME>CTO</SPAN_DIV_NAME></SPAN_Position>
+                                <Selfi src="1704338657503 (1).jpg"></Selfi><br></br>
+                                Visionary behind our e-commerce innovation, ensuring tech strategies align with excellence.
+                                <br/><br/><cite>by Looi Zi Jian</cite>
+                            </LI_Position>
+                            <LI_Position>
+                                <SPAN_Position><SPAN_DIV_NAME>CEO</SPAN_DIV_NAME></SPAN_Position>
+                                <Selfi src="/WhatsApp Image 2024-01-20 at 00.19.50_4fc49159.jpg"></Selfi><br></br>
+                                Driving force behind our company's success, ensuring our strategies reflect a commitment to excellence.
+                                <br/><br/><cite>by Sim Boon Xun</cite>
+                            </LI_Position>
+                            <LI_Position>
+                                <SPAN_Position><SPAN_DIV_NAME>CFO</SPAN_DIV_NAME></SPAN_Position>
+                                <Selfi src="/ky.jpg"></Selfi><br></br>
+                                Financial maestro ensuring robust fiscal strategies for our e-commerce excellence.
+                                <br/><br/><cite>by Lew Kien Yew</cite>
+                            </LI_Position>
+                        </OL_Position>
+                    </Intro4>
+
+                </Intro_container>
+            </Div>
+        </>
     )
 }

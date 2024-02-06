@@ -11,6 +11,8 @@ export function CartContextProvider({children}) {
     if (onCartProducts?.length > 0) {
       ls?.setItem('cart', JSON.stringify(onCartProducts));
     }
+    // console.log("local:"+ ls.getItem('cart'))
+    // console.log("oncart:"+onCartProducts);
   }, [onCartProducts]);
 
   useEffect(() => {
@@ -23,14 +25,27 @@ export function CartContextProvider({children}) {
     setOnCartProducts(prev => [...prev,productId]);
     toast.success("Added to cart!");
   }
+
   function removeProduct(productId) {
-    setOnCartProducts(prev => {
-      const pos = prev.indexOf(productId);
-      if (pos !== -1) {
-        return prev.filter((value,index) => index !== pos);
-      }
-      return prev;
-    });
+    if (onCartProducts.length ===1) {
+      ls.clear();
+      setOnCartProducts(prev => {
+        const pos = prev.indexOf(productId);
+        if (pos !== -1) {
+          return prev.filter((value,index) => index !== pos);
+        }
+        return prev;
+      });
+    }else{
+      setOnCartProducts(prev => {
+        const pos = prev.indexOf(productId);
+        if (pos !== -1) {
+          return prev.filter((value,index) => index !== pos);
+        }
+        return prev;
+      });
+    }
+    
   }
   
   function clearCart() {
