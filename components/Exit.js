@@ -20,7 +20,7 @@ const Btn = styled(Button)`
     }
 `;
 
-export default function Exit({email , amount}) {
+export default function Exit({email , amount , products , tax , ship , to}) {
     const [currentTime, setCurrentTime] = useState('');
     const [amPm, setAmPm] = useState('');
     const [day , setDay] = useState('');
@@ -57,24 +57,39 @@ export default function Exit({email , amount}) {
         DisplayTime();
         CurrentDate();
     },[]);
-      
-    emailjs.init("aQmAikkvlmMBVFXdP");
+    
+    // emailjs.init("aQmAikkvlmMBVFXdP");  // old account key yout86331
+    emailjs.init("j-pkLD5KS0uUTrmAA");  // new account key kylew
         
-    const sendMail = () => {        
-        emailjs.send("service_7xsu58o","template_dx06ebh", {
+    const sendMail = () => {
+        const productDetails = products.map(product => ({
+            name: product.name,
+            quantity: product.quantity,
+            price: (product.price).toFixed(2),
+            total: (product.price * product.quantity).toFixed(2),
+            image: product.images[0]
+        }));
+
+        // emailjs.send("service_7xsu58o","template_dx06ebh" , {   // old account yout86331
+        emailjs.send("service_w6z7h4s","template_vtagjle", {    // new account kylew
             email: email,
-            amount: amount,
+            to: to,
+            amount: (amount).toFixed(2),
             day: day,
             month: month,
             year: year,
             time: currentTime,
-            ap: amPm
+            ap: amPm,
+            products: productDetails,
+            tax: tax,
+            taxAmount: (amount*(tax/100)).toFixed(2),
+            ship: ship.toFixed(2)
         }).then(() => {
             toast.success("Pls check your email. Thank You !");
+            setTimeout(() => {
+                window.location = "/";
+            }, 2000);
         });
-
-        console.log(`Date / Time : ${day} ${month} ${year} ${currentTime} ${amPm}`);
-        // console.log("Date / Time : " + day + month + year + " " + time + ampm);
     };
 
     return(

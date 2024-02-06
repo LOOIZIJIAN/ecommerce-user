@@ -158,7 +158,7 @@ const Card_typeicon = styled.div`
     justify-content: flex-end ;
     align-items: center;
     flex-direction: row;
-    // background: #ffecb3;
+    background-color: transparent;
 `;
 
 const Card_del = styled.button`
@@ -169,18 +169,12 @@ const Card_del = styled.button`
     border-radius:5px;
     width: 30px;
     height: 30px;
-    &:hover{
-        background-color: #343A40;
-    }
+    background-color: transparent;
 `;
 const Icon_x = styled.img`
     scale: 0.8;
     cursor: pointer;
     border-radius: 4px;
-    &:hover{
-        background-color: #343A40;
-        content: url('AfterLogin/delete_white.png');
-    }
 `;
 const Card_info = styled.div`
     /* flex:1 1 auto; */
@@ -383,14 +377,13 @@ const Button_Close = styled.button`
     }
     position: fixed;
     z-index:2;
-    transform: translateX(-295px) translateY(-52px);
+    transform: translateX(-400px) translateY(-40px);
 `;
 
 export default function Profile() {
-
-    
     const [modal, setModal] = useState(false)
-      
+    const [iconSrc, setIconSrc] = useState("icon/delete.png");
+
     const toggleModal = () =>{
         setModal(!modal);
     }
@@ -403,29 +396,73 @@ export default function Profile() {
             document.body.style.overflow = 'visible';
           }
         }
-      }, [modal]);
+    }, [modal]);
     
       
-    const [cards, setCards] = useState([
-        // Initialize with existing cards if any
-        // Example:
-        { cardType: "Master Card", cardNumber: "**** **** **** 1234", expireDate: "8/29" },
-      ]);
-    
-        const handleAddCard = (newCard) => {
-          setCards([...cards, newCard]);
-          toggleModal();
-        };
+    const [cards, setCards] = useState([]);
+    const [previousCard, setPreviousCard] = useState([]);
 
-        const handleDeleteCard = (index) => {
-            // 复制当前的卡片数组
-            const updatedCards = [...cards];
-            // 根据索引删除对应的卡片
-            updatedCards.splice(index, 1);
-            // 更新卡片数组
-            setCards(updatedCards);
-          };
+    useEffect(() => {
+        const CrdCon = document.getElementById("crdCon");
+        
+        if (CrdCon) {
+            CrdCon.style.display = 'none';
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const cardNumber = urlParams.get('cardNumber');
+        const expireDate = urlParams.get('expireDate');
+
+        if (cardNumber && expireDate) {
+            if (CrdCon) {
+                CrdCon.style.display = 'block';
+            }
+
+            const newCard = {
+                cardType: 'Master Card',
+                cardNumber: cardNumber,
+                expireDate: expireDate,
+            };
+
+            setCards(() => [previousCard , newCard]);
+            setPreviousCard(() => [cards]);
+
+            setTimeout(() => {
+                const newUrl = window.location.href.split('?')[0];
+                window.history.pushState({}, '', newUrl.toString());
+            },100);
+        }
+    }, [cards]);
+
+    const handleAddCard = (newCard) => {
+        toggleModal();
+    };
+
+    const handleDeleteCard = (index) => {
+        // 复制当前的卡片数组
+        const updatedCards = [...cards];
+        // 根据索引删除对应的卡片
+        updatedCards.splice(index, 1);
+        // 更新卡片数组
+        setCards(updatedCards);
+    };
     
+    // Modify the maskCardNumber function to show asterisks for the first 12 digits
+    const maskCardNumber = (fullCardNumber) => {
+        const visibleDigits = 4; // Number of visible digits
+    
+        if (!fullCardNumber || typeof fullCardNumber !== 'string') {
+            return ''; // or any other default value
+        }
+    
+        if (fullCardNumber.length <= visibleDigits) {
+            return '* '.repeat(fullCardNumber.length);
+        }
+    
+        const maskedPart = '*'.repeat(fullCardNumber.length - visibleDigits);
+        return maskedPart + fullCardNumber.slice(-visibleDigits);
+    };
+
     return (
         <div>
             <Header />
@@ -444,23 +481,23 @@ export default function Profile() {
                             <Modal onSave={handleAddCard}></Modal>
                             <Button_Close onClick={toggleModal}>&times;</Button_Close>
                             </div>
-                            )}
+                        )}
                         
                         </Right_title>
                     </CartTop>
                     
                     <CartDet>
                         {cards.map((card, index) => (
-                        <CardContainer key={index}>
+                        <CardContainer key={index} id='crdCon'>
 
                             <Card_typeicon>
-                                <Icon_x src="Item/card.png"></Icon_x>
+                                <Icon_x src="icon/card.png" style={{cursor: "default"}}></Icon_x>
                             </Card_typeicon>
 
                             <Card_info>   
                                 <Card_type>
                                     <Card_typetitle>{card.cardType}</Card_typetitle>
-                                    <Card_number id="card_number">{card.cardNumber}</Card_number>
+                                    <Card_number id="card_number">{maskCardNumber(card.cardNumber)}</Card_number>
                                 </Card_type>
 
                                 <Card_expdate>
@@ -470,7 +507,17 @@ export default function Profile() {
                             </Card_info>
 
                             <Card_del>
-                                <Icon_x src="AfterLogin/delete.png" alt="default" id="delete" onClick={() => handleDeleteCard(index)}></Icon_x>
+                                <Icon_x src={iconSrc} alt="default" id="delete" title='Delete'
+                                    onClick={() => handleDeleteCard(index)}
+                                    onMouseOver={() => {
+                                        setIconSrc("icon/delete2.png");
+                                        document.getElementById("delete").style.filter = "brightness(0)";
+                                    }}
+                                    onMouseOut={() => {
+                                        setIconSrc("icon/delete.png");
+                                        document.getElementById("delete").style.filter = "none";
+                                    }}
+                                ></Icon_x>
                             </Card_del>
                         </CardContainer>
                         ))}

@@ -11,8 +11,8 @@ export function CartContextProvider({children}) {
     if (onCartProducts?.length > 0) {
       ls?.setItem('cart', JSON.stringify(onCartProducts));
     }
-    console.log("local:"+ ls.getItem('cart'))
-    console.log("oncart:"+onCartProducts);
+    // console.log("local:"+ ls.getItem('cart'))
+    // console.log("oncart:"+onCartProducts);
   }, [onCartProducts]);
 
   useEffect(() => {
