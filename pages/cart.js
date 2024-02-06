@@ -97,6 +97,7 @@ export default function CartPage() {
   const [country,setCountry] = useState('');
   const [isSuccess,setIsSuccess] = useState(false);
   const {data: session} = useSession();
+  const [inputEmail, setInputEmail] = useState('');
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -150,6 +151,10 @@ export default function CartPage() {
   let ft = (total+Shipping+(total*(Tax/100)));
 
   if (isSuccess) {
+
+    const queryParams = new URLSearchParams(window.location.search);
+    const originalEmail = decodeURIComponent(queryParams.get('email'));
+    
     return (
       <>
         <Header />
@@ -158,7 +163,19 @@ export default function CartPage() {
             <Box>
               <H>Thanks for your order !</H>
               <P>We will email you when your order is sent.</P>
-              <Exit email={account} amount={total} />
+              <Exit 
+                email={account} 
+                amount={ft} 
+                products={products.map(product => ({
+                  images: product.images,
+                  name: product.title,
+                  price: product.price,
+                  quantity: onCartProducts.filter(id => id === product._id).length
+                }))}
+                tax={Tax}
+                ship={Shipping}
+                to={originalEmail}
+              />
             </Box>
           </ColumnsWrapper>
         </Center>
@@ -248,8 +265,7 @@ export default function CartPage() {
                      placeholder="Email"
                      value={email}
                      name="email"
-                     onChange={ev => setEmail(ev.target.value)}
-                    />
+                     onChange={ev => setEmail(ev.target.value)}/>
               <CityHolder>
                 <Input type="text"
                        placeholder="City"

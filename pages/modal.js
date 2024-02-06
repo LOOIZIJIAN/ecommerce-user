@@ -14,8 +14,9 @@ const Dlog = styled.div`
   z-index:999;
   position : fixed;
   inset: 0;
-  margin-left: 500px;
-  transform: translateY(15%);
+  margin-left: auto;
+  margin-right: auto;
+  transform: translateY(18%);
   z-index:999;
 `;
 const Content = styled.div`
@@ -349,112 +350,139 @@ const Card_Bill_H3 = styled.h3`
 // `;
 export default function Modal({onSave}) {
 
+  const [cardNumber, setCardNumber] = useState('');
+  const [expireDate, setExpireDate] = useState('');
+  const [nameOnCard, setNameOnCard] = useState('');
+
+  const handleNameOnCardChange = (e) => {
+    setNameOnCard(e.target.value);
+  };
+
 //----------------cvvShowDialog--------------------------------
   const [modal, setModal] = useState(false)
   const toggleModal = () =>{
     setModal(!modal);
   }
 
-    const CvvseparateRef = useRef(null);
-    const CVV = useRef(null);
+  const CvvseparateRef = useRef(null);
+  const CVV = useRef(null);
+  
   useEffect(() => {
     const cvv_separate = CvvseparateRef.current;
     const cvv_input = CVV.current;
 
     if(cvv_separate) {
-    cvv_input.addEventListener("focus", function () {
-      cvv_separate.style.outline = "1px ridge #212529";
-    });
+      cvv_input.addEventListener("focus", function () {
+        cvv_separate.style.outline = "1px ridge #212529";
+      });
 
-    cvv_input.addEventListener("blur", function () {
-      cvv_separate.style.outline = "none";
-    });
+      cvv_input.addEventListener("blur", function () {
+        cvv_separate.style.outline = "none";
+      });
     }
-}, []);
+  }, []);
 
-    useEffect(() => {
-      const cardNumberInput = document.getElementById("cardnumber");
-      cardNumberInput.addEventListener("input", function () {
-        this.value = this.value.replace(/\s/g, '').replace(/([0-9a-zA-Z]{4})(?=\d)/g, "$1-");
+  useEffect(() => {
+    const cardNumberInput = document.getElementById("cardnumber");
+    cardNumberInput.addEventListener("input", function () {
+      this.value = this.value.replace(/\s/g, '').replace(/([0-9a-zA-Z]{4})(?=\d)/g, "$1-");
     
-        const inputValue = this.value;
-        if (/[a-zA-Z]/.test(inputValue)) {
-          alert("Please enter only digits (0-9).");
-          this.value = inputValue.replace(/[a-zA-Z]/g, '');
-        }
-      });
+      const inputValue = this.value;
+      if (/[a-zA-Z]/.test(inputValue)) {
+        alert("Please enter only digits (0-9).");
+        this.value = inputValue.replace(/[a-zA-Z]/g, '');
+      }
+    });
+    setCardNumber(cardNumberInput); // here
     
-      const expireDateInput = document.getElementById("expiredate");
-      expireDateInput.addEventListener("input", function () {
-        this.value = this.value.replace(/\s/g, '').replace(/([0-9a-zA-Z]{2})(?=\d)/g, "$1/");
+    const expireDateInput = document.getElementById("expiredate");
+    expireDateInput.addEventListener("input", function () {
+      this.value = this.value.replace(/\s/g, '').replace(/([0-9a-zA-Z]{2})(?=\d)/g, "$1/");
     
-        const inputValue = this.value;
-        if (/[a-zA-Z]/.test(inputValue)) {
-          alert("Please follow the formal format (MM/YY).");
-          this.value = inputValue.replace(/[a-zA-Z]/g, '');
-        }
+      const inputValue = this.value;
+      if (/[a-zA-Z]/.test(inputValue)) {
+        alert("Please follow the formal format (MM/YY).");
+        this.value = inputValue.replace(/[a-zA-Z]/g, '');
+      }
     
-        const mmPart = inputValue.substring(0, 2);
-        if (parseInt(mmPart) > 12) {
-          alert("Please enter a valid month (01-12).");
-          this.value = inputValue.replace(/^[0-9]*$/, '');
-        }
-      });
-    }, []);
-    
-    
-      const [newCard, setNewCard] = useState({
-        cardType: "Master Card", // You can set the initial values as needed
-        cardNumber: "",
-        expireDate: "",
-        cvv: "",
-        nameOnCard: "",
-        address: "",
-        postalCode: "",
-      });
-    
-      // const handleSave = () => {
-      //   // Validate the input fields if needed
-    
-      //   // Call the onSave callback and pass the newCard information
-      //   onSave(newCard);
-      // };
+      const mmPart = inputValue.substring(0, 2);
+      if (parseInt(mmPart) > 12) {
+        alert("Please enter a valid month (01-12).");
+        this.value = inputValue.replace(/^[0-9]*$/, '');
+      }
+    });
+    setExpireDate(expireDateInput); // here
 
-      const [requiredFields, setRequiredFields] = useState({
-        cardNumber: true,
-        expireDate: true,
-        cvv: true,
-        nameOnCard: true,
-        address: true,
-        postalCode: true,
-      });
+  }, []);
     
-      const validateFields = () => {
-        const fields = { ...requiredFields };
-        let isValid = true;
     
-        Object.keys(fields).forEach(field => {
-          const value = newCard[field].trim();
-          fields[field] = value !== '';
-          if (!fields[field]) {
-            isValid = false;
-          }
-        });
+  const [newCard, setNewCard] = useState({
+    cardType: "Master Card", // You can set the initial values as needed
+    cardNumber: "",
+    expireDate: "",
+    cvv: "",
+    nameOnCard: "",
+    address: "",
+    postalCode: "",
+  });
     
-        setRequiredFields(fields);
-        return isValid;
-      };
+  // const handleSave = () => {
+  //   // Validate the input fields if needed
     
-      const handleSave = () => {
-        if (validateFields()) {
-          // 所有必填字段都已填写，可以执行保存操作
-          onSave(newCard);
-          // 关闭模态框等操作
-        }
-      };
+  //   // Call the onSave callback and pass the newCard information
+  //   onSave(newCard);
+  // };
+
+  const [requiredFields, setRequiredFields] = useState({
+    cardNumber: true,
+    expireDate: true,
+    cvv: true,
+    nameOnCard: true,
+    address: true,
+    postalCode: true,
+  });
     
-   
+  const validateFields = () => {
+    const fields = { ...requiredFields };
+    let isValid = true;
     
+    Object.keys(fields).forEach(field => {
+      const value = newCard[field].trim();
+      fields[field] = value !== '';
+      if (!fields[field]) {
+        isValid = false;
+      }
+    });
+    
+    setRequiredFields(fields);
+    return isValid;
+  };
+    
+  const handleSave = () => {
+    const cardNumberValue = cardNumber.value.replace(/\s/g, '');
+    const expireDateValue = expireDate.value.replace(/\s/g, '');
+    const nameOnCardValue = nameOnCard.trim();
+
+    // Construct query parameters
+    const queryParams = new URLSearchParams();
+    queryParams.set('cardNumber', cardNumberValue);
+    queryParams.set('expireDate', expireDateValue);
+
+    // Get the current URL
+    const currentURL = window.location.href;
+
+    // Update the URL with query parameters
+    const newURL = `${currentURL}?${queryParams.toString()}`;
+    window.history.replaceState({}, '', newURL);
+
+    if (validateFields()) {
+      // 所有必填字段都已填写，可以执行保存操作
+      onSave(newCard);
+      // 关闭模态框等操作
+    }
+  };
+    
+  
   return (
     <div>
       <GlobalStyles />
@@ -462,7 +490,7 @@ export default function Modal({onSave}) {
       <Dlog >
         
         <Dialog_full_container>
-          <form id="addCardForm">
+          <form id="addCardForm" method='post'>
           <Addcardtitle>
             <Title>Add card</Title>
           </Addcardtitle>
@@ -507,7 +535,8 @@ export default function Modal({onSave}) {
                   )}
               </Cvv_Separate>
             </Rowinput>
-            <StyledInput type="text" class="name_card" placeholder="Name on Card" required></StyledInput>
+            <StyledInput type="text" class="name_card" placeholder="Name on Card" value={nameOnCard}
+            onChange={handleNameOnCardChange} required></StyledInput>
           </Card_details_info>
           </Card_details>
           </Card_details_container>
