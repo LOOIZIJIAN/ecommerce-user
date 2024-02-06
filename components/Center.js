@@ -8,7 +8,7 @@ const StyledDiv = styled.div`
   flex-direction: row;
   /* align-items: center; */
   justify-content: center;
-  background-color: #ffffff;
+  background-color: #E9ECEF;
 `;
 
 export default function Center({children}) {
