@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Modal from "./modal";
 import Header from '@/components/Header';
 import LeftSetting from '@/components/LeftSetting';
+import { useSession } from "next-auth/react";
 
 const Container = styled.div`
   margin-top: -30px;
@@ -463,9 +464,20 @@ export default function Profile() {
         return maskedPart + fullCardNumber.slice(-visibleDigits);
     };
 
+    const {data: session} = useSession();
+
+    if (!session) {
+        return(
+            <>
+                <Header session={false}/>
+                <p style={{placeItems: 'center' , backgroundColor: 'red'}}>Sorry, your session was time out. Pls login again</p>
+            </>
+        )
+    }
+    
     return (
         <div>
-            <Header />
+            <Header session={true}/>
             <Container>
                 <LeftSetting />
                 <CartCon>
