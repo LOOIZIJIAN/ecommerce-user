@@ -26,7 +26,7 @@ const Left = styled.div`
 const Right = styled.div`
     flex-grow:1;
 `;
-const CurrentImage = styled.img`\
+const CurrentImage = styled.img`
 
 `;
 const Left_side_Container = styled.div`
