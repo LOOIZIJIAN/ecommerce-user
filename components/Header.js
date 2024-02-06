@@ -6,6 +6,7 @@ import axios from "axios";
 import dynamic from 'next/dynamic';
 import { IoLogOutOutline } from "react-icons/io5";
 import { signOut, useSession } from "next-auth/react";
+import { FaRegUser } from "react-icons/fa";
 
 const GiShoppingCart = dynamic(() => import('react-icons/gi').then((module) => module.GiShoppingCart), {
   loading: () => <span>Loading...</span>,
@@ -476,6 +477,11 @@ const DropBtn2 = styled.button` // New styled component
   }
 
 `;
+const UserIcon = styled(FaRegUser)`
+  width: 35px;
+  height: 35px;
+  color: white;
+`;
 
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
@@ -631,34 +637,6 @@ export default function Header() {
         {/* Screen Width be small then it will function > End < */}
 
         <RightCol>
-          {/* Search Input Start */}
-          {/* <Search>
-            <Input
-              placeholder="Type to search..."
-              value={searchInput}
-              onChange={(ev) => {
-                setSearchInput(ev.target.value);
-                setShowList(true);
-              }}
-            />
-
-            {showList && (
-              <ErrorMss>
-                <ResultCon>
-                  {filteredP.length > 0 ? (
-                    filteredP.map((f) => (
-                      <SearchResultBtn key={f._id}>
-                        <DropA href={`/product/${f._id}`}>{f.title}</DropA>
-                      </SearchResultBtn>
-                    ))
-                  ) : (
-                    <NotFBtn>Not Found</NotFBtn>
-                  )}
-                </ResultCon>
-              </ErrorMss>
-            )}
-          </Search> */}
-
           <Search>
           <Input
               placeholder="Type to search..."
@@ -695,17 +673,14 @@ export default function Header() {
             </A_search>
           </Search>
 
-
-          {/* <Span>
-            <SearchIcon
-              src="/Search_Icon.png"
-              alt="Search Icon Error"
-              title="Search">
-
-              </SearchIcon>
-           
-          </Span> */}
-
+          {!session && router.pathname !== '/' ? (
+            <div>
+              <CartBtn onClick={() => router.push("/")} title="Login">
+                <UserIcon />
+              </CartBtn>
+            </div>
+          ) : null}
+          
           {session && (
             <div>
               <CartBtn onClick={() => router.push("/cart")}>
