@@ -9,6 +9,7 @@ import Table from "@/components/Table";
 import Input from "@/components/Input";
 import { useSession } from "next-auth/react";
 import Exit from "@/components/Exit";
+import SessionOut from '@/components/SessionOut';
 
 const ColumnsWrapper = styled.div`
   display: flex;
@@ -150,6 +151,12 @@ export default function CartPage() {
 
   let ft = (total+Shipping+(total*(Tax/100)));
 
+  if (!session) {
+    return(
+        <><SessionOut /></>
+    )
+  }
+
   if (isSuccess) {
 
     const queryParams = new URLSearchParams(window.location.search);
@@ -236,12 +243,6 @@ export default function CartPage() {
                     <td style={{textAlign: 'end' , paddingRight: '15px' , borderTop: 'none'}}>Shipping Fee</td>
                     <td style={{borderTop: 'none'}}>$ {Shipping.toFixed(2)}</td>
                   </tr>
-
-                  {/* <tr style={{height: '30px'}}>
-                    <td style={{borderTop: 'none'}}></td>
-                    <td style={{textAlign: 'end' , paddingRight: '15px' , borderTop: 'none'}}>Tax ({Tax}%)</td>
-                    <td style={{borderTop: 'none'}}>$ {(total*(Tax/100)).toFixed(2)}</td>
-                  </tr> */}
 
                   <tr style={{height: '30px'}}>
                     <td></td>

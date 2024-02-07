@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Modal from "./modal";
 import Header from '@/components/Header';
 import LeftSetting from '@/components/LeftSetting';
+import { useSession } from "next-auth/react";
+import SessionOut from '@/components/SessionOut';
 
 const Container = styled.div`
   margin-top: -30px;
@@ -379,7 +381,6 @@ const Button_Close = styled.button`
     z-index:2;
     transform: translateX(-400px) translateY(-40px);
 `;
-
 export default function Profile() {
     const [modal, setModal] = useState(false)
     const [iconSrc, setIconSrc] = useState("icon/delete.png");
@@ -447,7 +448,6 @@ export default function Profile() {
         setCards(updatedCards);
     };
     
-    // Modify the maskCardNumber function to show asterisks for the first 12 digits
     const maskCardNumber = (fullCardNumber) => {
         const visibleDigits = 4; // Number of visible digits
     
@@ -463,9 +463,17 @@ export default function Profile() {
         return maskedPart + fullCardNumber.slice(-visibleDigits);
     };
 
+    const {data: session} = useSession();
+
+    if (!session) {
+        return(
+            <><SessionOut /></>
+        )
+    }
+    
     return (
         <div>
-            <Header />
+            <Header session={true}/>
             <Container>
                 <LeftSetting />
                 <CartCon>
