@@ -233,6 +233,7 @@ const Price = styled.div`
   color: #000;
   // margin-right: 15px;
   z-index:2;
+  cursor: pointer;
   @media screen and (min-width: 768px) {
     font-size: 1.2rem;
     font-weight:600;
@@ -385,32 +386,28 @@ export default function Categories({product, cate}) {
             {product.map(p=>(
               <Item>
                 <A href={`/product/${p._id}`}>
-                  <ItemImg src={p.images} alt="Item Image" />
+                  <ItemImg src={p.images} alt="Item Image" onClick={() => router.push(`/product/${p._id}`)} />
                 </A>
                 <ItemTxtCon>
-                  <DetailCon>
+                  <DetailCon onClick={() => router.push(`/product/${p._id}`)}>
                     <H2>{p.title}</H2>
                     <Price>${p.price}</Price>
                   </DetailCon>
 
                   <OtherCon>
-                <Button onClick={() => CheckSess(p._id)} cate style={{width: '100%' , height: '100%'}}>
-                 <CartIcon/> Add to cart
-                </Button>
+                    <Button onClick={() => CheckSess(p._id)} cate style={{width: '100%' , height: '100%'}}>
+                      <CartIcon/> Add to cart
+                    </Button>
 
-                <span style={{width: '10px'}}></span>
-                
-                {/* onChange value 0 can change to take value from database to decide it color of the like icon */}
-                <RightBtn type="button" onClick={() => changeIcon(p._id)} onChange={showIcon(p._id , 0)}>
-                  <PinkLike id={`pinkLike_${p._id}`} />
-                  <RedLike id={`redLike_${p._id}`} />
-                </RightBtn>
-
-              </OtherCon>
+                    <span style={{width: '10px'}} onClick={() => router.push(`/product/${p._id}`)}></span>
+                    {/* onChange value 0 can change to take value from database to decide it color of the like icon */}
+                    <RightBtn type="button" onClick={() => changeIcon(p._id)} onChange={showIcon(p._id , 0)}>
+                      <PinkLike id={`pinkLike_${p._id}`} />
+                      <RedLike id={`redLike_${p._id}`} />
+                    </RightBtn>
+                  </OtherCon>
                 </ItemTxtCon>
-
-            </Item>
-            
+              </Item>
             ))}
             
           </CartItem>
