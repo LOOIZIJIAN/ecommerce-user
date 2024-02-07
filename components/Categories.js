@@ -1,15 +1,13 @@
 import styled from "styled-components";
-import CategoryLeft from "@/components/CategoryLeft";
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import Button from "./Button";
 import { CartContext } from "./CartContext";
 import { FcLikePlaceholder, FcLike } from 'react-icons/fc';
 import CartIcon from "./icons/CartIcon";
 import { AiOutlineFileSearch } from "react-icons/ai";
-
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 // Cart Top Start
 const CartCon = styled.div`
@@ -51,7 +49,7 @@ const CartItem = styled.div`
   margin: 12px 10px 25px 10px;
 `;
 
-const A = styled.a`
+const A = styled(Link)`
   text-decoration: none;
   color: black;
   cursor: default;
@@ -384,32 +382,31 @@ export default function Categories({product, cate}) {
 
             {product.map(p=>(
               <Item>
-                <A href={`/product/${p._id}`}>
-                  <ItemImg src={p.images} alt="Item Image" />
-                </A>
-                <ItemTxtCon>
-                  <DetailCon>
-                    <H2>{p.title}</H2>
-                    <Price>${p.price}</Price>
-                  </DetailCon>
+                  <A href={`/product/${p._id}`}>
+                    <ItemImg src={p.images} alt="Item Image" />
+                  </A>
+                  <ItemTxtCon>
+                    <DetailCon>
+                      <H2>{p.title}</H2>
+                      <Price>${p.price}</Price>
+                    </DetailCon>
 
-                  <OtherCon>
-                <Button onClick={() => CheckSess(p._id)} cate style={{width: '100%' , height: '100%'}}>
-                 <CartIcon/> Add to cart
-                </Button>
+                    <OtherCon>
+                      <Button onClick={() => CheckSess(p._id)} cate style={{width: '100%' , height: '100%'}}>
+                        <CartIcon/> Add to cart
+                      </Button>
 
-                <span style={{width: '10px'}}></span>
-                
-                {/* onChange value 0 can change to take value from database to decide it color of the like icon */}
-                <RightBtn type="button" onClick={() => changeIcon(p._id)} onChange={showIcon(p._id , 0)}>
-                  <PinkLike id={`pinkLike_${p._id}`} />
-                  <RedLike id={`redLike_${p._id}`} />
-                </RightBtn>
+                      <span style={{width: '10px'}}></span>
+                      
+                      {/* onChange value 0 can change to take value from database to decide it color of the like icon */}
+                      <RightBtn type="button" onClick={() => changeIcon(p._id)} onChange={showIcon(p._id , 0)}>
+                        <PinkLike id={`pinkLike_${p._id}`} />
+                        <RedLike id={`redLike_${p._id}`} />
+                      </RightBtn>
 
-              </OtherCon>
-                </ItemTxtCon>
-
-            </Item>
+                    </OtherCon>
+                  </ItemTxtCon>           
+              </Item>
             
             ))}
             
