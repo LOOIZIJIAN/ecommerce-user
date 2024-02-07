@@ -153,7 +153,7 @@ const PrtBtn = styled.button`
     }
 `;
 
-const purchaseHistoryData = [
+const purchaseHistoryData = [   // while have link to database , delete this 
     { id: 1, item: 'Iphone 15 Pro Max', qty: 1, price: 1399, paymentStatus: true },
     { id: 2, item: 'Samsung Galaxy S22', qty: 2, price: 999, paymentStatus: false },
     { id: 3, item: 'MacBook Pro 2022', qty: 1, price: 2499, paymentStatus: true },
@@ -299,7 +299,7 @@ export default function PurchaseHistory() {
                             <HistoryTitle>Payment Status</HistoryTitle>
                         </HistoryTitleCon>
 
-                        {purchaseHistoryData.map((item, index) => (
+                        {purchaseHistoryData.map((item, index) => ( // change to purchaseHistory , because purchaseHistoryData is for example show the data only
                             <HistoryCon key={index}>
                                 <HText style={{width: '5%'}}>{index+1}</HText>
                                 <HText style={{width: '35%' , textAlign: 'left' , justifyContent: 'left'}}>{item.item}</HText>
