@@ -35,6 +35,13 @@ const H3 = styled.h3`
 `;
 const Ul = styled.ul`
 	margin-top: 16px;
+    list-style-type: none;
+    padding-left: 0px;
+    // padding-inline-start: 0;
+
+`;
+const LI = styled.li`
+    margin-bottom: 16px;
 `;
 const A = styled(Link)`
     font-size: 14px;
@@ -47,7 +54,9 @@ const A = styled(Link)`
         color: black;
     }
 `;
-const First = styled.div``;
+const First = styled.div`
+    margin-left: 20px;
+`;
 const Right = styled.div`
     width: 45%;
     height: 0%;
@@ -159,7 +168,7 @@ const Btn = styled.button`
 `;
 const Table = styled.table`
     width: 100%;
-    margin-left: 32px;
+    // margin-left: 32px;
     font-size: 14px;
     line-height: 24px;
     color: rgb(75 85 99);
@@ -266,24 +275,24 @@ export default function Footer() {
                 <First>
                     <H3>Menu</H3>
                     <Ul role="list">
-                        <li><A href={'/'}>Home</A></li>
-                        <li><A href={'aboutus'}>About Us</A></li>
+                        <LI><A href={'/'}>Home</A></LI>
+                        <LI><A href={'aboutus'}>About Us</A></LI>
                         {!session && (
                             <>
-                                <li><A href={'register'}>Sign up</A></li>
-                                <li><A href={'/'}>Login</A></li>
+                                <LI><A href={'register'}>Sign up</A></LI>
+                                <LI><A href={'/'}>Login</A></LI>
                             </>
                         )}
-                        {session && <li><A href={'cart'}>Shopping Cart</A></li>}
+                        {session && <LI><A href={'cart'}>Shopping Cart</A></LI>}
                     </Ul>
                 </First>
 
                 <First>
                     <H3>Products</H3>
                     <Ul role="list">
-                        <li><A href={'products'}>All Products</A></li>
+                        <LI><A href={'products'}>All Products</A></LI>
                         {parents.map((p) => (
-                            <li><A href={`/category/${p._id}`}>{p.name}</A></li>
+                            <LI><A href={`/category/${p._id}`}>{p.name}</A></LI>
                         ))}
                     </Ul>
                 </First>
