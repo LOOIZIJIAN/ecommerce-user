@@ -10,6 +10,8 @@ import Input from "@/components/Input";
 import { useSession } from "next-auth/react";
 import Exit from "@/components/Exit";
 import SessionOut from '@/components/SessionOut';
+import { mongooseConnect } from "@/lib/mongoose";
+import { Category } from "@/models/Category";
 
 const ColumnsWrapper = styled.div`
   display: flex;
@@ -86,7 +88,7 @@ const CityHolder = styled.div`
   gap: 5px;
 `;
 
-export default function CartPage() {
+export default function CartPage({fetchedCategory}) {
   const {onCartProducts,addProduct,removeProduct,clearCart} = useContext(CartContext);
   const [products,setProducts] = useState([]);
   const [account, setAccount] = useState('');
@@ -164,7 +166,7 @@ export default function CartPage() {
     
     return (
       <>
-        <Header />
+        <Header fetchedCategory={fetchedCategory}/>
         <Center>
           <ColumnsWrapper>
             <Box>
@@ -191,7 +193,7 @@ export default function CartPage() {
   }
   return (
     <>
-      <Header />
+      <Header fetchedCategory={fetchedCategory}/>
       <Center>
         <ColumnsWrapper>
           <Box>
@@ -299,4 +301,14 @@ export default function CartPage() {
       </Center>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  await mongooseConnect();
+  const fetchedCategory = await Category.find();
+  return {
+    props: {
+      fetchedCategory: JSON.parse(JSON.stringify(fetchedCategory)),
+    },
+  };
 }

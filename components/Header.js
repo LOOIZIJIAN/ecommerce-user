@@ -324,6 +324,8 @@ const NotFBtn = styled.button`
 
   &:hover {
     background-color: #2f3640;
+    color: white;
+    font-weight: 500;
 
     ${DropA} {
       color: white;
