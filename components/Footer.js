@@ -235,14 +235,14 @@ export default function Footer() {
 
     const {data: session} = useSession();
 
-    emailjs.init("0M1fdmyHbFTRLH2SI");
+    emailjs.init("j-pkLD5KS0uUTrmAA"); // kylew.codenection
 
     const [formData, setFormData] = useState({email: ''});
 
     const sendMail = (e) => {
         e.preventDefault();
     
-        emailjs.send("service_n7raozq","template_vjogkes", formData)
+        emailjs.send("service_w6z7h4s","template_us97zio", formData)
             .then(() => {
                 toast.success("You're Now Subscribed. Thank You !");
             })
