@@ -94,11 +94,19 @@ const Span2 = styled.span`
   }
 `;
 
-const SharedSpan = styled(Span)`
+const SharedSpan = styled.a`
+  width: fit-content;
+  height: 18px;
+  color: rgba(222, 226, 230, 0.6);
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
   cursor: pointer;
 
   &:hover {
     color: #fff;
+    text-decoration: underline;
   }
 `;
 
@@ -270,7 +278,7 @@ export default function Login() {
         />
         <MiniCon>
           <ColCon>
-            <SharedSpan>Forgot Password</SharedSpan>         
+            <SharedSpan href="#">Forgot Password</SharedSpan>      
             <Span>
               New User?{" "}
               <Span2>
