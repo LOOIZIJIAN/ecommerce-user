@@ -2,19 +2,18 @@ import { mongooseConnect } from "@/lib/mongoose";
 import { User } from "@/models/User";
 import { NextResponse } from "next/server";
 import bcrypt from 'bcryptjs'
-
-export default async function handler(req, res){
+export default async function handler(req, res) {
   await mongooseConnect();
 
-  if (req.method !== 'POST') {
-    res.json('should be a POST request');
+  if (req.method !== 'POST' && req.method !== 'PUT') {
+    res.json('should be a POST or PUT request');
     return;
   }
 
   if (req.method === 'POST') {
-    const { username, email, password } = req.body;
+    const { username, email, password, otp } = req.body;
   
-    if (!username || !email || !password) {
+    if (!username || !email || !password || !otp) {
       return new NextResponse('Missing Fields', { status: 400 });
     }
   
@@ -28,10 +27,10 @@ export default async function handler(req, res){
     const register = await User.create({
       username,
       email,
-      hashedPassword: hashedPassword,
+      hashedPassword: hashedPassword, // Assuming your model expects 'password' field
+      otp,
     });
   
     res.json(register);
   }
-  
 }
