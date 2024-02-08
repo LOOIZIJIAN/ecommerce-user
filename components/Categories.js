@@ -353,34 +353,7 @@ export default function Categories({product, cate}) {
 
         
           <CartItem>
-           
-             {/* {product.map(p=>(
-              <Item>
-              <A href={`/product/${p._id}`}>
-                <ItemImg src={p.images} alt="Item Image" />
-                <ItemTxtCon>
-                 
-                  <DetailCon>
-                    <H2>{p.title}</H2>
-                    <Price>${p.price}</Price>
-                  </DetailCon>
-                 
-                
-              <OtherCon>
-                <Button onClick={() => addProduct(p._id)} cate> {/* added p. */}
-                 {/* <CartIcon/> Add to cart
-                </Button>
-                <RightBtn href="#">
-                  <FcLikePlaceholder />
-                </RightBtn>
-              </OtherCon>
-              </ItemTxtCon> */}
-              
-              {/* </A>
-            </Item> */}
-            
-            
-
+                        
             {product.map(p=>(
               <Item>
                 <A href={`/product/${p._id}`}>

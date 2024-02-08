@@ -76,11 +76,11 @@ const ColCon = styled.div`
 `;
 
 const Span = styled.span`
-  width: 126px;
+  width: 150px;
   height: 18px;
   color: rgba(222, 226, 230, 0.6);
   font-family: Poppins;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 400;
   padding-right: 100px;
 `;
@@ -94,7 +94,8 @@ const Span2 = styled.span`
   }
 `;
 
-const SharedSpan = styled.a`
+
+const SharedSpan = styled(Link)`
   width: fit-content;
   height: 18px;
   color: rgba(222, 226, 230, 0.6);
@@ -103,9 +104,10 @@ const SharedSpan = styled.a`
   font-weight: 400;
   text-decoration: none;
   cursor: pointer;
-
+  color: #fff;
+  text-decoration: underline;
   &:hover {
-    color: #fff;
+    color: gray;
     text-decoration: underline;
   }
 `;
@@ -204,7 +206,6 @@ const SharedBtn = styled.button`
 `;
 
 const GooBtn = styled(SharedBtn)`
-
   &:hover {
     ${GImg} {
       filter: brightness(100%);
@@ -212,14 +213,14 @@ const GooBtn = styled(SharedBtn)`
   }
 `;
 
-const BeforeHover = 'rgb(77, 77, 255)'; //  Global color for the Span3
-const AfterHover = 'rgb(128, 128, 255)';  //  Global color for the Span3
+const BeforeHover = "rgb(77, 77, 255)"; //  Global color for the Span3
+const AfterHover = "rgb(128, 128, 255)"; //  Global color for the Span3
 
 const Span3 = styled.span`
   color: ${BeforeHover};
   text-decoration: underline;
   text-decoration-color: ${BeforeHover};
-  
+
   &:hover {
     color: ${AfterHover};
     text-decoration-color: ${AfterHover};
@@ -227,24 +228,27 @@ const Span3 = styled.span`
 `;
 
 export default function Login() {
-  const [data, setData] = useState({email: '', password: ''});
-  
+  const [data, setData] = useState({ email: "", password: "" });
+
   const loginUser = async (e) => {
     e.preventDefault();
     try {
-      const callback = await signIn('credentials', { ...data, redirect: false });
-  
+      const callback = await signIn("credentials", {
+        ...data,
+        redirect: false,
+      });
+
       if (callback?.error) {
         toast.error(callback.error);
         // console.log(data);
       }
-  
+
       if (callback?.ok && !callback?.error) {
-        toast.success('Logged in successfully!');
+        toast.success("Logged in successfully!");
       }
     } catch (error) {
-      console.error('Login error:', error);
-      toast.error('An error occurred during login.');
+      console.error("Login error:", error);
+      toast.error("An error occurred during login.");
     }
   };
 
@@ -259,8 +263,14 @@ export default function Login() {
         {/* Username Input Start */}
         <Label>User Email</Label>
         <br />
-        <Input type="text" name="username" placeholder="Username" required value={data.email}
-            onChange={e => setData({ ...data, email: e.target.value })}/>
+        <Input
+          type="text"
+          name="username"
+          placeholder="Username"
+          required
+          value={data.email}
+          onChange={(e) => setData({ ...data, email: e.target.value })}
+        />
         <br />
         <br />
         {/* Username Input End */}
@@ -274,36 +284,37 @@ export default function Login() {
           placeholder="Password"
           required
           value={data.password}
-          onChange={e => setData({ ...data, password: e.target.value })}
+          onChange={(e) => setData({ ...data, password: e.target.value })}
         />
         <MiniCon>
           <ColCon>
-            <SharedSpan href="#">Forgot Password</SharedSpan>      
+
+          <SharedSpan href={"fcpassword"}>Forgot Password</SharedSpan>      
+
             <Span>
               New User?{" "}
               <Span2>
-                <Link href={"register"}><Span3 title="Sign Up">Sign up</Span3></Link>
+                <Link href={"register"}>
+                  <Span3 title="Sign Up">Sign up</Span3>
+                </Link>
               </Span2>
             </Span>
           </ColCon>
 
-          <SubmitBtn type="submit">
-            Login
-          </SubmitBtn>
-         
+          <SubmitBtn type="submit">Login</SubmitBtn>
         </MiniCon>
 
-      
         <Field>
           <Legend>or</Legend>
         </Field>
 
-       
         <GooBtn type="button" onClick={() => signIn("google")}>
-          <OthContainer>            
-            Continue with<FcGoogle style={{marginLeft: "6px"}}/>oogle            
+          <OthContainer>
+            Continue with
+            <FcGoogle style={{ marginLeft: "6px" }} />
+            oogle
           </OthContainer>
-        </GooBtn>      
+        </GooBtn>
       </Form>
     </Container>
   );
