@@ -483,19 +483,19 @@ const UserIcon = styled(FaRegUser)`
   color: white;
 `;
 
-export default function Header() {
+export default function Header({allProducts, fetchedCategory}) {
   const [showMenu, setShowMenu] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [filteredP, setFilteredP] = useState([]);
   const [showList, setShowList] = useState(false);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(allProducts || []);
   const {data:session} = useSession();
 
-  useEffect(()=>{
-    axios.get('/api/products').then(res=>{
-      setProducts(res.data);
-    })
-  },[])
+  // useEffect(()=>{
+  //   axios.get('/api/products').then(res=>{
+  //     setProducts(res.data);
+  //   })
+  // },[])
 
   useEffect(() => {
     if (!products) {
@@ -535,13 +535,13 @@ export default function Header() {
   // Back To
   const router = useRouter();
 
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    axios.get("/api/category").then((res) => {
-      setCategories(res.data);
-      // console.log(categories);
-    });
-  }, []);
+  const [categories, setCategories] = useState(fetchedCategory || []);
+  // useEffect(() => {
+  //   axios.get("/api/category").then((res) => {
+  //     setCategories(res.data);
+  //     // console.log(categories);
+  //   });
+  // }, []);
 
   const [parents, setParents] = useState([]);
   const [cate, setCate] = useState([]);
