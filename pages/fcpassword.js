@@ -7,7 +7,7 @@ import axios from "axios";
 import PackmanLoader from "@/components/Spinners/PackmanLoader";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
-import randomNumber, { generator } from 'random-number';
+import randomNumber, { generator } from "random-number";
 
 const ForgotPasswordContainer = styled.div`
   display: flex;
@@ -18,6 +18,7 @@ const ForgotPasswordContainer = styled.div`
   margin: auto;
   padding: 25px;
   margin-top: 120px;
+  border-radius: 2px;
 `;
 
 const Input = styled.input`
@@ -59,20 +60,20 @@ const Button2 = styled.button`
 
 const Form = styled.form``;
 // const handleInputChange = (e) => {
-  //   const { id, value } = e.target;
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [id]: value,
-  //   }));
-  // };
+//   const { id, value } = e.target;
+//   setFormData((prevData) => ({
+//     ...prevData,
+//     [id]: value,
+//   }));
+// };
 export default function ForgotOrChangePassword() {
   const [requestOtp, setRequestOtp] = useState(false);
   const [isRequesting, setIsRequesting] = useState(false);
   const [proceedOtp, setProceedOtp] = useState(false);
   const [formData, setFormData] = useState({ email: "", otp: "" });
   const [userData, setUserData] = useState([]);
-  const [otp, setOtp] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const router = useRouter();
 
   emailjs.init("0M1fdmyHbFTRLH2SI");
@@ -80,21 +81,22 @@ export default function ForgotOrChangePassword() {
   const reqAndSent = async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.get('/api/user?email=' + formData.email);
-        setUserData(response.data);
-        setProceedOtp(true); // Move this line here to avoid sending mail before setting formData
+      const response = await axios.get("/api/user?email=" + formData.email);
+      setUserData(response.data);
+      setProceedOtp(true);
     } catch (error) {
-        console.error('Error fetching user data:', error);
-        toast.error("Email not exist");
+      console.error("Error fetching user data:", error);
+      toast.error("Email not exist");
     }
-  }
+  };
 
-  useEffect(() => {  
+  useEffect(() => {
     if (userData.otp) {
-        setFormData({ ...formData, otp: userData.otp });
-        sendMail(); 
+      console.log("OTP:" + userData.otp);
+      setFormData({ ...formData, otp: userData.otp });
+      sendMail();
     }
-  }, [userData]); 
+  }, [userData]);
 
   const sendMail = async () => {
     try {
@@ -105,12 +107,12 @@ export default function ForgotOrChangePassword() {
       toast.error("Failed to send email. Please try again later.");
     }
   };
-
-  const verifyOtp = () => {
+  
+  useEffect(()=>{
     if (otp === userData.otp) {
       setRequestOtp(true);
     }
-  }
+  },[otp])
 
   const handleResetPassword = async () => {
     try {
@@ -119,21 +121,25 @@ export default function ForgotOrChangePassword() {
         max: 9999,
         integer: true,
       });
-    const otp = gen();
-      const newPass = await axios.put('/api/user', { email: formData.email, newPassword, newOtp });
-      router.push('/');
+      const newOtp = gen();
+      const newPass = await axios.put("/api/user", {
+        email: formData.email,
+        newPassword,
+        newOtp,
+      });
+      router.push("/");
     } catch (error) {
-      console.error('Error resetting password:', error);
+      console.error("Error resetting password:", error);
       toast.error("Failed to reset password. Please try again later.");
     }
-  }
+  };
 
   if (!requestOtp) {
     return (
       <Center>
         <ForgotPasswordContainer>
           <Title>Request OTP</Title>
-          {!isRequesting ? 
+          {!isRequesting ? (
             <Form>
               <Input
                 name="email"
@@ -146,13 +152,20 @@ export default function ForgotOrChangePassword() {
               <Button2 type="submit" onClick={(e) => reqAndSent(e)}>
                 Send email
               </Button2>
-            </Form> : <PackmanLoader/>}
-            {proceedOtp && 
-              <Form>
-                <Input type="password" placeholder="OTP" onChange={(e)=>setOtp(e.target.value)}/>
-                <Button type="submit" onClick={verifyOtp}>Verify</Button>
-              </Form>
-            }
+            </Form>
+          ) : (
+            <PackmanLoader />
+          )}
+          {proceedOtp && (
+            <Form>
+              <Input
+                type="password"
+                placeholder="OTP"
+                onChange={(e) => setOtp(e.target.value)}
+              />
+              
+            </Form>
+          )}
         </ForgotPasswordContainer>
       </Center>
     );
@@ -163,8 +176,14 @@ export default function ForgotOrChangePassword() {
       <ForgotPasswordContainer>
         <Title>Reset Password</Title>
         <Form>
-          <Input type="password" placeholder="New password" onChange={(e)=>setNewPassword(e.target.value)}/>
-          <Button type="submit" onClick={handleResetPassword}>Reset Password</Button>
+          <Input
+            type="password"
+            placeholder="New password"
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <Button type="submit" onClick={handleResetPassword}>
+            Reset Password
+          </Button>
         </Form>
       </ForgotPasswordContainer>
     </Center>
