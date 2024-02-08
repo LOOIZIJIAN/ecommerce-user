@@ -2,13 +2,13 @@ import NewProducts from "@/components/NewProducts";
 import Login from "@/components/Login";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/models/Product";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
-import { useRouter } from "next/router";
 import Chatbox from "@/components/ChatBox";
 import { Slide } from "@/models/Slide";
 import Footer from "@/components/Footer";
+import { Category } from "@/models/Category";
 
 const Container = styled.div`
   margin-top: 4%;
@@ -23,7 +23,7 @@ const Container = styled.div`
   gap: 50px;
 `;
 
-export default function HomePage({ newProducts, slide }) {
+export default function HomePage({ newProducts, slide, allProducts, fetchedCategory }) {
   const SlideShow = dynamic(() => import("@/components/SlideShow"), {
     ssr: false,
   });
@@ -37,7 +37,7 @@ export default function HomePage({ newProducts, slide }) {
   if (!session) {
     return (
       <>
-        <Header session={false} />
+        <Header allProducts={allProducts} fetchedCategory={fetchedCategory}/>
         <Container>
           <SlideShow slides={slide} />
           <Login />
@@ -52,7 +52,7 @@ export default function HomePage({ newProducts, slide }) {
   }
   return (
     <>
-      <Header session={true} />
+      <Header allProducts={allProducts} fetchedCategory={fetchedCategory}/>
       <Container>
         <SlideShow slides={slide} />
         <UserProfile />
@@ -66,15 +66,16 @@ export default function HomePage({ newProducts, slide }) {
 
 export async function getServerSideProps() {
   await mongooseConnect();
-  const newProducts = await Product.find({}, null, {
-    sort: { _id: -1 },
-    limit: 10,
-  });
+  const newProducts = await Product.find({}, null, {sort: { _id: -1 },limit: 10,});
   const slide = await Slide.find();
+  const allProducts = await Product.find();
+  const fetchedCategory = await Category.find();
   return {
     props: {
       newProducts: JSON.parse(JSON.stringify(newProducts)),
       slide: JSON.parse(JSON.stringify(slide)),
+      allProducts: JSON.parse(JSON.stringify(allProducts)),
+      fetchedCategory: JSON.parse(JSON.stringify(fetchedCategory)),
     },
   };
 }
