@@ -33,7 +33,7 @@ const Empty_span = styled.span`
   align-items: center;
   min-width:100%;   
   min-height:654px;
-  background-image: url("pic.png");
+  background-image: url("direct test.png");
   background-size: cover;
   background-attachment: fixed;
 `;
