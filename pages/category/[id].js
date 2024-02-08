@@ -103,7 +103,7 @@ export default function CategoryPage({ initialProduct, categories }) {
   if(!session) {
     return (
       <div>
-        <Header session={false}/>
+        <Header session={false} fetchedCategory={categories}/>
         <CategoryLeft filterCate={leftBarCate}/>
         <Categories product={filteredProduct} cate={currentParent} />
       </div>
@@ -112,7 +112,7 @@ export default function CategoryPage({ initialProduct, categories }) {
 
   return (
     <div>
-      <Header session={true}/>
+      <Header session={true} fetchedCategory={categories}/>
       <CategoryLeft filterCate={leftBarCate}/>
       <Categories product={filteredProduct} cate={currentParent} />
     </div>

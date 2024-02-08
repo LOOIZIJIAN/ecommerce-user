@@ -2,6 +2,9 @@
 import Center from "@/components/Center";
 import {mongooseConnect} from "@/lib/mongoose";
 import {Product} from "@/models/Product";
+import { useSession } from "next-auth/react";
+import { Category } from "@/models/Category";
+
 // import ProductsGrid from "@/components/ProductsGrid";
 import Title from "@/components/Title";
 import dynamic from 'next/dynamic';
@@ -13,10 +16,26 @@ const ProductsGrid = dynamic(() => import('@/components/ProductsGrid'), { ssr: f
 const Wrapper = styled.div`
   margin-top: 85px;
 `;
-export default function ProductsPage({products}) {
+export default function ProductsPage({products , fetchedCategory}) {
+  const { data: session } = useSession();
+  if(!session) {
+    return (
+      <>
+        <Header fetchedCategory={fetchedCategory} />
+        <Center>
+          <Wrapper>
+            <Title>All Products</Title>
+            <ProductsGrid products={products} />
+          </Wrapper>
+        </Center>
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <>
-      <Header />
+      <Header fetchedCategory={fetchedCategory} />
       <Center>
         <Wrapper>
           <Title>All Products</Title>
@@ -31,9 +50,11 @@ export default function ProductsPage({products}) {
 export async function getServerSideProps() {
   await mongooseConnect();
   const products = await Product.find({}, null, {sort:{'_id':-1}});
+  const fetchedCategory = await Category.find();  //
   return {
     props:{
       products: JSON.parse(JSON.stringify(products)),
+      fetchedCategory: JSON.parse(JSON.stringify(fetchedCategory)), //
     }
   };
 }

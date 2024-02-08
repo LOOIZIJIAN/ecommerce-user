@@ -324,6 +324,8 @@ const NotFBtn = styled.button`
 
   &:hover {
     background-color: #2f3640;
+    color: white;
+    font-weight: 500;
 
     ${DropA} {
       color: white;
@@ -578,7 +580,7 @@ export default function Header({allProducts, fetchedCategory}) {
               
         <List showMenu={showMenu}>
           <Button onClick={() => router.push("/")}>
-            <A>Home</A>
+            <A href="/">Home</A>
           </Button>{" "}
           <SharedBtn>
             <A>Category</A>
@@ -608,7 +610,7 @@ export default function Header({allProducts, fetchedCategory}) {
             {/* Category Drop Down List End */}
           </SharedBtn>
           {/* Option 4 */}
-          <Button  onClick={() => router.push("/")}>
+          <Button  onClick={() => router.push("aboutus")}>
             <A href="/aboutus">About Us</A>
           </Button>{" "}
           {/* Add the page name behide the / */}
