@@ -1,15 +1,13 @@
 import styled from "styled-components";
-import CategoryLeft from "@/components/CategoryLeft";
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import Button from "./Button";
 import { CartContext } from "./CartContext";
 import { FcLikePlaceholder, FcLike } from 'react-icons/fc';
 import CartIcon from "./icons/CartIcon";
 import { AiOutlineFileSearch } from "react-icons/ai";
-
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 // Cart Top Start
 const CartCon = styled.div`
@@ -51,7 +49,7 @@ const CartItem = styled.div`
   margin: 12px 10px 25px 10px;
 `;
 
-const A = styled.a`
+const A = styled(Link)`
   text-decoration: none;
   color: black;
   cursor: default;
