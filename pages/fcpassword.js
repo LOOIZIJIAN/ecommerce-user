@@ -73,12 +73,22 @@ export default function ForgotOrChangePassword() {
   const [userData, setUserData] = useState([]);
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [generateOtp, setGenerateOtp] = useState('');
   const router = useRouter();
 
   emailjs.init("0M1fdmyHbFTRLH2SI");
 
   const reqAndSent = async (e) => {
     e.preventDefault();
+
+    const gen = generator({
+      min: 1000,
+      max: 9999,
+      integer: true,
+    });
+
+    setGenerateOtp(gen());
+
     try {
         const response = await axios.get('/api/user?email=' + formData.email);
         setUserData(response.data);
@@ -89,38 +99,41 @@ export default function ForgotOrChangePassword() {
     }
   }
 
-  useEffect(() => {  
-    if (userData.otp) {
-        setFormData({ ...formData, otp: userData.otp });
-        sendMail(); 
-    }
-  }, [userData]); 
+  useEffect(() => {
+    setFormData({ ...formData, otp: generateOtp });
+  },[generateOtp]);
 
-  const sendMail = async () => {
-    try {
-      await emailjs.send("service_n7raozq", "template_vjogkes", formData);
+  useEffect(() => {
+    if (proceedOtp) {
+      console.log("Generate OTP : " + generateOtp);
+      sendMail(); 
+    }
+  }, [proceedOtp]); 
+
+  const sendMail = () => {
+    emailjs.send("service_n7raozq", "template_vjogkes", {
+      email: formData.email,
+      otp: formData.otp
+    }).then(() => {
       toast.success("Email sent successfully");
-    } catch (error) {
+    }).catch((error) => {
       console.error("Error sending email:", error);
       toast.error("Failed to send email. Please try again later.");
-    }
+    });
   };
 
   const verifyOtp = () => {
-    if (otp === userData.otp) {
+    if (otp == formData.otp) {
       setRequestOtp(true);
+      toast.success("OTP Match");
     }
   }
 
-  const handleResetPassword = async () => {
+  const handleResetPassword = async () => {   // now have problem here
     try {
-      const gen = generator({
-        min: 1000,
-        max: 9999,
-        integer: true,
-      });
-    const otp = gen();
-      const newPass = await axios.put('/api/user', { email: formData.email, newPassword, newOtp });
+      toast.success("Success fully reset password! You can now login with your new credentials.");
+      const newPass = await axios.put('/api/user', { email: formData.email, newPassword: newPassword, newOtp });
+
       router.push('/');
     } catch (error) {
       console.error('Error resetting password:', error);
@@ -134,7 +147,7 @@ export default function ForgotOrChangePassword() {
         <ForgotPasswordContainer>
           <Title>Request OTP</Title>
           {!isRequesting ? 
-            <Form>
+            <Form method="post">
               <Input
                 name="email"
                 type="email"
@@ -148,7 +161,7 @@ export default function ForgotOrChangePassword() {
               </Button2>
             </Form> : <PackmanLoader/>}
             {proceedOtp && 
-              <Form>
+              <Form method="post">
                 <Input type="password" placeholder="OTP" onChange={(e)=>setOtp(e.target.value)}/>
                 <Button type="submit" onClick={verifyOtp}>Verify</Button>
               </Form>
@@ -162,7 +175,7 @@ export default function ForgotOrChangePassword() {
     <Center>
       <ForgotPasswordContainer>
         <Title>Reset Password</Title>
-        <Form>
+        <Form method="post">
           <Input type="password" placeholder="New password" onChange={(e)=>setNewPassword(e.target.value)}/>
           <Button type="submit" onClick={handleResetPassword}>Reset Password</Button>
         </Form>
