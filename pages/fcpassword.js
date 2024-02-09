@@ -137,17 +137,17 @@ export default function ForgotOrChangePassword() {
   }, [proceedOtp]); 
 
   const sendMail = () => {
-    // emailjs.send("service_n7raozq", "template_vjogkes", {
-    //   email: formData.email,
-    //   otp: formData.otp
-    // }).then(() => {
-    //   toast.success("Email sent successfully");
-    // }).catch((error) => {
-    //   console.error("Error sending email:", error);
-    //   toast.error("Failed to send email. Please try again later.");
-    // });
+    emailjs.send("service_n7raozq", "template_vjogkes", {
+      email: formData.email,
+      otp: formData.otp
+    }).then(() => {
+      toast.success("Email sent successfully");
+    }).catch((error) => {
+      console.error("Error sending email:", error);
+      toast.error("Failed to send email. Please try again later.");
+    });
 
-    console.log("OTP : " + formData.otp);
+    // console.log("OTP : " + formData.otp);
   };
 
   const verifyOtp = (e) => {
