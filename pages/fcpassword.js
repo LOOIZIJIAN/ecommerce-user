@@ -7,7 +7,7 @@ import axios from "axios";
 import PackmanLoader from "@/components/Spinners/PackmanLoader";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
-import randomNumber, { generator } from 'random-number';
+import randomNumber, { generator } from "random-number";
 
 const ForgotPasswordContainer = styled.div`
   display: flex;
@@ -18,6 +18,7 @@ const ForgotPasswordContainer = styled.div`
   margin: auto;
   padding: 25px;
   margin-top: 120px;
+  border-radius: 2px;
 `;
 
 const Input = styled.input`
@@ -58,13 +59,7 @@ const Button2 = styled.button`
 `;
 
 const Form = styled.form``;
-// const handleInputChange = (e) => {
-  //   const { id, value } = e.target;
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [id]: value,
-  //   }));
-  // };
+
 export default function ForgotOrChangePassword() {
   const [requestOtp, setRequestOtp] = useState(false);
   const [isRequesting, setIsRequesting] = useState(false);
@@ -90,14 +85,14 @@ export default function ForgotOrChangePassword() {
     setGenerateOtp(gen());
 
     try {
-        const response = await axios.get('/api/user?email=' + formData.email);
-        setUserData(response.data);
-        setProceedOtp(true); // Move this line here to avoid sending mail before setting formData
+      const response = await axios.get("/api/user?email=" + formData.email);
+      setUserData(response.data);
+      setProceedOtp(true);
     } catch (error) {
-        console.error('Error fetching user data:', error);
-        toast.error("Email not exist");
+      console.error("Error fetching user data:", error);
+      toast.error("Email not exist");
     }
-  }
+  };
 
   useEffect(() => {
     setFormData({ ...formData, otp: generateOtp });
@@ -127,7 +122,7 @@ export default function ForgotOrChangePassword() {
       setRequestOtp(true);
       toast.success("OTP Match");
     }
-  }
+  };
 
   const handleResetPassword = async () => {   // now have problem here
     try {
@@ -136,10 +131,10 @@ export default function ForgotOrChangePassword() {
 
       router.push('/');
     } catch (error) {
-      console.error('Error resetting password:', error);
+      console.error("Error resetting password:", error);
       toast.error("Failed to reset password. Please try again later.");
     }
-  }
+  };
 
   if (!requestOtp) {
     return (

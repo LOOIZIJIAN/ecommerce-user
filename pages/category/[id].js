@@ -8,20 +8,20 @@ import { useEffect, useState } from "react";
 import CategoryLeft from "@/components/CategoryLeft";
 import { useSession } from "next-auth/react";
 
-export default function CategoryPage({ initialProduct, categories }) {
+export default function CategoryPage({ allProduct, fetchedCategory }) {
   const router = useRouter();
   const id = router.query.id;
-  const [filteredProduct, setFilteredProduct] = useState(initialProduct); 
+  const [filteredProduct, setFilteredProduct] = useState(allProduct);
   const [filterCate, setFilterCate] = useState([]);
   const [currentParent, setCurrentParent] = useState({});
   const [leftBarCate, setLeftBarCate] = useState([]);
-  const [clientCategories, setClientCategories] = useState(categories);
+  const [clientCategories, setClientCategories] = useState(fetchedCategory);
 
-  const {data: session} = useSession();
+  const { data: session } = useSession();
 
-  useEffect(()=>{
-    setClientCategories(categories);
-  },[categories])
+  useEffect(() => {
+    setClientCategories(fetchedCategory);
+  }, [fetchedCategory]);
 
   const [minPrice, setMinPrice] = useState([]);
   const [maxPrice, setMaxPrice] = useState([]);
@@ -29,44 +29,47 @@ export default function CategoryPage({ initialProduct, categories }) {
   useEffect(() => {
     // Parse query parameters for min and max prices
     const queryParams = new URLSearchParams(window.location.search);
-    const minParam = queryParams.get('min');
-    const maxParam = queryParams.get('max');
-  
+    const minParam = queryParams.get("min");
+    const maxParam = queryParams.get("max");
+
     // Update state if query parameters are present
     setMinPrice(Number(minParam) || 0);
     setMaxPrice(Number(maxParam) || 10000);
   }, [router.query]);
-  
+
   useEffect(() => {
     console.log("Min : " + minPrice);
     console.log("Max : " + maxPrice);
   }, [minPrice, maxPrice]);
 
   useEffect(() => {
-    
-    if (id && categories) {
-          
-      const currentCategory = categories.find((cate) => cate._id === id);
-      
+    if (id && fetchedCategory) {
+      const currentCategory = fetchedCategory.find((cate) => cate._id === id);
+
       if (currentCategory) {
-            
-        const checkedId = categories.filter((cate) => cate.parent === currentCategory.parent);
-         
-        const checkedProd = categories.filter((cate) => cate.parent === id);
-               
-        setLeftBarCate(() => (checkedProd.length > 0 ? checkedProd : checkedId));
-               
+        const checkedId = fetchedCategory.filter(
+          (cate) => cate.parent === currentCategory.parent
+        );
+
+        const checkedProd = fetchedCategory.filter((cate) => cate.parent === id);
+
+        setLeftBarCate(() =>
+          checkedProd.length > 0 ? checkedProd : checkedId
+        );
+
         setFilterCate(checkedProd);
-        
+
         setCurrentParent(currentCategory);
       }
     }
-  }, [id, categories]);  
+  }, [id, fetchedCategory]);
 
   useEffect(() => {
-    if (initialProduct && filterCate.length > 0) {      //  filter under root product
-      const filteredProducts = initialProduct.filter((product) =>
-        filterCate.some((cate) => product.category === cate._id));
+    if (allProduct && filterCate.length > 0) {
+      //  filter under root product
+      const filteredProducts = allProduct.filter((product) =>
+        filterCate.some((cate) => product.category === cate._id)
+      );
 
       // Apply additional filtering based on price range
       const priceFilteredProducts = filteredProducts.filter((product) => {
@@ -78,12 +81,13 @@ export default function CategoryPage({ initialProduct, categories }) {
 
       // setFilteredProduct(filteredProducts);
       setFilteredProduct(priceFilteredProducts);
+    } else if (allProduct && filterCate.length === 0) {
+      // filter under second root product
+      const filteredProducts = allProduct.filter(
+        (product) => product.category === currentParent._id
+      );
 
-    } else if (initialProduct && filterCate.length === 0) {  // filter under second root product
-      const filteredProducts = initialProduct.filter((product) =>
-        product.category === currentParent._id);
-      
-        // Apply additional filtering based on price range
+      // Apply additional filtering based on price range
       const priceFilteredProducts = filteredProducts.filter((product) => {
         return (
           (minPrice === 0 || product.price >= minPrice) &&
@@ -91,20 +95,17 @@ export default function CategoryPage({ initialProduct, categories }) {
         );
       });
 
-      // setFilteredProduct(filteredProducts);
       setFilteredProduct(priceFilteredProducts);
-
     }
-  // }, [initialProduct, filterCate, currentParent]);
-  }, [initialProduct, filterCate, currentParent, minPrice, maxPrice]);
+  
+  }, [allProduct, filterCate, currentParent, minPrice, maxPrice]);
 
-  console.log("CIBAI", leftBarCate.length > 0 ? leftBarCate : "Empty Array");
 
-  if(!session) {
+  if (!session) {
     return (
       <div>
-        <Header session={false} fetchedCategory={categories}/>
-        <CategoryLeft filterCate={leftBarCate}/>
+        <Header allProducts={allProduct} fetchedCategory={fetchedCategory} />
+        <CategoryLeft filterCate={leftBarCate} />
         <Categories product={filteredProduct} cate={currentParent} />
       </div>
     );
@@ -112,22 +113,21 @@ export default function CategoryPage({ initialProduct, categories }) {
 
   return (
     <div>
-      <Header session={true} fetchedCategory={categories}/>
-      <CategoryLeft filterCate={leftBarCate}/>
+      <Header allProducts={allProduct} fetchedCategory={fetchedCategory} />
+      <CategoryLeft filterCate={leftBarCate} />
       <Categories product={filteredProduct} cate={currentParent} />
     </div>
   );
-
 }
 
 export async function getServerSideProps() {
   await mongooseConnect();
   const categories = await Category.find();
-  const products = await Product.find();
+  const allProducts = await Product.find();
   return {
     props: {
-      initialProduct: JSON.parse(JSON.stringify(products)),
-      categories: JSON.parse(JSON.stringify(categories)),
+      allProduct: JSON.parse(JSON.stringify(allProducts)),
+      fetchedCategory: JSON.parse(JSON.stringify(categories)),
     },
   };
 }

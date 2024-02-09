@@ -493,12 +493,6 @@ export default function Header({allProducts, fetchedCategory}) {
   const [products, setProducts] = useState(allProducts || []);
   const {data:session} = useSession();
 
-  // useEffect(()=>{
-  //   axios.get('/api/products').then(res=>{
-  //     setProducts(res.data);
-  //   })
-  // },[])
-
   useEffect(() => {
     if (!products) {
       return;
@@ -538,12 +532,6 @@ export default function Header({allProducts, fetchedCategory}) {
   const router = useRouter();
 
   const [categories, setCategories] = useState(fetchedCategory || []);
-  // useEffect(() => {
-  //   axios.get("/api/category").then((res) => {
-  //     setCategories(res.data);
-  //     // console.log(categories);
-  //   });
-  // }, []);
 
   const [parents, setParents] = useState([]);
   const [cate, setCate] = useState([]);
@@ -563,11 +551,6 @@ export default function Header({allProducts, fetchedCategory}) {
     setParents(Array.from(uniqueParents));
     setCate(Array.from(uniqueCate));
   }, [categories]);
-
-  // console.log("Root:", parents);
-  // console.log("Cate:", cate);
-
-  
 
   return (
     <div>
