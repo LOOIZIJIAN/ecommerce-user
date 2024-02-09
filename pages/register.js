@@ -230,7 +230,7 @@ export default function Register({ users }) {
     const otp = gen();
 
     let info = { ...data, otp };
-
+    
     try {
       const response = await axios.post("/api/register", info);
       toast.success("User has been registered!");
