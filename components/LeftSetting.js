@@ -145,7 +145,7 @@ export default function LeftSetting(){
                 <Img src="AfterLogin/User_Icon.png"/>
                 <TxtCon>
                     <H1>{session?.user?.name}</H1>
-                    <Span href="#">
+                    <Span href="account">
                         <Img1 src="AfterLogin/User_Setting_Icon.png" alt="Edit" />
                         Edit
                     </Span>
@@ -161,7 +161,7 @@ export default function LeftSetting(){
                         <H2>My Account</H2>
                         <A href="account">Profile</A>
                         <A href="card">Bank & Cards</A>
-                        <A href="#">Address</A>
+                        {/* <A href="#">Address</A> */}
                     </SubDetail>
                 </Detail1>
                 {/* Details End */}
@@ -181,10 +181,10 @@ export default function LeftSetting(){
                 {/* Details End */}
 
                 {/* Details Start */}
-                <Detail>
+                {/* <Detail>
                     <Img2 src="AfterLogin/Coupon_Icon.png" alt="Coupon"/>
                     <H2 onClick={() => router.push('')}>Voucher</H2>
-                </Detail>
+                </Detail> */}
                 {/* Details End */}
 
             </DetailsCon>

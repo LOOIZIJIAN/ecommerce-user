@@ -184,6 +184,16 @@ const Btn = styled.button`
   cursor: pointer;
 `;
 
+const A = styled.a`
+  color: black;
+  text-decoration: none;
+  margin-left: 50px;
+  &:hover{
+    color: blue;
+    text-decoration: underline;
+  }
+`;
+
 export default function EditProfile() {
   const fileInputRef = useRef(null);
 
@@ -228,9 +238,13 @@ export default function EditProfile() {
 
             <Row>
               <MainDet>Email:</MainDet>
-              <Input type="email" placeholder="xxx@gmail.com" value={session?.user?.email} />
+              <DisplayUN>{session?.user?.email}</DisplayUN>
             </Row>
 
+            <Row>
+              <MainDet>Password</MainDet>
+              <DisplayUN>********<A href='fcpassword'>Change Password</A></DisplayUN>
+            </Row>
     
           </form>
         </CartDet>
