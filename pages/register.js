@@ -6,6 +6,7 @@ import { mongooseConnect } from "@/lib/mongoose";
 import { User } from "@/models/User";
 import toast from "react-hot-toast";
 import { generator } from "random-number";
+import emailjs from 'emailjs-com';
 
 // Styled components
 const PageWrapper = styled.div`
@@ -231,9 +232,19 @@ export default function Register({ users }) {
 
     let info = { ...data, otp };
     
+    emailjs.init("AL-MhcS5HYIPa2TSs");  //  key kylew
+
+    const sendMail = () => {
+      emailjs.send("service_2tbd16t","template_ywvs0cq", {    //  kylew
+        email: data.email,
+        name: data.username
+      });
+    }
+
     try {
       const response = await axios.post("/api/register", info);
       toast.success("User has been registered!");
+      sendMail();
       router.push("/");
       console.log("Registration successful:", response.data);
     } catch (error) {
