@@ -19,13 +19,14 @@ const Btn = styled(Button)`
         color: black;
     }
 `;
-
 export default function Exit({email , amount , products , tax , ship , to}) {
     const [currentTime, setCurrentTime] = useState('');
     const [amPm, setAmPm] = useState('');
     const [day , setDay] = useState('');
     const [month , setMonth] = useState('');
     const [year , setYear] = useState('');
+    const [countdown, setCountdown] = useState(5); // change time here 
+    const [proceed , setProceed] = useState(false) ;
 
     const DisplayTime = () => {
         const now = new Date();
@@ -57,11 +58,30 @@ export default function Exit({email , amount , products , tax , ship , to}) {
         DisplayTime();
         CurrentDate();
     },[]);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            if(countdown != 0) {
+                setCountdown((prevCountdown) => prevCountdown - 1);
+            }
+        }, 1000);
+    
+        return () => {
+            clearInterval(intervalId);
+
+            if (countdown == 1) {
+                sendMail();
+            }
+        };
+    }, [countdown]);
     
     // emailjs.init("aQmAikkvlmMBVFXdP");  // old account key yout86331
     emailjs.init("j-pkLD5KS0uUTrmAA");  // new account key kylew
         
     const sendMail = () => {
+        setProceed(true);
+        setCountdown(0);
+
         const productDetails = products.map(product => ({
             name: product.name,
             quantity: product.quantity,
@@ -94,7 +114,11 @@ export default function Exit({email , amount , products , tax , ship , to}) {
 
     return(
         <Container>
-            <Btn type="button" onClick={sendMail}>Proceed</Btn>
+            {proceed ? (
+                <Btn type="button">Proceeding ...</Btn>
+            ) : (
+                <Btn type="button" onClick={sendMail}>Proceed in {countdown}</Btn>
+            )}
         </Container>
     )
 }
