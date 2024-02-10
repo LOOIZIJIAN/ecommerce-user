@@ -7,6 +7,8 @@ import { Category } from "@/models/Category";
 import { BiLogoFacebookSquare } from "react-icons/bi";
 import { FaFacebookMessenger } from "react-icons/fa";
 import Link from 'next/link';
+import React, { useState } from 'react';
+import toast from "react-hot-toast";
 
 const Container = styled.div`
     margin-top: 62px;
@@ -149,6 +151,11 @@ const Location = styled.a`
     }
 `
 export default function ContactUs ({fetchedCategory}) {
+    
+    const [fname, setName] = useState('');
+    const [femail, setEmail] = useState('');
+    const [fmessage, setMessage] = useState('');
+
     const phoneNumber = '+60 11-3930 3135';
     const emailAddress = '1211206861@student.mmu.edu.my';
 
@@ -160,6 +167,28 @@ export default function ContactUs ({fetchedCategory}) {
         window.location.href = `mailto:${emailAddress}`;
     };
     
+    emailjs.init("AL-MhcS5HYIPa2TSs");
+
+    const sendMail = (e) => {
+        e.preventDefault();
+        toast.dismiss();
+
+        console.log('Submitting form...');
+    
+        emailjs.send("service_2tbd16t","template_0iw0kfa", {
+            email: femail,
+            name: fname,
+            message: fmessage,
+        })
+            .then(() => {
+                toast.success("You're Now Subscribed. Thank You !");
+            })
+            .catch((error) => {
+                console.error('Error sending email:', error);
+                toast.error("Failed to send email. Please try again later.");
+            });
+    };
+    
     return(
         <>
         <Header fetchedCategory={fetchedCategory}/>
@@ -167,7 +196,6 @@ export default function ContactUs ({fetchedCategory}) {
         <Container>
             <ContactInfo>
                 <MapContainer>
-                    {/* Replace the URL with your actual Google Maps Embed API URL */}
                     <iframe
                     title="Company Location"
                     width="100%"
@@ -196,17 +224,17 @@ export default function ContactUs ({fetchedCategory}) {
 
             <FormCon>
                 <Title>Contact Us</Title>
-                <Form>
+                <Form method="post">
                     <Label htmlFor="name">Name:</Label>
-                    <Input type="text" id="name" name="name" />
+                    <Input type="text" id="name" name="name" onChange={(e) => setName(e.target.value)} required />
 
                     <Label htmlFor="email">Email:</Label>
-                    <Input type="email" id="email" name="email" />
+                    <Input type="email" id="email" name="email" onChange={(e) => setEmail(e.target.value)} required />
 
                     <Label htmlFor="message">Message:</Label>
-                    <Textarea id="message" name="message" rows={5}/>
+                    <Textarea id="message" name="message" rows={5} onChange={(e) => setMessage(e.target.value)} required />
 
-                    <SubmitButton type="submit">Submit</SubmitButton>
+                    <SubmitButton type="submit" onClick={sendMail}>Submit</SubmitButton>
                 </Form>
             </FormCon>
         </Container>
