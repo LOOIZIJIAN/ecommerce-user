@@ -12,6 +12,7 @@ import {useContext, useState} from "react";
 import {CartContext} from "@/components/CartContext";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { Category } from "@/models/Category";
 
 import ItemDetail from "@/components/ItemDetail";
 
@@ -56,7 +57,7 @@ const ProtecImg = styled.img`
     width: 25px;
     height: 25px;
 `;
-export default function ProductPage({product}) {
+export default function ProductPage({product , fetchedCategory}) {
   const {addProduct} = useContext(CartContext);
   const {data:session} = useSession();
 
@@ -81,7 +82,7 @@ export default function ProductPage({product}) {
   if(!session) {
     return (
       <>
-        <Header session={false}/>
+        <Header fetchedCategory={fetchedCategory} />
         <Center>
           <ColWrapper>
             <WhiteBox>
@@ -119,7 +120,7 @@ export default function ProductPage({product}) {
   }
   return (
     <>
-      <Header session={true}/>
+      <Header fetchedCategory={fetchedCategory} />
       <Center>
         <ColWrapper>
           <WhiteBox>
@@ -160,9 +161,11 @@ export async function getServerSideProps(context) {
   await mongooseConnect();
   const {id} = context.query;
   const product = await Product.findById(id);
+  const fetchedCategory = await Category.find();
   return {
     props: {
       product: JSON.parse(JSON.stringify(product)),
+      fetchedCategory: JSON.parse(JSON.stringify(fetchedCategory)),
     }
   }
 }

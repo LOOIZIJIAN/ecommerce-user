@@ -169,7 +169,7 @@ export default function LeftSetting(){
                 {/* Details Start */}
                 <Detail>
                     <Img2 src="AfterLogin/Like_Icon.png" alt="Like"/>
-                    <H2 onClick={() => router.push('')}>Wishlist</H2>
+                    <H2 onClick={() => router.push('wishlist')}>Wishlist</H2>
                 </Detail>
                 {/* Details End */}
 

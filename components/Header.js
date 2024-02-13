@@ -324,6 +324,8 @@ const NotFBtn = styled.button`
 
   &:hover {
     background-color: #2f3640;
+    color: white;
+    font-weight: 500;
 
     ${DropA} {
       color: white;
@@ -483,19 +485,13 @@ const UserIcon = styled(FaRegUser)`
   color: white;
 `;
 
-export default function Header() {
+export default function Header({allProducts, fetchedCategory}) {
   const [showMenu, setShowMenu] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [filteredP, setFilteredP] = useState([]);
   const [showList, setShowList] = useState(false);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(allProducts || []);
   const {data:session} = useSession();
-
-  useEffect(()=>{
-    axios.get('/api/products').then(res=>{
-      setProducts(res.data);
-    })
-  },[])
 
   useEffect(() => {
     if (!products) {
@@ -535,13 +531,7 @@ export default function Header() {
   // Back To
   const router = useRouter();
 
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    axios.get("/api/category").then((res) => {
-      setCategories(res.data);
-      // console.log(categories);
-    });
-  }, []);
+  const [categories, setCategories] = useState(fetchedCategory || []);
 
   const [parents, setParents] = useState([]);
   const [cate, setCate] = useState([]);
@@ -562,11 +552,6 @@ export default function Header() {
     setCate(Array.from(uniqueCate));
   }, [categories]);
 
-  // console.log("Root:", parents);
-  // console.log("Cate:", cate);
-
-  
-
   return (
     <div>
       <Container>
@@ -578,7 +563,7 @@ export default function Header() {
               
         <List showMenu={showMenu}>
           <Button onClick={() => router.push("/")}>
-            <A>Home</A>
+            <A href="/">Home</A>
           </Button>{" "}
           <SharedBtn>
             <A>Category</A>
@@ -608,7 +593,7 @@ export default function Header() {
             {/* Category Drop Down List End */}
           </SharedBtn>
           {/* Option 4 */}
-          <Button  onClick={() => router.push("/")}>
+          <Button  onClick={() => router.push("aboutus")}>
             <A href="/aboutus">About Us</A>
           </Button>{" "}
           {/* Add the page name behide the / */}

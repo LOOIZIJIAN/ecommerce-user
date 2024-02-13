@@ -145,7 +145,7 @@ export default function AfterLogin() {
       <Hr />
 
       <DownCon>
-        <Btn1>
+        <Btn1 onClick={() => router.push("/wishlist")}>
           <Icon src="afterLogin/Like_Icon.png" />
         </Btn1>
         <Btn2 onClick={() => router.push("/cart")}>
