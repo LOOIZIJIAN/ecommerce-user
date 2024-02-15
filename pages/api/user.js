@@ -21,19 +21,18 @@ export default async function handler(req, res) {
       return res.status(200).json(user);
     } else if (req.method === "PUT") {
       const { email, newPassword, newOtp } = req.body;
-      if (!email || !newPassword || !newOtp)
+      if (!email || !newPassword || !newOtp) {
         return res
           .status(400)
           .json({ error: "Email, newPassword, and newOtp are required" });
-
+      }
       try {
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         const user = await User.findOneAndUpdate(
           { email },
-          { $set: { password: hashedPassword, otp: newOtp } },
+          { $set: { hashedPassword: hashedPassword, otp: newOtp } },  //  
           { new: true }
         );
-
         if (!user) return res.status(404).json({ error: "User not found" });
 
         return res

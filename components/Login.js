@@ -104,10 +104,10 @@ const SharedSpan = styled(Link)`
   font-weight: 400;
   text-decoration: none;
   cursor: pointer;
-  color: #fff;
-  text-decoration: underline;
+  color: lightgray;
+
   &:hover {
-    color: gray;
+    color: #fff;
     text-decoration: underline;
   }
 `;

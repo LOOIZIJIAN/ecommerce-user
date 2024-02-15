@@ -13,33 +13,41 @@ import SessionOut from "@/components/SessionOut";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Category } from "@/models/Category";
 import { Product } from "@/models/Product";
+import Footer from "@/components/Footer";
+import { FcCheckmark } from "react-icons/fc";
 
 const ColumnsWrapper = styled.div`
   display: flex;
   /* grid-template-columns: 1fr; */
-  /* width: 100%; */
-  width: auto;
+  width: 100%;
+  min-height: 92.6%;
+  height: fit-content;
+  /* width: auto; */
+  margin-top: 50px;
   margin-bottom: 150px;
-  gap: 30px;
-  align-items: center;
-
+  padding-top: 10px;
+  gap: 80px;
+  /* align-items: center; */
+  justify-content: center;
   background: linear-gradient(
     285deg,
     #000 58.94%,
     rgba(0, 0, 0, 0) 113.07%,
     rgba(0, 0, 0, 0.11) 113.07%
   );
-  /* background-color: white; */
+  background-color: #fff;
 `;
 
 const Box = styled.div`
-  /* background-color: #fff; */
-  background-color: transparent;
+  /* background-color: red; */
+  /* background-color: transparent; */
   border-radius: 10px;
   padding: 30px;
   color: #fff;
+  align-items: center;
+  justify-content: center;
+  /* margin: 0 auto 0 auto; */
 `;
-
 const H = styled.h1`
   font-weight: 800;
   font-size: 34px;
@@ -55,7 +63,7 @@ const ProductImageBox = styled.div`
   width: 70px;
   height: 100px;
   padding: 2px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,6 +95,15 @@ const QuantityLabel = styled.span`
 const CityHolder = styled.div`
   display: flex;
   gap: 5px;
+`;
+
+const TickIcon = styled(FcCheckmark )`
+  width: 30%;
+  height: 18%;
+  border-radius: 100%;
+  border: 5px solid green;
+  filter: brightness(90%);
+  margin-top: 30px;
 `;
 
 export default function CartPage({ allProducts, fetchedCategory }) {
@@ -174,10 +191,11 @@ export default function CartPage({ allProducts, fetchedCategory }) {
 
     return (
       <>
-        <Header allProducts={allProducts} fetchedCategory={fetchedCategory} />
+        <Header allProducts={allProducts} fetchedCategory={fetchedCategory}/>
         <Center>
           <ColumnsWrapper>
             <Box>
+              <center><TickIcon /></center>
               <H>Thanks for your order !</H>
               <P>We will email you when your order is sent.</P>
               <Exit
@@ -197,19 +215,20 @@ export default function CartPage({ allProducts, fetchedCategory }) {
             </Box>
           </ColumnsWrapper>
         </Center>
+        <Footer />
       </>
     );
   }
   return (
     <>
-       <Header allProducts={allProducts} fetchedCategory={fetchedCategory} />
+      <Header allProducts={allProducts} fetchedCategory={fetchedCategory} />
       <Center>
         <ColumnsWrapper>
           <Box>
             <h2>Cart</h2>
             {!onCartProducts?.length && <div>Your cart is empty</div>}
             {products?.length > 0 && (
-              <Table>
+              <Table style={{width: "550px"}}>
                 <thead>
                   <tr>
                     <th>Product</th>
@@ -220,13 +239,13 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                 <tbody>
                   {products.map((product) => (
                     <tr key={product._id}>
-                      <ProductInfoCell>
+                      <ProductInfoCell style={{borderTopColor: 'gray'}}>
                         <ProductImageBox>
                           <img src={product.images[0]} alt="" />
                         </ProductImageBox>
                         <div style={{ marginTop: "10px" }}>{product.title}</div>
                       </ProductInfoCell>
-                      <td>
+                      <td style={{borderTopColor: 'gray'}}>
                         <Button onClick={() => lessOfThisProduct(product._id)}>
                           -
                         </Button>
@@ -240,7 +259,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                           +
                         </Button>
                       </td>
-                      <td>
+                      <td style={{borderTopColor: 'gray'}}>
                         ${" "}
                         {onCartProducts.filter((id) => id === product._id)
                           .length * product.price}
@@ -249,11 +268,11 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                   ))}
 
                   <tr style={{ height: "30px" }}>
-                    <td></td>
-                    <td style={{ textAlign: "end", paddingRight: "15px" }}>
+                    <td style={{borderTopColor: 'gray'}}></td>
+                    <td style={{ textAlign: "end", paddingRight: "15px" , borderTopColor: 'gray'}}>
                       Subtotal
                     </td>
-                    <td>$ {total}</td>
+                    <td style={{borderTopColor: 'gray'}}>$ {total}</td>
                   </tr>
 
                   <tr style={{ height: "30px" }}>
@@ -273,11 +292,11 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                   </tr>
 
                   <tr style={{ height: "30px" }}>
-                    <td></td>
-                    <td style={{ textAlign: "end", paddingRight: "15px" }}>
+                    <td style={{borderTopColor: 'gray'}}></td>
+                    <td style={{ textAlign: "end", paddingRight: "15px" , borderTopColor: 'gray'}}>
                       Total
                     </td>
-                    <td>$ {ft}</td>
+                    <td style={{borderTopColor: 'gray'}}>$ {ft}</td>
                   </tr>
                 </tbody>
               </Table>
