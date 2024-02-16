@@ -9,6 +9,7 @@ import { FaFacebookMessenger } from "react-icons/fa";
 import Link from 'next/link';
 import React, { useState } from 'react';
 import toast from "react-hot-toast";
+import { Product } from "@/models/Product";
 
 const Container = styled.div`
     margin-top: 62px;
@@ -150,7 +151,7 @@ const Location = styled.a`
         text-decoration: underline;
     }
 `
-export default function ContactUs ({fetchedCategory}) {
+export default function ContactUs ({ allProducts, fetchedCategory }) {
     
     const [fname, setName] = useState('');
     const [femail, setEmail] = useState('');
@@ -191,7 +192,7 @@ export default function ContactUs ({fetchedCategory}) {
     
     return(
         <>
-        <Header fetchedCategory={fetchedCategory}/>
+        <Header allProducts={allProducts} fetchedCategory={fetchedCategory} />
 
         <Container>
             <ContactInfo>
@@ -247,11 +248,13 @@ export default function ContactUs ({fetchedCategory}) {
 
 export async function getServerSideProps() {
     await mongooseConnect();
-    const fetchedCategory = await Category.find();
+    const categories = await Category.find();
+    const allProducts = await Product.find();
     return {
       props: {
-        fetchedCategory: JSON.parse(JSON.stringify(fetchedCategory)),
+        allProducts: JSON.parse(JSON.stringify(allProducts)),
+        fetchedCategory: JSON.parse(JSON.stringify(categories)),
       },
     };
-}
+  }
   

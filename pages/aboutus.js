@@ -4,35 +4,38 @@ import Aboutus from "@/components/AboutUs";
 import Footer from "@/components/Footer";
 import {mongooseConnect} from "@/lib/mongoose";
 import { Category } from "@/models/Category";
+import { Product } from "@/models/Product";
 
-export default function AboutPage({fetchedCategory}){
+export default function AboutPage({ allProduct, fetchedCategory }){
     const Header = dynamic(() => import('@/components/Header'), { ssr: false });
     const {data: session} = useSession();
   
     if (!session) {
-        return (
-            <>
-                <Header fetchedCategory={fetchedCategory}/>
-                <Aboutus />
-            </>
-        );
+			return (
+				<>
+					<Header allProducts={allProduct} fetchedCategory={fetchedCategory} />
+					<Aboutus />
+				</>
+			);
     }
 
     return(
-        <>
-            <Header fetchedCategory={fetchedCategory}/>
-            <Aboutus />
-            <Footer />
-        </>
+			<>
+				<Header allProducts={allProduct} fetchedCategory={fetchedCategory} />
+				<Aboutus />
+				<Footer />
+			</>
     )
 }
 
 export async function getServerSideProps() {
     await mongooseConnect();
-    const fetchedCategory = await Category.find();  //
+    const categories = await Category.find();
+    const allProducts = await Product.find();
     return {
-      props:{
-        fetchedCategory: JSON.parse(JSON.stringify(fetchedCategory)), //
-      }
+      props: {
+        allProduct: JSON.parse(JSON.stringify(allProducts)),
+        fetchedCategory: JSON.parse(JSON.stringify(categories)),
+      },
     };
   }
