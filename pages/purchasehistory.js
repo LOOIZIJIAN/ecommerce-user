@@ -202,37 +202,37 @@ export default function PurchaseHistory() {
         return(<><SessionOut /></>)
     }
 
-    // if (purchaseHistory.length === 0) {
-    //     return (
-    //         <>
-    //             <Header session={true} />
-    //             <Container>
-    //                 <LeftSetting />
-    //                 <CartCon>
-    //                     <CartTop>
-    //                         <Title>Purchase History</Title>
-    //                         <MiniTitle>Review your past purchases here</MiniTitle>
-    //                     </CartTop>
-    //                     <CartDet style={{
-    //                         display:  "flex", 
-    //                         flexDirection: 'row',
-    //                         gap: '30px',
-    //                         placeContent: 'center', 
-    //                         justifyContent:"center", 
-    //                         alignItems: 'center'
-    //                     }}>
-    //                         <HistoryIcon />
+    if (purchaseHistory.length === 0) {
+        return (
+            <>
+                <Header session={true} />
+                <Container>
+                    <LeftSetting />
+                    <CartCon>
+                        <CartTop>
+                            <Title>Purchase History</Title>
+                            <MiniTitle>Review your past purchases here</MiniTitle>
+                        </CartTop>
+                        <CartDet style={{
+                            display:  "flex", 
+                            flexDirection: 'row',
+                            gap: '30px',
+                            placeContent: 'center', 
+                            justifyContent:"center", 
+                            alignItems: 'center'
+                        }}>
+                            <HistoryIcon />
 
-    //                         <p style={{
-    //                             fontSize:'28px',
-    //                             fontWeight: '600'
-    //                         }}>No purchase history available</p>
-    //                     </CartDet>
-    //                 </CartCon>
-    //             </Container>
-    //         </>
-    //     );
-    // }
+                            <p style={{
+                                fontSize:'28px',
+                                fontWeight: '600'
+                            }}>No purchase history available</p>
+                        </CartDet>
+                    </CartCon>
+                </Container>
+            </>
+        );
+    }
 
     if(printStatus == true) {
         return(

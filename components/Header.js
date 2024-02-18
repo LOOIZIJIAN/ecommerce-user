@@ -596,6 +596,10 @@ export default function Header({allProducts, fetchedCategory}) {
           <Button  onClick={() => router.push("aboutus")}>
             <A href="/aboutus">About Us</A>
           </Button>{" "}
+
+          <Button  onClick={() => router.push("contactus")}>
+            <A href="/contactus">Contact Us</A>
+          </Button>{" "}
           {/* Add the page name behide the / */}
         </List>
         {/* Navigation Option End */}

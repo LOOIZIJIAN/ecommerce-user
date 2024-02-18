@@ -7,13 +7,14 @@ import styled from "styled-components";
 import Footer from "@/components/Footer";
 import { useSession } from "next-auth/react";
 import SessionOut from "@/components/SessionOut";
+import { Category } from "@/models/Category";
 
 const Header = dynamic(() => import('@/components/Header'), { ssr: false });
 const ProductsGrid = dynamic(() => import('@/components/ProductsGrid'), { ssr: false });
 const Wrapper = styled.div`
   margin-top: 85px;
 `;
-export default function WishList({products}) {
+export default function WishList({ allProducts, fetchedCategory }) {
     const {data : session} = useSession();
 
     if(!session) {
@@ -22,11 +23,11 @@ export default function WishList({products}) {
 
     return (
         <>
-        <Header session={true}/>
+        <Header allProducts={allProducts} fetchedCategory={fetchedCategory} />
         <Center>
             <Wrapper>
             <Title>Wish List</Title>
-            <ProductsGrid products={products} />
+            <ProductsGrid products={allProducts} />
             </Wrapper>
         </Center>
         <Footer />
@@ -36,10 +37,12 @@ export default function WishList({products}) {
 
 export async function getServerSideProps() {
   await mongooseConnect();
-  const products = await Product.find({}, null, {sort:{'_id':-1}});
+  const categories = await Category.find();
+  const allProducts = await Product.find();
   return {
-    props:{
-      products: JSON.parse(JSON.stringify(products)),
-    }
+    props: {
+      allProducts: JSON.parse(JSON.stringify(allProducts)),
+      fetchedCategory: JSON.parse(JSON.stringify(categories)),
+    },
   };
 }
