@@ -4,6 +4,7 @@ import Link from "next/link";
 
 const ProductWrapper = styled.div`
   width: 230px;
+  height: 400px;
 `;
 
 const Img = styled.img`
@@ -50,7 +51,7 @@ const WhiteBox = styled(Link)`
 const Title = styled.span`
   color: gray;
   text-decoration:none;
-  margin-top: 20px;
+  /* margin-top: 20px; */
   display:flex;
   justify-content:center;
   align-items:center;
@@ -73,6 +74,7 @@ const ProductInfoBox = styled.div`
   float: left;
   width: 100%;
   height: 80px;
+  margin-top: -70px;
 `;
 
 const PriceRow = styled.div`

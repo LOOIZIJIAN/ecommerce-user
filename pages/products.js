@@ -15,6 +15,8 @@ const Header = dynamic(() => import('@/components/Header'), { ssr: false });
 const ProductsGrid = dynamic(() => import('@/components/ProductsGrid'), { ssr: false });
 const Wrapper = styled.div`
   margin-top: 85px;
+  display: flex;
+  flex-direction: column;
 `;
 export default function ProductsPage({products , fetchedCategory}) {
   const { data: session } = useSession();
