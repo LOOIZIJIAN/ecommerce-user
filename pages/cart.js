@@ -20,11 +20,11 @@ const ColumnsWrapper = styled.div`
   display: flex;
   /* grid-template-columns: 1fr; */
   width: 100%;
-  min-height: 92.6%;
-  height: fit-content;
+  min-height: 93.1vh;
+  height: max-content;
   /* width: auto; */
   margin-top: 50px;
-  margin-bottom: 150px;
+  /* margin-bottom: 150px; */
   padding-top: 10px;
   gap: 80px;
   /* align-items: center; */
