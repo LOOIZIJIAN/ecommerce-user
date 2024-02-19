@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useContext, useEffect, useState } from "react";
 import Button from "./Button";
 import { CartContext } from "./CartContext";
-import { FcLikePlaceholder, FcLike } from 'react-icons/fc';
+import { FcLikePlaceholder, FcLike } from "react-icons/fc";
 import CartIcon from "./icons/CartIcon";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { useSession } from "next-auth/react";
@@ -49,14 +49,13 @@ const CartItem = styled.div`
   margin: 25px 10px 25px 10px;
   /* box-sizing: border-box; */
   flex-wrap: wrap;
-
 `;
 
 const A = styled(Link)`
   text-decoration: none;
   color: black;
   cursor: default;
-  height:fit-content;
+  height: fit-content;
 `;
 
 const ItemImg = styled.img`
@@ -70,11 +69,10 @@ const ItemTxtCon = styled.div`
   /* height: 110px; */
   flex-direction: column;
   justify-content: flex-end;
-  align-items:center;
+  align-items: center;
 `;
 
-const DetailCon = styled.div`
-`;
+const DetailCon = styled.div``;
 
 const Item = styled.div`
   display: flex;
@@ -92,33 +90,30 @@ const Item = styled.div`
   overflow: hidden;
 
   box-shadow: -5px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  
-  img{
+
+  img {
     object-fit: cover;
     transition: transform 0.8s ease; /* Add transition for transform */
     transform: scale(1);
   }
-  
-  &:hover{
-    &::before{
+
+  &:hover {
+    &::before {
       content: "";
       position: absolute;
       // inset :0; //2 select choose 1
-      top:0; //2 select choose 1
+      top: 0; //2 select choose 1
       left: 0;
       right: 0;
-      bottom:26.7%;
+      bottom: 26.7%;
 
-      z-index:1;
+      z-index: 1;
       transition: background 0.5s ease;
       background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
-      
     }
-    img{
+    img {
       transition: transform 0.8s ease; /* Add transition for transform */
       transform: translateY(20px) scale(1.15);
-
-    
     }
   }
 `;
@@ -132,16 +127,14 @@ const OtherCon = styled.div`
   text-align: center;
 
   width: fit-content;
-  border-radius:10px;
+  border-radius: 10px;
   // border : 1px solid;
   margin-bottom: 6px;
-  z-index:1;
-  transition: transform 0.8s ease; 
+  z-index: 1;
+  transition: transform 0.8s ease;
 
   ${Item}:hover & {
     transform: translateY(-40%);
-    
-
   }
 `;
 
@@ -171,25 +164,24 @@ const Img = styled.img`
 
 const RightBtn = styled(Btn)`
   width: 100%;
-  padding-left:10px;
-  padding-right:10px;
+  padding-left: 10px;
+  padding-right: 10px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   margin-left: 0;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 
   transition: transform 0.8s ease; /* Add transition for transform and border-radius */
-  transform: scale(1); 
+  transform: scale(1);
 
   &:hover {
     transition: transform 0.5s ease, border-radius 0.5s ease; /* Add transition for transform and border-radius */
-    transform: scale(1.4,1.25); /* Enlarge the button */
+    transform: scale(1.4, 1.25); /* Enlarge the button */
     border-top-left-radius: 10px; /* Adjust border-radius on hover */
     border-bottom-left-radius: 10px;
   }
-  
 `;
 
 const RBtnIcon = styled.img`
@@ -222,36 +214,35 @@ const Container = styled.div`
   margin-top: -30px;
   background-color: #f0f0f0;
   min-height: 91.5vh;
-  height: auto;                                                                               
+  height: auto;
 `;
 
 const Price = styled.div`
   font-size: 16px;
-  font-weight:200;
+  font-weight: 200;
   // text-align: right;
-  display:flex;
+  display: flex;
   justify-content: center;
   color: #000;
   // margin-right: 15px;
-  z-index:2;
+  z-index: 2;
   cursor: pointer;
   @media screen and (min-width: 768px) {
     font-size: 1.2rem;
-    font-weight:600;
+    font-weight: 600;
     text-align: left;
   }
   ${Item}:hover & {
     position: relative;
     transform: translateY(-150%);
-    font-size:2rem;
-    transition: transform 0.8s ease,font-size 0.8s ease;
-    color: #F8F9FA;
-
+    font-size: 2rem;
+    transition: transform 0.8s ease, font-size 0.8s ease;
+    color: #f8f9fa;
   }
 `;
 
 const Error = styled.div`
-  width: 98%; 
+  width: 98%;
   text-align: center;
   justify-content: center;
   color: gray;
@@ -272,26 +263,26 @@ const RedLike = styled(FcLike)`
   display: none;
 `;
 
-export default function Categories({product, cate}) {
+export default function Categories({ product, cate }) {
   // console.log("product:"+product);
   // console.log("cate name:"+cate);
 
-  const {addProduct} = useContext(CartContext);
+  const { addProduct } = useContext(CartContext);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
   const [LikeValue, setLikeValue] = useState(null);
-  const {data: session} = useSession();
+  const { data: session } = useSession();
 
   const router = useRouter();
 
   function ShowMss() {
-    const answer = confirm('Pls Login to add product to cart !');
+    const answer = confirm("Pls Login to add product to cart !");
 
-    if(answer) {
+    if (answer) {
       router.push("/");
     } else {
-      const answer2 = confirm('Login to continue');
+      const answer2 = confirm("Login to continue");
 
-      if(answer2) {
+      if (answer2) {
         router.push("/");
       } else {
         ShowMss();
@@ -300,7 +291,7 @@ export default function Categories({product, cate}) {
   }
 
   function CheckSess(id) {
-    if(session) {
+    if (session) {
       addProduct(id);
     } else {
       ShowMss();
@@ -311,31 +302,31 @@ export default function Categories({product, cate}) {
     const pink = document.getElementById(`pinkLike_${id}`);
     const red = document.getElementById(`redLike_${id}`);
 
-    if (pink.style.display === 'block') {
-      pink.style.display = 'none';
-      red.style.display = 'block';
+    if (pink.style.display === "block") {
+      pink.style.display = "none";
+      red.style.display = "block";
       setLikeValue(1);
     } else {
-      red.style.display = 'none';
-      pink.style.display = 'block';
+      red.style.display = "none";
+      pink.style.display = "block";
       setLikeValue(0);
     }
   };
 
   const showIcon = (id, value) => {
     // Check if the window object is defined (to prevent server-side rendering issues)
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const pink = document.getElementById(`pinkLike_${id}`);
       const red = document.getElementById(`redLike_${id}`);
 
       // Check if the elements exist and the LikeValue state is null
       if (pink && red && LikeValue == null) {
         if (value === 0 || value == null) {
-          red.style.display = 'none';
-          pink.style.display = 'block';
+          red.style.display = "none";
+          pink.style.display = "block";
         } else if (value === 1) {
-          pink.style.display = 'none';
-          red.style.display = 'block';
+          pink.style.display = "none";
+          red.style.display = "block";
         }
       }
     }
@@ -351,15 +342,18 @@ export default function Categories({product, cate}) {
         <CartCon>
           <CartTop>
             {/* {cate && cate[0] && <H1>{cate[0].name}</H1>} */}
-            <H1>{cate.name}</H1>  
+            <H1>{cate.name}</H1>
           </CartTop>
 
-        
-          <CartItem>    
-            {product.map(p=>(
-              <Item>
+          <CartItem>
+            {product.map((p) => (
+              <Item key={p._id}>
                 <A href={`/product/${p._id}`}>
-                  <ItemImg src={p.images[0]} alt="Item Image" onClick={() => router.push(`/product/${p._id}`)} />
+                  <ItemImg
+                    src={p.images[0]}
+                    alt="Item Image"
+                    onClick={() => router.push(`/product/${p._id}`)}
+                  />
                 </A>
                 <ItemTxtCon>
                   <DetailCon onClick={() => router.push(`/product/${p._id}`)}>
@@ -368,13 +362,24 @@ export default function Categories({product, cate}) {
                   </DetailCon>
 
                   <OtherCon>
-                    <Button onClick={() => CheckSess(p._id)} cate style={{width: '100%' , height: '100%'}}>
-                      <CartIcon/> Add to cart
+                    <Button
+                      onClick={() => CheckSess(p._id)}
+                      cate
+                      style={{ width: "100%", height: "100%" }}
+                    >
+                      <CartIcon /> Add to cart
                     </Button>
 
-                    <span style={{width: '10px'}} onClick={() => router.push(`/product/${p._id}`)}></span>
+                    <span
+                      style={{ width: "10px" }}
+                      onClick={() => router.push(`/product/${p._id}`)}
+                    ></span>
                     {/* onChange value 0 can change to take value from database to decide it color of the like icon */}
-                    <RightBtn type="button" onClick={() => changeIcon(p._id)} onChange={showIcon(p._id , 0)}>
+                    <RightBtn
+                      type="button"
+                      onClick={() => changeIcon(p._id)}
+                      onChange={showIcon(p._id, 0)}
+                    >
                       <PinkLike id={`pinkLike_${p._id}`} />
                       <RedLike id={`redLike_${p._id}`} />
                     </RightBtn>
@@ -382,17 +387,25 @@ export default function Categories({product, cate}) {
                 </ItemTxtCon>
               </Item>
             ))}
-            
           </CartItem>
 
-
-          {isErrorVisible &&
+          {isErrorVisible && (
             <div>
-              <AiOutlineFileSearch style={{ width: '100%', height: '200px', textAlign: 'center', fill: 'gray', marginTop: '100px', marginBottom: '20px' }} />
-              <Error>Uh oh! We couldn't find any {cate.name} products listings.</Error>
+              <AiOutlineFileSearch
+                style={{
+                  width: "100%",
+                  height: "200px",
+                  textAlign: "center",
+                  fill: "gray",
+                  marginTop: "100px",
+                  marginBottom: "20px",
+                }}
+              />
+              <Error>
+                Uh oh! We couldn&apost find any {cate.name} products listings.
+              </Error>
             </div>
-          }
-
+          )}
         </CartCon>
       </Container>
     </div>
