@@ -27,7 +27,7 @@ const ColWrapper = styled.div`
 
   border: 0.5px solid lightgray;
   border-radius: 12px;
-  min-height: 380px;
+  min-height: 450px;
   height: max-content;
   /* background-color: red; */
 `;
@@ -40,7 +40,7 @@ const Price = styled.span`
   font-size: 1.4rem;
 `;
 const Bottom =styled.div`
-    min-height: 30%;
+    min-height: 36%;
     height: auto;
     display: flex;
     flex-direction: row;
@@ -60,17 +60,21 @@ const ProtecImg = styled.img`
     width: 25px;
     height: 25px;
 `;
-const WB = styled(WhiteBox)`
+const Wb = styled.div`
+  background-color: #dee2e6;
+  border-radius: 10px;
+  padding: 25px;
+  height: 330px;
   min-height: 330px;
   height: auto;
   padding-bottom: 0px;
 `;
 const Right = styled.div`
   width: 450px;
-  min-height: 362px;
   height: auto;
   display: flex;
   flex-direction: column;
+  padding-bottom: 30px;
 `;
 export default function ProductPage({product , fetchedCategory}) {
   const {addProduct} = useContext(CartContext);
@@ -100,7 +104,7 @@ export default function ProductPage({product , fetchedCategory}) {
         <Header fetchedCategory={fetchedCategory} />
         <Center>
           <ColWrapper>
-            <WB>
+            <Wb>
               <ProductImages images={product.images} />
 
               <Bottom>
@@ -108,7 +112,7 @@ export default function ProductPage({product , fetchedCategory}) {
                 <H4>100% Authentic Guarantee</H4>
               </Bottom>
 
-            </WB>
+            </Wb>
 
             <Right>
               <Title>{product.title}</Title>
@@ -138,7 +142,7 @@ export default function ProductPage({product , fetchedCategory}) {
       <Header fetchedCategory={fetchedCategory} />
       <Center>
         <ColWrapper>
-          <WhiteBox>
+          <Wb>
             <ProductImages images={product.images} />
 
             <Bottom>
@@ -146,7 +150,7 @@ export default function ProductPage({product , fetchedCategory}) {
               <H4>100% Authentic Guarantee</H4>
             </Bottom>
 
-          </WhiteBox>
+          </Wb>
 
           <div style={{width: '450px' , height: '362px' , display: 'flex' , flexDirection: 'column'}}>
             <Title>{product.title}</Title>
