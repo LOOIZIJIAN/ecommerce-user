@@ -180,7 +180,7 @@ const DropDisplay = styled.div`
   display: none;
   /* width: 92.5%; */
   /* width: 8.23%; */
-  width: 6.25%;
+  width: 7.50%;
   min-height: 100px;
   height: auto;
   z-index: 2;
@@ -190,7 +190,7 @@ const DropDisplay = styled.div`
   margin-left: -11px;
   position: fixed;
   /* top: 66px; */
-  top: 60px;
+  top: 62px;
 `;
 
 const SharedBtn = styled.div`
