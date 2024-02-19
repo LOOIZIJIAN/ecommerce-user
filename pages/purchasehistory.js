@@ -172,6 +172,8 @@ export default function PurchaseHistory() {
         window.print();
     }
 
+    console.log("purchaseHistory length : " + purchaseHistory.length);
+
     if(!session) {
         return(<><SessionOut /></>)
     }
@@ -271,7 +273,7 @@ export default function PurchaseHistory() {
                             <HistoryTitle>Payment Status</HistoryTitle>
                         </HistoryTitleCon>
 
-                        {purchaseHistoryData.map((item, index) => ( // change to purchaseHistory , because purchaseHistoryData is for example show the data only
+                        {purchaseHistory.map((item, index) => ( // change to purchaseHistory , because purchaseHistoryData is for example show the data only
                             <HistoryCon key={index}>
                                 <HText style={{width: '5%'}}>{index+1}</HText>
                                 <HText style={{width: '35%' , textAlign: 'left' , justifyContent: 'left'}}>{item.item}</HText>
