@@ -22,7 +22,7 @@ const Intro0 = styled.div`
     inset: 0;
     width: 100%;
     height: 100%;
-    background-image: url("/public/directtest.png");
+    background-image: url("/public/pic.png");
     background-size: cover;
     background-attachment: fixed;
   }
@@ -33,7 +33,7 @@ const Empty_span = styled.span`
   align-items: center;
   min-width:100%;   
   min-height:654px;
-  background-image: url("pic.png");
+  background-image: url("directtest.png");
   background-size: cover;
   background-attachment: fixed;
 `;
