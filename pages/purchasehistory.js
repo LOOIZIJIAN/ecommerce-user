@@ -15,7 +15,7 @@ const HistoryIcon = styled(FaHistory)`
 const Container = styled.div`
   margin-top: -30px;
   width: 100%;
-  min-height: 760px;
+  min-height: 800px;
   background-color: #f0f0f0;
 `;
 
