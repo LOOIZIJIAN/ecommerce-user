@@ -27,7 +27,9 @@ const ColWrapper = styled.div`
 
   border: 0.5px solid lightgray;
   border-radius: 12px;
-  height: 380px;
+  min-height: 380px;
+  height: max-content;
+  /* background-color: red; */
 `;
 const PriceRow = styled.div`
   display: flex;
@@ -38,7 +40,8 @@ const Price = styled.span`
   font-size: 1.4rem;
 `;
 const Bottom =styled.div`
-    height: 30%;
+    min-height: 30%;
+    height: auto;
     display: flex;
     flex-direction: row;
     align-items: end;
@@ -56,6 +59,18 @@ const H4 = styled.h4`
 const ProtecImg = styled.img`
     width: 25px;
     height: 25px;
+`;
+const WB = styled(WhiteBox)`
+  min-height: 330px;
+  height: auto;
+  padding-bottom: 0px;
+`;
+const Right = styled.div`
+  width: 450px;
+  min-height: 362px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
 `;
 export default function ProductPage({product , fetchedCategory}) {
   const {addProduct} = useContext(CartContext);
@@ -85,7 +100,7 @@ export default function ProductPage({product , fetchedCategory}) {
         <Header fetchedCategory={fetchedCategory} />
         <Center>
           <ColWrapper>
-            <WhiteBox>
+            <WB>
               <ProductImages images={product.images} />
 
               <Bottom>
@@ -93,9 +108,9 @@ export default function ProductPage({product , fetchedCategory}) {
                 <H4>100% Authentic Guarantee</H4>
               </Bottom>
 
-            </WhiteBox>
+            </WB>
 
-            <div style={{width: '450px' , height: '362px' , display: 'flex' , flexDirection: 'column'}}>
+            <Right>
               <Title>{product.title}</Title>
 
               <p>{product.description}</p>
@@ -107,12 +122,12 @@ export default function ProductPage({product , fetchedCategory}) {
               <ItemDetail />
 
               <div style={{textAlign: 'center' , width: '400px'}}>
-                <Button cate onClick={() => ShowMss()} style={{width: '100%'}}>
+                <Button cate onClick={() => ShowMss()} style={{width: '100%' , marginBottom: '30px' , marginTop: '30px'}}>
                   <CartIcon />Add Cart
                 </Button>
               </div>
 
-            </div>
+            </Right>
           </ColWrapper>
         </Center>
       </>
