@@ -5,6 +5,7 @@ import SessionOut from "@/components/SessionOut";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from 'react';
 import { FaHistory } from "react-icons/fa";
+import axios from "axios";
 
 const HistoryIcon = styled(FaHistory)`
     width: 40px;
@@ -153,29 +154,6 @@ const PrtBtn = styled.button`
     }
 `;
 
-const purchaseHistoryData = [   // while have link to database , delete this 
-    { id: 1, item: 'Iphone 15 Pro Max', qty: 1, price: 1399, paymentStatus: true },
-    { id: 2, item: 'Samsung Galaxy S22', qty: 2, price: 999, paymentStatus: false },
-    { id: 3, item: 'MacBook Pro 2022', qty: 1, price: 2499, paymentStatus: true },
-    { id: 4, item: 'iPad Air 5', qty: 1, price: 699, paymentStatus: true },
-    { id: 5, item: 'Sony PlayStation 5', qty: 1, price: 499, paymentStatus: false },
-    { id: 6, item: 'Xbox Series X', qty: 1, price: 499, paymentStatus: true },
-    { id: 7, item: 'Dell XPS 13', qty: 1, price: 1199, paymentStatus: false },
-    { id: 8, item: 'Google Pixel 6', qty: 1, price: 699, paymentStatus: true },
-    { id: 9, item: 'Apple Watch Series 7', qty: 1, price: 399, paymentStatus: true },
-    { id: 10, item: 'Amazon Echo Dot', qty: 3, price: 29, paymentStatus: false },
-    { id: 11, item: 'Logitech G Pro X Mechanical Keyboard', qty: 1, price: 149, paymentStatus: true },
-    { id: 12, item: 'Canon EOS R5', qty: 1, price: 3799, paymentStatus: false },
-    { id: 13, item: 'Bose QuietComfort 35 II', qty: 1, price: 299, paymentStatus: true },
-    { id: 14, item: 'Nintendo Switch OLED Model', qty: 1, price: 349, paymentStatus: false },
-    { id: 15, item: 'LG C1 OLED TV', qty: 1, price: 1499, paymentStatus: true },
-    { id: 16, item: 'Fitbit Charge 5', qty: 1, price: 179, paymentStatus: true },
-    { id: 17, item: 'GoPro Hero 10 Black', qty: 1, price: 499, paymentStatus: false },
-    { id: 18, item: 'Microsoft Surface Laptop 4', qty: 1, price: 1299, paymentStatus: true },
-    { id: 19, item: 'Razer DeathAdder Elite Gaming Mouse', qty: 1, price: 69, paymentStatus: true },
-    { id: 20, item: 'Samsung 32-Inch Odyssey G5 Gaming Monitor', qty: 1, price: 349, paymentStatus: false },
-];
-
 export default function PurchaseHistory() {
     const {data : session} = useSession();
 
@@ -183,11 +161,7 @@ export default function PurchaseHistory() {
     const [printStatus, setPrintStatus] = useState(false);
 
     useEffect(() => {
-        // Fetch data from your backend API
-        fetch('/api/purchase-history')
-            .then(response => response.json())
-            .then(data => setPurchaseHistory(data))
-            .catch(error => console.error('Error fetching data:', error));
+      axios.get('/api/record?account=' + session?.user?.email).then(response=> setPurchaseHistory(response.data))
     }, []);
 
     const handlePrint = () => {
@@ -251,13 +225,11 @@ export default function PurchaseHistory() {
                             <HistoryTitle>Payment Status</HistoryTitle>
                         </HistoryTitleCon>
 
-                        {purchaseHistoryData.map((item, index) => (
-                            <HistoryCon key={index}>
+                        {purchaseHistory.map((item, index) => (
+                            <HistoryCon key={item._id}>
                                 <HText style={{width: '5%'}}>{index+1}</HText>
                                 <HText style={{width: '35%' , textAlign: 'left' , justifyContent: 'left'}}>{item.item}</HText>
-                                <HText style={{width: '5%'}}>{item.qty}</HText>
-                                <HText style={{width: '15%'}}>$ {item.price.toFixed(2)}</HText>
-                                <HText>$ {(item.price*item.qty).toFixed(2)}</HText>
+                                <HText style={{width: '5%'}}>{item.name}</HText>
                                 <HText>
                                     <Btn type="button" success={item.paymentStatus}>
                                         {item.paymentStatus ? 'Success' : 'Failed'}

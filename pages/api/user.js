@@ -7,8 +7,6 @@ export default async function handler(req, res) {
     await mongooseConnect();
     if (req.method === "GET") {
       const { email } = req.query;
-      console.log("Received email:", email);
-      console.log(User); // Log the User model object
 
       if (!email) return res.status(400).json({ error: "Email is required" });
 
