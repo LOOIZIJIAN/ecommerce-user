@@ -359,7 +359,7 @@ export default function Categories({product, cate}) {
             {product.map(p=>(
               <Item>
                 <A href={`/product/${p._id}`}>
-                  <ItemImg src={p.images} alt="Item Image" onClick={() => router.push(`/product/${p._id}`)} />
+                  <ItemImg src={p.images[0]} alt="Item Image" onClick={() => router.push(`/product/${p._id}`)} />
                 </A>
                 <ItemTxtCon>
                   <DetailCon onClick={() => router.push(`/product/${p._id}`)}>
