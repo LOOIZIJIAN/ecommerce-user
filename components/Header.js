@@ -179,7 +179,8 @@ const Button = styled.button`
 const DropDisplay = styled.div`
   display: none;
   /* width: 92.5%; */
-  width: 8.23%;
+  /* width: 8.23%; */
+  width: 10.23%;
   min-height: 100px;
   height: auto;
   z-index: 2;
