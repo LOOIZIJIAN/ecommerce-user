@@ -27,9 +27,8 @@ const ColWrapper = styled.div`
 
   border: 0.5px solid lightgray;
   border-radius: 12px;
-  min-height: 450px;
+  min-height: 350px;
   height: max-content;
-  /* background-color: red; */
 `;
 const PriceRow = styled.div`
   display: flex;
@@ -40,7 +39,7 @@ const Price = styled.span`
   font-size: 1.4rem;
 `;
 const Bottom =styled.div`
-    min-height: 36%;
+    min-height: 50px;
     height: auto;
     display: flex;
     flex-direction: row;
@@ -68,6 +67,7 @@ const Wb = styled.div`
   min-height: 330px;
   height: auto;
   padding-bottom: 0px;
+  width: 79.4%;
 `;
 const Right = styled.div`
   width: 450px;
@@ -152,7 +152,7 @@ export default function ProductPage({product , fetchedCategory}) {
 
           </Wb>
 
-          <div style={{width: '450px' , height: '362px' , display: 'flex' , flexDirection: 'column'}}>
+          <Right>
             <Title>{product.title}</Title>
 
             <p>{product.description}</p>
@@ -169,7 +169,7 @@ export default function ProductPage({product , fetchedCategory}) {
               </Button>
             </div>
 
-          </div>
+          </Right>
         </ColWrapper>
       </Center>
     </>
