@@ -232,10 +232,10 @@ export default function Register({ users }) {
 
     let info = { ...data, otp };
     
-    emailjs.init("AL-MhcS5HYIPa2TSs");  //  key kylew
+    emailjs.init("AL-MhcS5HYIPa2TSs");  //  key direct
 
     const sendMail = () => {
-      emailjs.send("service_2tbd16t","template_ywvs0cq", {    //  kylew
+      emailjs.send("service_2tbd16t","template_ywvs0cq", {    //  direct
         email: data.email,
         name: data.username
       });

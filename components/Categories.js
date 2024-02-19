@@ -46,7 +46,10 @@ const CartItem = styled.div`
   flex-direction: row;
   width: 98.86%;
   height: fit-content;
-  margin: 12px 10px 25px 10px;
+  margin: 25px 10px 25px 10px;
+  /* box-sizing: border-box; */
+  flex-wrap: wrap;
+
 `;
 
 const A = styled(Link)`
@@ -82,7 +85,7 @@ const Item = styled.div`
   width: 210px;
   height: 320px;
   margin-right: 25px;
-
+  margin-bottom: 30px;
   border-radius: 5px;
   border: 0.5px solid #ced4da;
   position: relative;
@@ -352,8 +355,7 @@ export default function Categories({product, cate}) {
           </CartTop>
 
         
-          <CartItem>
-                        
+          <CartItem>    
             {product.map(p=>(
               <Item>
                 <A href={`/product/${p._id}`}>

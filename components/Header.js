@@ -180,7 +180,7 @@ const DropDisplay = styled.div`
   display: none;
   width: 92%;
   z-index: 2;
-  margin-top: 185px;
+  margin-top: 150px;
   margin-left: -132.5px;
 `;
 
