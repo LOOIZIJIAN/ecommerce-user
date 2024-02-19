@@ -178,10 +178,17 @@ const Button = styled.button`
 
 const DropDisplay = styled.div`
   display: none;
-  width: 92%;
+  /* width: 92.5%; */
+  width: 8.23%;
+  min-height: 100px;
+  height: auto;
   z-index: 2;
-  margin-top: 150px;
-  margin-left: -132.5px;
+  /* margin-top: 150px; */
+  /* margin-top: 185px; */
+  /* margin-left: -132.5px; */
+  margin-left: -11px;
+  position: fixed;
+  top: 66px;
 `;
 
 const SharedBtn = styled.div`
@@ -242,6 +249,7 @@ const DropBtn = styled.button`
   border: none;
   padding: 8px 10px;
   width: 108%;
+  cursor: pointer;
 
   &:hover {
     background-color: gray;
@@ -264,7 +272,7 @@ const RightCol = styled.div`
     top: 0px;
     bottom: 0px;
     right: 0px;
-    left: 65%;
+    left: 67.5%;
     padding-right: 10px;
   }
 `;
@@ -580,11 +588,11 @@ export default function Header({allProducts, fetchedCategory}) {
             </SvgArw>
             <DropDisplay>
               <DropBar>
-                <DropBtn>
+                <DropBtn onClick={() => router.push("/products")}>
                   <DropA href="/products">All products</DropA>
                 </DropBtn>
                 {parents.map((p) => (
-                  <DropBtn key={p._id}>
+                  <DropBtn key={p._id} onClick={() => router.push(`/category/${p._id}`)}>
                     <DropA href={`/category/${p._id}`}>{p.name}</DropA>
                   </DropBtn>
                 ))}

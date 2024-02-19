@@ -67,14 +67,13 @@ const ItemImg = styled.img`
 const ItemTxtCon = styled.div`
   display: flex;
   width: 100%;
-  // height: 110px;
+  /* height: 110px; */
   flex-direction: column;
   justify-content: flex-end;
   align-items:center;
 `;
 
 const DetailCon = styled.div`
-  
 `;
 
 const Item = styled.div`
@@ -83,7 +82,8 @@ const Item = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 210px;
-  height: 320px;
+  /* height: 320px; */
+  height: 400px;
   margin-right: 25px;
   margin-bottom: 30px;
   border-radius: 5px;
