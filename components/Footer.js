@@ -108,7 +108,7 @@ const Input = styled.input`
 const BtnCon = styled.div`
     margin-top: 16px;
     border-radius: 6px;
-    
+    z-index: 2;
     @media (min-width: 640px) {
         margin-top: 0px;
         margin-left: 16px;
@@ -118,6 +118,7 @@ const BtnCon = styled.div`
 const BtnSubCon = styled.div`
     display: flex;
     justify-content: flex-end;
+    z-index: 2;
 `;
 const Btn = styled.button`
     width: 100%;
@@ -137,6 +138,7 @@ const Btn = styled.button`
     --tw-ring-offset-width: 2px;
     --tw-ring-color: transparent;
     --tw-ring-offset-color: transparent;
+    z-index: 2;
 
     &:focus {
         outline: 2px solid transparent;

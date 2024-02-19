@@ -21,7 +21,7 @@ const Container = styled.div`
   right: 1vw;
   bottom: 1vw;
   cursor: pointer;
-  z-index: 2;
+  z-index: 100;
   transform: scaleX(-1);
 
   &:hover {
@@ -50,6 +50,7 @@ const ContainerBox = styled.div`
   display: none;
   scroll-behavior: smooth;
   overflow: auto;
+  z-index: 100;
 `;
 
 const HeadContainer = styled.div`
@@ -240,6 +241,7 @@ const BtnBox = styled.div`
   width: 320px;
   height: 40px;
   position: fixed;
+  /* z-index: 100; */
 `;
 
 const P3 = styled.p`
@@ -259,7 +261,8 @@ const ChatBtn = styled.button`
   display: flex;
   align-items: center;
   border: none;
-
+  z-index: 100;
+  
   &:hover {
     background-color: rgb(136, 187, 205);
     border: 0.5px solid gray;
