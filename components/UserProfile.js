@@ -1,6 +1,9 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import { BiLogoFacebookSquare } from "react-icons/bi";
+import { FaFacebookMessenger } from "react-icons/fa";
+import { MdOutlineMailOutline } from "react-icons/md";
 
 const Container = styled.div`
   margin-left: 30px;
@@ -98,6 +101,36 @@ const Icon = styled.img`
   filter: brightness(50%);
 `;
 
+const FBIcon = styled(BiLogoFacebookSquare)`
+  fill: gray;
+  width: 35px;
+  height: 35px;
+
+  &:hover {
+    fill: blue;
+    cursor: pointer;
+  }
+`;
+const MessengerIcon = styled(FaFacebookMessenger)`
+  fill: gray;
+  width: 28px;
+  height: 28px;
+  margin-top: 2px;
+  &:hover {
+    fill: blue;
+    cursor: pointer;
+  }
+`;
+const EmailIcon = styled(MdOutlineMailOutline)`
+  fill: gray;
+  width: 28px;
+  height: 28px;
+  margin-top: 2px;
+  &:hover {
+    fill: blue;
+    cursor: pointer;
+  }
+`;
 const Btn = styled.button`
   height: 68px;
   padding: 10px 31.3px;
@@ -106,30 +139,46 @@ const Btn = styled.button`
   cursor: pointer;
 
   &:hover {
-    background: #292727;
-
-    ${Icon} {
-      filter: brightness(100%);
-    }
+    background: lightgray;
   }
 `;
 
 const Btn1 = styled(Btn)`
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
+
+  &:hover {
+    ${FBIcon} {
+      fill: blue;
+      cursor: pointer;
+    }
+  }
 `;
 const Btn2 = styled(Btn)`
+  &:hover {
+    ${MessengerIcon} {
+      fill: blue;
+      cursor: pointer;
+    }
+  }
+`;
+const Btn3 = styled(Btn)`
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
-`;
 
+  &:hover {
+    ${EmailIcon} {
+      fill: blue;
+      cursor: pointer;
+    }
+  }
+`;
 export default function AfterLogin() {
   const { data: session } = useSession();
   const router = useRouter();
   return (
     <Container>
       <UpCon>
-        {/* <Img src={session?.user?.image} /> */}
         <Img src={session?.user?.image || "afterLogin/User_Icon.png"} />
 
         <Details>
@@ -145,12 +194,15 @@ export default function AfterLogin() {
       <Hr />
 
       <DownCon>
-        <Btn1 onClick={() => router.push("/wishlist")}>
-          <Icon src="afterLogin/Like_Icon.png" />
+        <Btn1 onClick={() => router.push("https://www.facebook.com/profile.php?id=61553355490093")}>
+          <FBIcon />
         </Btn1>
-        <Btn2 onClick={() => router.push("/cart")}>
-          <Icon src="afterLogin/Shopping_Cart.png" />
+        <Btn2 onClick={() => router.push("https://www.messenger.com/t/154811617722587/?messaging_source=source%3Apages%3Amessage_shortlink&source_id=1441792&recurring_notification=0")}>
+          <MessengerIcon />
         </Btn2>
+        <Btn3 onClick={() => router.push("mailto:directaccessory@gmail.com")}>
+          <EmailIcon />
+        </Btn3>
       </DownCon>
     </Container>
   );
