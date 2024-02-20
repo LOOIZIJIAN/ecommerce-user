@@ -1,15 +1,18 @@
-import styled from "styled-components"
-import LeftSetting from "../components/LeftSetting"
-import Header from "@/components/Header"
+import styled from "styled-components";
+import LeftSetting from "../components/LeftSetting";
+import Header from "@/components/Header";
 import SessionOut from "@/components/SessionOut";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { FaHistory } from "react-icons/fa";
 import axios from "axios";
+import { Product } from "@/models/Product";
+import { Category } from "@/models/Category";
+import { mongooseConnect } from "@/lib/mongoose";
 
 const HistoryIcon = styled(FaHistory)`
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 `;
 
 const Container = styled.div`
@@ -72,226 +75,315 @@ const CartDet = styled.div`
 `;
 
 const HistoryTitleCon = styled.div`
-    display: flex;
-    flex-direction: row;
-    width: 98%;
-    height: fit-content;
-    border-bottom: 1px solid gray;
-    margin-left: 1%;
-    margin-right: 1%;
+  display: flex;
+  flex-direction: row;
+  width: 98%;
+  height: fit-content;
+  border-bottom: 1px solid gray;
+  margin-left: 1%;
+  margin-right: 1%;
 `;
 
 const HistoryTitle = styled.p`
-    font-size: 18px;
-    font-weight: 600;
-    width: 22.5%;
-    height: 10px;
-    text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  width: 22.5%;
+  height: 10px;
+  text-align: center;
 `;
 
 const HistoryTitleNo = styled(HistoryTitle)`
-    width: 5%;
+  width: 5%;
 `;
 
 const HistoryCon = styled.div`
-    display: flex;
-    flex-direction: row;
-    border-bottom: 1px solid lightgray;
-    width: 98%;
-    height: 40px;
-    margin: 0;
-    margin-left: 1%;
-    margin-right: 1%;
-    padding: 0;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid lightgray;
+  width: 98%;
+  height: 40px;
+  margin: 0;
+  margin-left: 1%;
+  margin-right: 1%;
+  padding: 0;
 `;
 
 const HText = styled.p`
-    font-size: 18px;
-    font-weight: 500;
-    width: 22.5%;
-    height: 40px;
-    margin: 0;
-    padding: 0;
+  font-size: 18px;
+  font-weight: 500;
+  width: 22.5%;
+  height: 40px;
+  margin: 0;
+  padding: 0;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Btn = styled.button`
-    width: 40%;
-    height: 30px;
-    border-radius: 8px;
-    border: none;
-    background-color: ${props => props.success ? 'lightgreen' : 'lightcoral'};
-    font-weight: 600;
-    font-size: 14px;
+  width: 40%;
+  height: 30px;
+  border-radius: 8px;
+  border: none;
+  background-color: ${(props) => (props.success ? "lightgreen" : "lightcoral")};
+  font-weight: 600;
+  font-size: 14px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const PrtBtn = styled.button`
-    width: 8%;
-    height: 30px;
-    border-radius: 8px;
-    border: 1px solid black;
-    cursor: pointer;
-    margin-left: auto;
-    margin-top: 2%;
-    margin-right: 4%;
+  width: 8%;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid black;
+  cursor: pointer;
+  margin-left: auto;
+  margin-top: 2%;
+  margin-right: 4%;
 
-    font-size: 16px;
-    font-weight: 500;
+  font-size: 16px;
+  font-weight: 500;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    &:hover {
-        background-color: lightgray;
-    }
+  &:hover {
+    background-color: lightgray;
+  }
 `;
 
-export default function PurchaseHistory() {
-    const {data : session} = useSession();
+export default function PurchaseHistory({ allProduct, fetchedCategory }) {
+  const { data: session } = useSession();
 
-    const [purchaseHistory, setPurchaseHistory] = useState([]);
-    const [printStatus, setPrintStatus] = useState(false);
+  const [purchaseHistory, setPurchaseHistory] = useState([]);
+  const [printStatus, setPrintStatus] = useState(false);
 
-    useEffect(() => {
-      axios.get('/api/record?account=' + session?.user?.email).then(response=> setPurchaseHistory(response.data))
-    }, []);
+  useEffect(() => {
+    axios
+      .get("/api/record?account=" + session?.user?.email)
+      .then((response) => setPurchaseHistory(response.data));
+  }, []);
 
-    const handlePrint = () => {
-        setPrintStatus(true);
-    };
+  const data = JSON.stringify(purchaseHistory);
 
-    const printOut = () => {
-        window.print();
-    }
+  purchaseHistory.forEach((ph, index) => {
+    console.log(`Item ${index + 1}: ${ph.name}`);
+  });
 
-    console.log("purchaseHistory length : " + purchaseHistory.length);
+  const handlePrint = () => {
+    setPrintStatus(true);
+  };
 
-    if(!session) {
-        return(<><SessionOut /></>)
-    }
+  const printOut = () => {
+    window.print();
+  };
 
-    if (purchaseHistory.length === 0) {
-        return (
-            <>
-                <Header session={true} />
-                <Container>
-                    <LeftSetting />
-                    <CartCon>
-                        <CartTop>
-                            <Title>Purchase History</Title>
-                            <MiniTitle>Review your past purchases here</MiniTitle>
-                        </CartTop>
-                        <CartDet style={{
-                            display:  "flex", 
-                            flexDirection: 'row',
-                            gap: '30px',
-                            placeContent: 'center', 
-                            justifyContent:"center", 
-                            alignItems: 'center'
-                        }}>
-                            <HistoryIcon />
+  if (!session) {
+    return (
+      <>
+        <SessionOut />
+      </>
+    );
+  }
 
-                            <p style={{
-                                fontSize:'28px',
-                                fontWeight: '600'
-                            }}>No purchase history available</p>
-                        </CartDet>
-                    </CartCon>
-                </Container>
-            </>
-        );
-    }
+  if (purchaseHistory.length === 0) {
+    return (
+      <>
+        <Header allProducts={allProduct} fetchedCategory={fetchedCategory} />
+        <Container>
+          <LeftSetting />
+          <CartCon>
+            <CartTop>
+              <Title>Purchase History</Title>
+              <MiniTitle>Review your past purchases here</MiniTitle>
+            </CartTop>
+            <CartDet
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "30px",
+                placeContent: "center",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <HistoryIcon />
 
-    if(printStatus == true) {
-        return(
-            <>
-            <Container>
-                <CartCon style={{marginLeft: 'auto' , marginRight: 'auto' , width: '100%' , marginTop: '0'}}>
-                    <img src="Company_Logo_Black_Mode.png" width="30%" height="105px" alt="Error" style={{marginLeft: 'auto' , marginRight: 'auto' , marginTop: '30px'}}/>
-                    
-                    <CartDet style={{width: '100%' , marginTop: '10px' , marginBottom: '0'}}>
-                        <HistoryTitleCon>
-                            <HistoryTitleNo>No</HistoryTitleNo>
-                            <HistoryTitle style={{width: '35%'}}>Item</HistoryTitle>
-                            <HistoryTitleNo>Qty</HistoryTitleNo>
-                            <HistoryTitle style={{width: '15%'}}>Price</HistoryTitle>
-                            <HistoryTitle>Total Price</HistoryTitle>
-                            <HistoryTitle>Payment Status</HistoryTitle>
-                        </HistoryTitleCon>
+              <p
+                style={{
+                  fontSize: "28px",
+                  fontWeight: "600",
+                }}
+              >
+                No purchase history available
+              </p>
+            </CartDet>
+          </CartCon>
+        </Container>
+      </>
+    );
+  }
 
-                        {purchaseHistory.map((item, index) => (
-                            <HistoryCon key={item._id}>
-                                <HText style={{width: '5%'}}>{index+1}</HText>
-                                <HText style={{width: '35%' , textAlign: 'left' , justifyContent: 'left'}}>{item.item}</HText>
-                                <HText style={{width: '5%'}}>{item.name}</HText>
-                                <HText>
-                                    <Btn type="button" success={item.paymentStatus}>
-                                        {item.paymentStatus ? 'Success' : 'Failed'}
-                                    </Btn>
-                                </HText>
-                            </HistoryCon>
-                        ))}
+  if (printStatus == true) {
+    return (
+      <>
+        <Container>
+          <CartCon
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              width: "100%",
+              marginTop: "0",
+            }}
+          >
+            <img
+              src="Company_Logo_Black_Mode.png"
+              width="30%"
+              height="105px"
+              alt="Error"
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: "30px",
+              }}
+            />
 
-                        <div style={{display: 'flex' , flexDirection: 'row' , marginLeft: 'auto' , marginRight: 'auto' , marginTop: '20px' , gap: '300px'}}>
-                            <PrtBtn type="button" onClick={() => window.location = "purchasehistory"} style={{width: '80px'}}>Return</PrtBtn>
+            <CartDet
+              style={{ width: "100%", marginTop: "10px", marginBottom: "0" }}
+            >
+              {/* <HistoryTitleCon>
+                <HistoryTitleNo>No</HistoryTitleNo>
+                <HistoryTitle style={{ width: "35%" }}>Item</HistoryTitle>
+                <HistoryTitleNo>Qty</HistoryTitleNo>
+                <HistoryTitle style={{ width: "15%" }}>Price</HistoryTitle>
+                <HistoryTitle>Total Price</HistoryTitle>
+                <HistoryTitle>Payment Status</HistoryTitle>
+              </HistoryTitleCon> */}
 
-                            <PrtBtn type="button" onClick={printOut} style={{width: '80px'}}>Print</PrtBtn>
-                        </div>
-                    </CartDet>
-                </CartCon>
-            </Container>
-            </>
-        )
-    }
+              {purchaseHistory.map((ph, index) => (
+                <HistoryCon key={ph._id}>
+                  <HText style={{ width: "5%" }}>{index + 1}</HText>
+                  <HText
+                    style={{
+                      width: "35%",
+                      textAlign: "left",
+                      justifyContent: "left",
+                    }}
+                  >
+                    {ph.line_items[0].price_data.product_data.name}
+                  </HText>
+                  <HText style={{ width: "5%" }}>{item.name}</HText>
+                  <HText>
+                    <Btn type="button" success={item.paymentStatus}>
+                      {item.paymentStatus ? "Success" : "Failed"}
+                    </Btn>
+                  </HText>
+                </HistoryCon>
+              ))}
 
-    return(
-        <>
-            <Header session={true}/>
-            <Container>
-                <LeftSetting />
-                <CartCon>
-                    <CartTop>
-                      <Title>Purchase History</Title>
-                      <MiniTitle>Review your past purchases here</MiniTitle>
-                    </CartTop>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  marginTop: "20px",
+                  gap: "300px",
+                }}
+              >
+                <PrtBtn
+                  type="button"
+                  onClick={() => (window.location = "purchasehistory")}
+                  style={{ width: "80px" }}
+                >
+                  Return
+                </PrtBtn>
 
-                    <CartDet>
-                        <HistoryTitleCon>
-                            <HistoryTitleNo>No</HistoryTitleNo>
-                            <HistoryTitle style={{width: '35%'}}>Item</HistoryTitle>
-                            <HistoryTitleNo>Qty</HistoryTitleNo>
-                            <HistoryTitle style={{width: '10%'}}>Price</HistoryTitle>
-                            <HistoryTitle>Total Price</HistoryTitle>
-                            <HistoryTitle>Payment Status</HistoryTitle>
-                        </HistoryTitleCon>
+                <PrtBtn
+                  type="button"
+                  onClick={printOut}
+                  style={{ width: "80px" }}
+                >
+                  Print
+                </PrtBtn>
+              </div>
+            </CartDet>
+          </CartCon>
+        </Container>
+      </>
+    );
+  }
 
-                        {purchaseHistory.map((item, index) => ( // change to purchaseHistory , because purchaseHistoryData is for example show the data only
-                            <HistoryCon key={index}>
-                                <HText style={{width: '5%'}}>{index+1}</HText>
-                                <HText style={{width: '35%' , textAlign: 'left' , justifyContent: 'left'}}>{item.item}</HText>
-                                <HText style={{width: '5%'}}>{item.qty}</HText>
-                                <HText style={{width: '10%'}}>$ {item.price.toFixed(2)}</HText>
-                                <HText>$ {(item.price*item.qty).toFixed(2)}</HText>
-                                <HText>
-                                    <Btn type="button" success={item.paymentStatus}>
-                                        {item.paymentStatus ? 'Success' : 'Failed'}
-                                    </Btn>
-                                </HText>
-                            </HistoryCon>
-                        ))}
+  return (
+    <>
+      <Header allProducts={allProduct} fetchedCategory={fetchedCategory} />
+      <Container>
+        <LeftSetting />
+        <CartCon>
+          <CartTop>
+            <Title>Purchase History</Title>
+            <MiniTitle>Review your past purchases here</MiniTitle>
+          </CartTop>
 
-                        <PrtBtn type="button" onClick={handlePrint}>Print</PrtBtn>
-                    </CartDet>
-                </CartCon>
-            </Container>
-        </>
-    )
+          <CartDet>
+            <HistoryTitleCon>
+              <HistoryTitleNo>No</HistoryTitleNo>
+              <HistoryTitle style={{ width: "35%" }}>Item</HistoryTitle>
+              <HistoryTitleNo>Qty</HistoryTitleNo>
+              <HistoryTitle style={{ width: "10%" }}>Price</HistoryTitle>
+              <HistoryTitle>Total Price</HistoryTitle>
+              <HistoryTitle>Payment Status</HistoryTitle>
+            </HistoryTitleCon>
+
+            {purchaseHistory.map((ph, index) => (
+              <HistoryCon key={ph._id}>
+                <HText style={{ width: "5%" }}>{index + 1}</HText>
+                <HText
+                  style={{
+                    width: "35%",
+                    textAlign: "left",
+                    justifyContent: "left",
+                  }}
+                >
+                  {ph.line_items[0]?.price_data?.product_data?.name} make at
+                  {ph.createdAt}
+                </HText>
+                {/* <HText style={{ width: "5%" }}>{item.qty}</HText>
+                  <HText style={{ width: "10%" }}>
+                    $ {item.price?.toFixed(2)}
+                  </HText>
+                  <HText>$ {(item.price * item.qty).toFixed(2)}</HText>
+                  <HText>
+                    <Btn type="button" success={item.paymentStatus}>
+                      {item.paymentStatus ? "Success" : "Failed"}
+                    </Btn>
+                  </HText> */}
+              </HistoryCon>
+            ))}
+
+            <PrtBtn type="button" onClick={handlePrint}>
+              Print
+            </PrtBtn>
+          </CartDet>
+        </CartCon>
+      </Container>
+    </>
+  );
+}
+
+export async function getServerSideProps() {
+  await mongooseConnect();
+  const categories = await Category.find();
+  const allProducts = await Product.find();
+  return {
+    props: {
+      allProduct: JSON.parse(JSON.stringify(allProducts)),
+      fetchedCategory: JSON.parse(JSON.stringify(categories)),
+    },
+  };
 }

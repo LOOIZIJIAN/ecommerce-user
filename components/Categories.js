@@ -264,8 +264,6 @@ const RedLike = styled(FcLike)`
 `;
 
 export default function Categories({ product, cate }) {
-  // console.log("product:"+product);
-  // console.log("cate name:"+cate);
 
   const { addProduct } = useContext(CartContext);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
@@ -341,7 +339,6 @@ export default function Categories({ product, cate }) {
       <Container>
         <CartCon>
           <CartTop>
-            {/* {cate && cate[0] && <H1>{cate[0].name}</H1>} */}
             <H1>{cate.name}</H1>
           </CartTop>
 
