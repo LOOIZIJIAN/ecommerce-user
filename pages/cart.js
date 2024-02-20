@@ -15,6 +15,8 @@ import { Category } from "@/models/Category";
 import { Product } from "@/models/Product";
 import Footer from "@/components/Footer";
 import { FcCheckmark } from "react-icons/fc";
+import { TbShoppingCartQuestion } from "react-icons/tb";
+import { BiFontSize } from "react-icons/bi";
 
 const ColumnsWrapper = styled.div`
   display: flex;
@@ -106,6 +108,20 @@ const TickIcon = styled(FcCheckmark)`
   margin-top: 30px;
 `;
 
+const CartIcon = styled(TbShoppingCartQuestion)`
+  width: 30%;
+  height: auto;
+`;
+
+const EmptyCon = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  width: 500px;
+  height: auto;
+  margin-top: 80px;
+`;
 export default function CartPage({ allProducts, fetchedCategory }) {
   const { onCartProducts, addProduct, removeProduct, clearCart } =
     useContext(CartContext);
@@ -229,8 +245,22 @@ export default function CartPage({ allProducts, fetchedCategory }) {
       <Center>
         <ColumnsWrapper>
           <Box>
-            <h2>Cart</h2>
-            {!onCartProducts?.length && <div>Your cart is empty</div>}
+            {onCartProducts?.length > 0 && 
+              <h2>Cart</h2>
+            }
+
+            {!onCartProducts?.length && 
+              <EmptyCon>
+                <CartIcon />
+                <h3 style={{fontSize: '24px'}}>Your cart is empty</h3>
+                <h4 style={{
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  color: 'lightgray',
+                }}>Look like you have not added anything to your cart. Go ahead & explore top categories.</h4>
+              </EmptyCon>
+            }
+
             {products?.length > 0 && (
               <Table style={{ width: "550px" }}>
                 <thead>

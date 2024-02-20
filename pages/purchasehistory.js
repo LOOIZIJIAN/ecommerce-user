@@ -18,7 +18,8 @@ const HistoryIcon = styled(FaHistory)`
 const Container = styled.div`
   margin-top: -30px;
   width: 100%;
-  min-height: 800px;
+  min-height: 810.84px;
+  height: auto;
   background-color: #f0f0f0;
 `;
 
@@ -238,7 +239,7 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
   if (printStatus == true) {
     return (
       <>
-        <Container>
+        <Container style={{minHeight: '103.51vh'}}>
           <CartCon
             style={{
               marginLeft: "auto",

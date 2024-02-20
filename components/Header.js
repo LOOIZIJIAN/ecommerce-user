@@ -292,17 +292,13 @@ const Search = styled.div`
 
 const ErrorMss = styled.div`
   position: absolute;
-  transform: translateY(68%);
-  width: 88%;
-  border-radius: 50%;
-  
+  width: 100%;
+  top: 50px;
 `;
 
 const ResultCon = styled.div`
   display: flex;
   flex-direction: column;
-  // width: 258px;
-  border-radius: 50%;
 `;
 
 const SearchResultBtn = styled.button`
@@ -327,20 +323,6 @@ const NotFBtn = styled.button`
   border:none;
   padding: 8px 10px;
   width: 100%;
-  transform: translateY(44%);
-
-
-  &:hover {
-    background-color: #2f3640;
-    color: white;
-    font-weight: 500;
-
-    ${DropA} {
-      color: white;
-      font-weight: 500;
-    }
-  }
-  
 `;
 
 const CartIcon = styled.img`
@@ -654,7 +636,7 @@ export default function Header({allProducts, fetchedCategory}) {
                       </SearchResultBtn>
                     ))
                   ) : (
-                    <NotFBtn>Not Found</NotFBtn>
+                    <NotFBtn><DropA>Not Found</DropA></NotFBtn>
                   )}
                 </ResultCon>
               </ErrorMss>
