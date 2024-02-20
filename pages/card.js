@@ -379,7 +379,7 @@ const Button_Close = styled.button`
     }
     position: fixed;
     z-index:2;
-    transform: translateX(-400px) translateY(-40px);
+    transform: translateX(-350px) translateY(-5px);
 `;
 export default function Profile() {
     const [modal, setModal] = useState(false)
