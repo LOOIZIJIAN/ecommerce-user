@@ -160,7 +160,7 @@ export default function LeftSetting(){
                     <SubDetail>
                         <H2>My Account</H2>
                         <A href="account">Profile</A>
-                        <A href="card">Bank & Cards</A>
+                        {/* <A href="card">Bank & Cards</A> */}
                         {/* <A href="#">Address</A> */}
                     </SubDetail>
                 </Detail1>
