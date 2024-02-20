@@ -592,12 +592,12 @@ export default function Chatbox() {
         if (i == 5 || i == 6) {
           if (i == 5) {
             Rpytxt.innerHTML =
-              "Our Business Hours are as follows:<br/><br/>Monday - Friday<br/>9 am - 8 pm<br/><br/>Saturday<br/>10 am - 5 pm<br/><br/>Sunday & Public Holidays<br/>Closed<br/><br/>For further assistance, feel free to reach out to us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. Thank you for choosing us !";
+              "Our Business Hours are as follows:<br/><br/>Monday - Friday<br/>9 am - 8 pm<br/><br/>Saturday<br/>10 am - 5 pm<br/><br/>Sunday & Public Holidays<br/>Closed<br/><br/>For further assistance, feel free to reach out to us through <a href='https://www.messenger.com/t/154811617722587/?messaging_source=source%3Apages%3Amessage_shortlink&source_id=1441792&recurring_notification=0' style='color: blue; text-decoration: underline;'>Messenger</a>. Thank you for choosing us !";
           }
 
           if (i == 6) {
             Rpytxt.innerHTML =
-              "Our company is located at:<br/><br/>Persiaran Multimedia, 63100 Cyberjaya, Selangor.<br/><br/>For any inquiries or assistance, please don't hesitate to contact us through <a href='#' style='color: blue; text-decoration: underline;'>Messenger</a>. We look forward to serving you !";
+              "Our company is located at:<br/><br/>Persiaran Multimedia, 63100 Cyberjaya, Selangor.<br/><br/>For any inquiries or assistance, please don't hesitate to contact us through <a href='https://www.messenger.com/t/154811617722587/?messaging_source=source%3Apages%3Amessage_shortlink&source_id=1441792&recurring_notification=0' style='color: blue; text-decoration: underline;'>Messenger</a>. We look forward to serving you !";
           }
           document.getElementById("endChat").style.display = 'block';
           document.getElementById("endChat").style.marginTop = '-50px';
