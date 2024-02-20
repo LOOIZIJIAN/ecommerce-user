@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import {createContext, useEffect, useState} from "react";
 import toast from "react-hot-toast";
 
@@ -6,18 +7,20 @@ export const CartContext = createContext({});
 export function CartContextProvider({children}) {
   const ls = typeof window !== "undefined" ? window.localStorage : null;
   const [onCartProducts, setOnCartProducts] = useState([]);
+
+  const {data:session} = useSession();
+
+  const uniqueId = session?.user?.email;
   
   useEffect(() => {
     if (onCartProducts?.length > 0) {
-      ls?.setItem('cart', JSON.stringify(onCartProducts));
+      ls?.setItem(uniqueId, JSON.stringify(onCartProducts));
     }
-    // console.log("local:"+ ls.getItem('cart'))
-    // console.log("oncart:"+onCartProducts);
   }, [onCartProducts]);
 
   useEffect(() => {
-    if (ls && ls.getItem('cart')) {
-      setOnCartProducts(JSON.parse(ls.getItem('cart')));
+    if (ls && ls.getItem(uniqueId)) {
+      setOnCartProducts(JSON.parse(ls.getItem(uniqueId)));
     }
   }, []);
 

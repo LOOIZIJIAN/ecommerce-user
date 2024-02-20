@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-// import { GiShoppingCart } from "react-icons/gi";
-import axios from "axios";
 import dynamic from 'next/dynamic';
 import { IoLogOutOutline } from "react-icons/io5";
 import { signOut, useSession } from "next-auth/react";

@@ -2,7 +2,7 @@ import { CartContextProvider } from "@/components/CartContext";
 import { createGlobalStyle } from "styled-components";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
-import Head from "next/head"; // Import Head from next/head
+import Head from "next/head";
 
 const GlobalStyles = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
@@ -25,23 +25,15 @@ export default function App({
     <>
       <Head>
         <title>DIRECT Phone Accessory</title>
-        <link
-          rel="icon"
-          href="Screenshot 2023-09-11 152049-photoaidcom-cropped.png"
-        />
+        <link rel="icon" href="2412853-modified.png"/>
       </Head>
       <GlobalStyles />
       <Toaster />
-      <header>
-        {/* Your logo and website name */}
-        <img src="/your-logo.png" alt="Logo" />
-        <h1>Your Website Name</h1>
-      </header>
-      <CartContextProvider>
-        <SessionProvider session={session}>
+      <SessionProvider session={session}>
+        <CartContextProvider>
           <Component {...pageProps} />
-        </SessionProvider>
-      </CartContextProvider>
+        </CartContextProvider>
+      </SessionProvider>
     </>
   );
 }
