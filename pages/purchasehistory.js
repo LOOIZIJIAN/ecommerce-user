@@ -101,7 +101,8 @@ const HistoryCon = styled.div`
   flex-direction: row;
   border-bottom: 1px solid lightgray;
   width: 98%;
-  height: 40px;
+  min-height: 40px;
+  height: auto;
   margin: 0;
   margin-left: 1%;
   margin-right: 1%;
@@ -112,7 +113,8 @@ const HText = styled.p`
   font-size: 18px;
   font-weight: 500;
   width: 22.5%;
-  height: 40px;
+  min-height: 40px;
+  height: auto;
   margin: 0;
   padding: 0;
 
@@ -126,7 +128,7 @@ const Btn = styled.button`
   height: 30px;
   border-radius: 8px;
   border: none;
-  background-color: ${(props) => (props.success ? "lightgreen" : "lightcoral")};
+  background-color: ${(props) => (props.success ? "lightcoral" : "lightgreen")};
   font-weight: 600;
   font-size: 14px;
 
@@ -171,9 +173,13 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
 
   const data = JSON.stringify(purchaseHistory);
 
-  purchaseHistory.forEach((ph, index) => {
-    console.log(`Item ${index + 1}: ${ph.name}`);
-  });
+  {purchaseHistory.map((ph, index) => {
+    const purchaseDate = new Date(ph.createdAt);
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    const timeOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
+  
+    console.log(`${index + 1} time: Date: ${purchaseDate.toLocaleDateString(undefined, dateOptions)}, Time: ${purchaseDate.toLocaleTimeString(undefined, timeOptions)}`);
+  })}
 
   const handlePrint = () => {
     setPrintStatus(true);
@@ -243,8 +249,8 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
           >
             <img
               src="Company_Logo_Black_Mode.png"
-              width="30%"
-              height="105px"
+              width="20%"
+              height="85px"
               alt="Error"
               style={{
                 marginLeft: "auto",
@@ -256,33 +262,50 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
             <CartDet
               style={{ width: "100%", marginTop: "10px", marginBottom: "0" }}
             >
-              {/* <HistoryTitleCon>
-                <HistoryTitleNo>No</HistoryTitleNo>
+              <HistoryTitleCon>
+              <HistoryTitleNo style={{ width: "5%" }}>No</HistoryTitleNo>
                 <HistoryTitle style={{ width: "35%" }}>Item</HistoryTitle>
-                <HistoryTitleNo>Qty</HistoryTitleNo>
-                <HistoryTitle style={{ width: "15%" }}>Price</HistoryTitle>
-                <HistoryTitle>Total Price</HistoryTitle>
-                <HistoryTitle>Payment Status</HistoryTitle>
-              </HistoryTitleCon> */}
+                <HistoryTitleNo style={{ width: "5%"}}>Qty</HistoryTitleNo>
+                <HistoryTitle style={{ width: "10%" }}>Price</HistoryTitle>
+                <HistoryTitle style={{ width: "10%" }}>Total</HistoryTitle>
+                <HistoryTitle style={{ width: "19.5%" }}>Date & Time</HistoryTitle>
+                <HistoryTitle style={{ width: "15.5%" }}>Payment Status</HistoryTitle>
+              </HistoryTitleCon>
 
               {purchaseHistory.map((ph, index) => (
                 <HistoryCon key={ph._id}>
-                  <HText style={{ width: "5%" }}>{index + 1}</HText>
-                  <HText
-                    style={{
-                      width: "35%",
-                      textAlign: "left",
-                      justifyContent: "left",
-                    }}
-                  >
-                    {ph.line_items[0].price_data.product_data.name}
-                  </HText>
-                  <HText style={{ width: "5%" }}>{item.name}</HText>
-                  <HText>
-                    <Btn type="button" success={item.paymentStatus}>
-                      {item.paymentStatus ? "Success" : "Failed"}
-                    </Btn>
-                  </HText>
+                    <HText style={{ width: "5%" }}>{index + 1}</HText>
+                    <HText
+                        style={{
+                        width: "35%",
+                        textAlign: "center",
+                        }}
+                    >
+                        {ph.line_items[0]?.price_data?.product_data?.name}
+                    </HText>
+                    <HText style={{ width: "5%"}}>{ph.line_items[0]?.quantity}</HText>
+                    <HText style={{ width: "10%" }}>
+                        $ {ph.line_items[0]?.price_data?.unit_amount?.toFixed(2)}
+                    </HText>
+                    <HText style={{width: '10%'}}>$ {(ph.line_items[0]?.price_data?.unit_amount * ph.line_items[0]?.quantity).toFixed(2)}</HText>
+                    <HText style={{ width: "19.5%" , fontSize: '14px' , textAlign: 'center'}}>
+                        {new Date(ph.createdAt).toLocaleDateString('en-US', {
+                            day: 'numeric',
+                            month: 'short',
+                            year: 'numeric',
+                        })}<br />
+                        {new Date(ph.createdAt).toLocaleTimeString('en-US', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            second: 'numeric',
+                            timeZoneName: 'short'
+                        })}
+                    </HText>
+                    <HText style={{ width: "15.5%"}}>
+                    <Btn type="button" success={ph.line_items[0]?.paymentStatus}>
+                        {ph.line_items[0]?.paymentStatus ? "Failed" : "Success"}
+                        </Btn>
+                    </HText>
                 </HistoryCon>
               ))}
 
@@ -332,12 +355,13 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
 
           <CartDet>
             <HistoryTitleCon>
-              <HistoryTitleNo>No</HistoryTitleNo>
+              <HistoryTitleNo style={{ width: "5%" }}>No</HistoryTitleNo>
               <HistoryTitle style={{ width: "35%" }}>Item</HistoryTitle>
-              <HistoryTitleNo>Qty</HistoryTitleNo>
+              <HistoryTitleNo style={{ width: "5%"}}>Qty</HistoryTitleNo>
               <HistoryTitle style={{ width: "10%" }}>Price</HistoryTitle>
-              <HistoryTitle>Total Price</HistoryTitle>
-              <HistoryTitle>Payment Status</HistoryTitle>
+              <HistoryTitle style={{ width: "10%" }}>Total Price</HistoryTitle>
+              <HistoryTitle style={{ width: "19.5%" }}>Date & Time</HistoryTitle>
+              <HistoryTitle style={{ width: "15.5%" }}>Payment Status</HistoryTitle>
             </HistoryTitleCon>
 
             {purchaseHistory.map((ph, index) => (
@@ -346,23 +370,34 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
                 <HText
                   style={{
                     width: "35%",
-                    textAlign: "left",
-                    justifyContent: "left",
+                    textAlign: "center",
                   }}
                 >
-                  {ph.line_items[0]?.price_data?.product_data?.name} make at
-                  {ph.createdAt}
+                  {ph.line_items[0]?.price_data?.product_data?.name}
                 </HText>
-                {/* <HText style={{ width: "5%" }}>{item.qty}</HText>
-                  <HText style={{ width: "10%" }}>
-                    $ {item.price?.toFixed(2)}
-                  </HText>
-                  <HText>$ {(item.price * item.qty).toFixed(2)}</HText>
-                  <HText>
-                    <Btn type="button" success={item.paymentStatus}>
-                      {item.paymentStatus ? "Success" : "Failed"}
-                    </Btn>
-                  </HText> */}
+                <HText style={{ width: "5%"}}>{ph.line_items[0]?.quantity}</HText>
+                <HText style={{ width: "10%" }}>
+                  $ {ph.line_items[0]?.price_data?.unit_amount?.toFixed(2)}
+                </HText>
+                <HText style={{width: '10%'}}>$ {(ph.line_items[0]?.price_data?.unit_amount * ph.line_items[0]?.quantity).toFixed(2)}</HText>
+                <HText style={{ width: "19.5%" , fontSize: '14px' , textAlign: 'center'}}>
+                    {new Date(ph.createdAt).toLocaleDateString('en-US', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                    })}<br />
+                    {new Date(ph.createdAt).toLocaleTimeString('en-US', {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        second: 'numeric',
+                        timeZoneName: 'short'
+                    })}
+                </HText>
+                <HText style={{ width: "15.5%"}}>
+                  <Btn type="button" success={ph.line_items[0]?.paymentStatus}>
+                    {ph.line_items[0]?.paymentStatus ? "Failed" : "Success"}
+                  </Btn>
+                </HText>
               </HistoryCon>
             ))}
 
