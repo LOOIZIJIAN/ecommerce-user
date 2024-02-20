@@ -97,7 +97,7 @@ const CityHolder = styled.div`
   gap: 5px;
 `;
 
-const TickIcon = styled(FcCheckmark )`
+const TickIcon = styled(FcCheckmark)`
   width: 30%;
   height: 18%;
   border-radius: 100%;
@@ -119,7 +119,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
   const [country, setCountry] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const { data: session } = useSession();
-  const [inputEmail, setInputEmail] = useState("");
+  // const [inputEmail, setInputEmail] = useState("");
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -127,8 +127,9 @@ export default function CartPage({ allProducts, fetchedCategory }) {
       setAccount(userEmail);
     }
   }, [session]);
+
   useEffect(() => {
-    if (onCartProducts.length > 0) {
+    if (onCartProducts && onCartProducts.length > 0) {
       axios.post("/api/cart", { ids: onCartProducts }).then((response) => {
         setProducts(response.data);
       });
@@ -136,6 +137,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
       setProducts([]);
     }
   }, [onCartProducts]);
+
   useEffect(() => {
     if (typeof window === "undefined") {
       return;
@@ -191,11 +193,13 @@ export default function CartPage({ allProducts, fetchedCategory }) {
 
     return (
       <>
-        <Header allProducts={allProducts} fetchedCategory={fetchedCategory}/>
+        <Header allProducts={allProducts} fetchedCategory={fetchedCategory} />
         <Center>
           <ColumnsWrapper>
             <Box>
-              <center><TickIcon /></center>
+              <center>
+                <TickIcon />
+              </center>
               <H>Thanks for your order !</H>
               <P>We will email you when your order is sent.</P>
               <Exit
@@ -228,7 +232,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
             <h2>Cart</h2>
             {!onCartProducts?.length && <div>Your cart is empty</div>}
             {products?.length > 0 && (
-              <Table style={{width: "550px"}}>
+              <Table style={{ width: "550px" }}>
                 <thead>
                   <tr>
                     <th>Product</th>
@@ -239,13 +243,13 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                 <tbody>
                   {products.map((product) => (
                     <tr key={product._id}>
-                      <ProductInfoCell style={{borderTopColor: 'gray'}}>
+                      <ProductInfoCell style={{ borderTopColor: "gray" }}>
                         <ProductImageBox>
                           <img src={product.images[0]} alt="" />
                         </ProductImageBox>
                         <div style={{ marginTop: "10px" }}>{product.title}</div>
                       </ProductInfoCell>
-                      <td style={{borderTopColor: 'gray'}}>
+                      <td style={{ borderTopColor: "gray" }}>
                         <Button onClick={() => lessOfThisProduct(product._id)}>
                           -
                         </Button>
@@ -259,7 +263,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                           +
                         </Button>
                       </td>
-                      <td style={{borderTopColor: 'gray'}}>
+                      <td style={{ borderTopColor: "gray" }}>
                         ${" "}
                         {onCartProducts.filter((id) => id === product._id)
                           .length * product.price}
@@ -268,11 +272,17 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                   ))}
 
                   <tr style={{ height: "30px" }}>
-                    <td style={{borderTopColor: 'gray'}}></td>
-                    <td style={{ textAlign: "end", paddingRight: "15px" , borderTopColor: 'gray'}}>
+                    <td style={{ borderTopColor: "gray" }}></td>
+                    <td
+                      style={{
+                        textAlign: "end",
+                        paddingRight: "15px",
+                        borderTopColor: "gray",
+                      }}
+                    >
                       Subtotal
                     </td>
-                    <td style={{borderTopColor: 'gray'}}>$ {total}</td>
+                    <td style={{ borderTopColor: "gray" }}>$ {total}</td>
                   </tr>
 
                   <tr style={{ height: "30px" }}>
@@ -292,11 +302,17 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                   </tr>
 
                   <tr style={{ height: "30px" }}>
-                    <td style={{borderTopColor: 'gray'}}></td>
-                    <td style={{ textAlign: "end", paddingRight: "15px" , borderTopColor: 'gray'}}>
+                    <td style={{ borderTopColor: "gray" }}></td>
+                    <td
+                      style={{
+                        textAlign: "end",
+                        paddingRight: "15px",
+                        borderTopColor: "gray",
+                      }}
+                    >
                       Total
                     </td>
-                    <td style={{borderTopColor: 'gray'}}>$ {ft}</td>
+                    <td style={{ borderTopColor: "gray" }}>$ {ft}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -349,9 +365,11 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                 name="country"
                 onChange={(ev) => setCountry(ev.target.value)}
               />
-              <Button black block onClick={goToPayment}>
-                Continue to payment
-              </Button>
+              <div style={{ textAlign: "center", width: "400px" }}>
+                <Button cate2 onClick={goToPayment} style={{ width: "100%" }}>
+                  Continue to payment
+                </Button>
+              </div>
             </Box>
           )}
         </ColumnsWrapper>
