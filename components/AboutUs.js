@@ -522,28 +522,6 @@ const SPAN_Position = styled.span`
 export default function Aboutus() {
   const imageRef = useRef(null);
 
-  // useEffect(() => {
-  //     const handleScroll = () => {
-  //       const rect = imageRef.current.getBoundingClientRect();
-  //       const isInViewport = rect.top >= 0 && rect.bottom <= window.innerHeight;
-
-  //       if (isInViewport) {
-  //         // imageRef.current.style.WebkitAnimationName = 'Left2Right';
-  //         const backgroundImage = imageRef.current.src;
-  //         const container = document.getElementById('div');
-  //         container.style.backgroundSize = 'cover';
-  //         container.style.backgroundRepeat = 'no-repeat';
-  //         container.style.backgroundImage = `url('${backgroundImage}')`;
-  //         console.log(rect);
-  //       }
-  //     };
-
-  //     window.addEventListener('scroll', handleScroll);
-  //     return () => {
-  //       window.removeEventListener('scroll', handleScroll);
-  //     };
-  //   }, []);
-
   return (
     <>
       <Div id="div">
@@ -551,7 +529,6 @@ export default function Aboutus() {
         <Intro_container id="container">
           <Intro0>
             <Empty_span></Empty_span>
-            {/* <Image0 src="/pic.png"></Image0> */}
           </Intro0>
 
           <Intro1>

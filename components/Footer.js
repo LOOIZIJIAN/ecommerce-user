@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { BiLogoFacebookSquare } from "react-icons/bi";
 import { FaFacebookMessenger } from "react-icons/fa";
+import { MdOutlineMailOutline } from "react-icons/md";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -204,6 +205,15 @@ const MessengerIcon = styled(FaFacebookMessenger)`
     cursor: pointer;
   }
 `;
+const EmailIcon = styled(MdOutlineMailOutline)`
+  fill: gray;
+  width: 34px;
+  height: 34px;
+  &:hover {
+    fill: blue;
+    cursor: pointer;
+  }
+`;
 const Cpy = styled.div`
   margin-top: 5px;
   margin-bottom: 25px;
@@ -344,12 +354,11 @@ export default function Footer() {
             <A href={"https://www.facebook.com/profile.php?id=61553355490093"}>
               <FBIcon />
             </A>
-            <A
-              href={
-                "https://www.messenger.com/t/154811617722587/?messaging_source=source%3Apages%3Amessage_shortlink&source_id=1441792&recurring_notification=0"
-              }
-            >
+            <A href={"https://www.messenger.com/t/154811617722587/?messaging_source=source%3Apages%3Amessage_shortlink&source_id=1441792&recurring_notification=0"}>
               <MessengerIcon />
+            </A>
+            <A href={"mailto:directaccessory@gmail.com"}>
+              <EmailIcon />
             </A>
           </SecIcon>
           <Cpy>© Copyright 2024. All Rights Reserved.</Cpy>

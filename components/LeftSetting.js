@@ -160,17 +160,17 @@ export default function LeftSetting(){
                     <SubDetail>
                         <H2>My Account</H2>
                         <A href="account">Profile</A>
-                        <A href="card">Bank & Cards</A>
+                        {/* <A href="card">Bank & Cards</A> */}
                         {/* <A href="#">Address</A> */}
                     </SubDetail>
                 </Detail1>
                 {/* Details End */}
 
                 {/* Details Start */}
-                <Detail>
+                {/* <Detail>
                     <Img2 src="AfterLogin/Like_Icon.png" alt="Like"/>
                     <H2 onClick={() => router.push('wishlist')}>Wishlist</H2>
-                </Detail>
+                </Detail> */}
                 {/* Details End */}
 
                 {/* Details Start */}

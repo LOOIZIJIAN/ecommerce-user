@@ -27,20 +27,18 @@ export default function CategoryPage({ allProduct, fetchedCategory }) {
   const [maxPrice, setMaxPrice] = useState([]);
 
   useEffect(() => {
-    // Parse query parameters for min and max prices
     const queryParams = new URLSearchParams(window.location.search);
     const minParam = queryParams.get("min");
     const maxParam = queryParams.get("max");
 
-    // Update state if query parameters are present
     setMinPrice(Number(minParam) || 0);
     setMaxPrice(Number(maxParam) || 10000);
   }, [router.query]);
 
-  useEffect(() => {
-    console.log("Min : " + minPrice);
-    console.log("Max : " + maxPrice);
-  }, [minPrice, maxPrice]);
+  // useEffect(() => {
+  //   console.log("Min : " + minPrice);
+  //   console.log("Max : " + maxPrice);
+  // }, [minPrice, maxPrice]);
 
   useEffect(() => {
     if (id && fetchedCategory) {

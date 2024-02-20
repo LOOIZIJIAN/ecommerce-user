@@ -1,16 +1,17 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-// import { GiShoppingCart } from "react-icons/gi";
-import axios from "axios";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 import { IoLogOutOutline } from "react-icons/io5";
 import { signOut, useSession } from "next-auth/react";
 import { FaRegUser } from "react-icons/fa";
 
-const GiShoppingCart = dynamic(() => import('react-icons/gi').then((module) => module.GiShoppingCart), {
-  loading: () => <span>Loading...</span>,
-});
+const GiShoppingCart = dynamic(
+  () => import("react-icons/gi").then((module) => module.GiShoppingCart),
+  {
+    loading: () => <span>Loading...</span>,
+  }
+);
 
 const Container = styled.div`
   position: fixed;
@@ -284,35 +285,32 @@ const Search = styled.div`
   // display: flex;
   // flex-direction: column;
   // right: 14.2%;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-  border-radius:50px;
-  background-color:#2f3640;
+  border-radius: 50px;
+  background-color: #2f3640;
   position: relative;
 `;
 
 const ErrorMss = styled.div`
   position: absolute;
-  transform: translateY(68%);
-  width: 88%;
-  border-radius: 50%;
-  
+  width: 100%;
+  top: 50px;
 `;
 
 const ResultCon = styled.div`
   display: flex;
   flex-direction: column;
-  // width: 258px;
-  border-radius: 50%;
 `;
 
 const SearchResultBtn = styled.button`
-  text-align:left;
-  border:none;
+  text-align: left;
+  border: 1px solid #fff;
+  border-radius: 6px;
   padding: 8px 10px;
   width: 100%;
-  
+  background-color: #a6a9ad;
 
   &:hover {
     background-color: #2f3640;
@@ -325,24 +323,10 @@ const SearchResultBtn = styled.button`
 `;
 
 const NotFBtn = styled.button`
-  text-align:left;
-  border:none;
+  text-align: left;
+  border: none;
   padding: 8px 10px;
   width: 100%;
-  transform: translateY(44%);
-
-
-  &:hover {
-    background-color: #2f3640;
-    color: white;
-    font-weight: 500;
-
-    ${DropA} {
-      color: white;
-      font-weight: 500;
-    }
-  }
-  
 `;
 
 const CartIcon = styled.img`
@@ -372,7 +356,7 @@ const CartBtn = styled.button`
       filter: brightness(0%);
     }
   }
-`;  
+`;
 
 const CartText = styled.span`
   font-family: Poppins;
@@ -380,7 +364,6 @@ const CartText = styled.span`
   font-size: 20px;
   font-weight: 400;
 `;
-
 
 const Input = styled.input`
   // border-radius: 5px;
@@ -394,15 +377,14 @@ const Input = styled.input`
   // backdrop-filter: blur(10px);
   // border:none;
   // border-bottom: 1px ridge orange;
-  
-  
+
   // outline: none;
 
-  &::placeholder{
+  &::placeholder {
     color: orange;
   }
   // &:focus{
-    
+
   //   &::placeholder{
   //     visibility: hidden;
   //   }
@@ -414,37 +396,32 @@ const Input = styled.input`
   float: left;
   padding: 0;
   color: white;
-  font-size:16px;
-  transition :0.4s;
+  font-size: 16px;
+  transition: 0.4s;
   line-height: 40px;
-  width:240px;
-  padding-left:8px;
+  width: 240px;
+  padding-left: 8px;
 
   // ${Search}:hover > &{
   //   width:240px;
   // }
-  
-
 `;
 const A_search = styled.a`
-  width:35px;
-  height:35px;
+  width: 35px;
+  height: 35px;
 
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 
-  margin-right:5px;
+  margin-right: 5px;
   float: right;
-  border-radius:50%;
+  border-radius: 50%;
   // background-color:blue;
-
-  
 `;
 const SearchIcon = styled.img`
   cursor: pointer;
   display: flex;
-  
 `;
 const Span = styled.span`
   display: inline-flex;
@@ -455,11 +432,10 @@ const Span = styled.span`
   position: absolute;
 
   right: 36%;
-  
 `;
 
-
-const DropBar2 = styled.div`   // New styled component 
+const DropBar2 = styled.div`
+  // New styled component
   display: none;
   flex-direction: column;
   position: absolute;
@@ -469,12 +445,13 @@ const DropBar2 = styled.div`   // New styled component
   background-color: red;
 `;
 
-const DropBtn2 = styled.button` // New styled component 
+const DropBtn2 = styled.button`
+  // New styled component
   text-align: left;
   border: none;
   padding: 8px 10px;
   width: 108%;
-  
+
   font-family: Poppins;
   font-size: 18px !important;
   font-weight: 500 !important;
@@ -487,7 +464,6 @@ const DropBtn2 = styled.button` // New styled component
     color: white;
     font-weight: 500;
   }
-
 `;
 const UserIcon = styled(FaRegUser)`
   width: 35px;
@@ -495,13 +471,13 @@ const UserIcon = styled(FaRegUser)`
   color: white;
 `;
 
-export default function Header({allProducts, fetchedCategory}) {
+export default function Header({ allProducts, fetchedCategory }) {
   const [showMenu, setShowMenu] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [filteredP, setFilteredP] = useState([]);
   const [showList, setShowList] = useState(false);
   const [products, setProducts] = useState(allProducts || []);
-  const {data:session} = useSession();
+  const { data: session } = useSession();
 
   useEffect(() => {
     if (!products) {
@@ -550,7 +526,7 @@ export default function Header({allProducts, fetchedCategory}) {
     const uniqueParents = new Set();
     const uniqueCate = new Set();
 
-    categories.forEach(category => {
+    categories.forEach((category) => {
       if (category.parent) {
         uniqueCate.add(category);
       } else {
@@ -567,10 +543,13 @@ export default function Header({allProducts, fetchedCategory}) {
       <Container>
         <LogoContainer>
           <LogoSubContainer>
-            <LogoImg src="/Company_Logo_Black_Mode.png" onClick={() => router.push("/")} />{" "}
+            <LogoImg
+              src="/Company_Logo_Black_Mode.png"
+              onClick={() => router.push("/")}
+            />{" "}
           </LogoSubContainer>
         </LogoContainer>
-              
+
         <List showMenu={showMenu}>
           <Button onClick={() => router.push("/")}>
             <A href="/">Home</A>
@@ -594,7 +573,10 @@ export default function Header({allProducts, fetchedCategory}) {
                   <DropA href="/products">All products</DropA>
                 </DropBtn>
                 {parents.map((p) => (
-                  <DropBtn key={p._id} onClick={() => router.push(`/category/${p._id}`)}>
+                  <DropBtn
+                    key={p._id}
+                    onClick={() => router.push(`/category/${p._id}`)}
+                  >
                     <DropA href={`/category/${p._id}`}>{p.name}</DropA>
                   </DropBtn>
                 ))}
@@ -603,11 +585,10 @@ export default function Header({allProducts, fetchedCategory}) {
             {/* Category Drop Down List End */}
           </SharedBtn>
           {/* Option 4 */}
-          <Button  onClick={() => router.push("aboutus")}>
+          <Button onClick={() => router.push("aboutus")}>
             <A href="/aboutus">About Us</A>
           </Button>{" "}
-
-          <Button  onClick={() => router.push("contactus")}>
+          <Button onClick={() => router.push("contactus")}>
             <A href="/contactus">Contact Us</A>
           </Button>{" "}
           {/* Add the page name behide the / */}
@@ -637,14 +618,13 @@ export default function Header({allProducts, fetchedCategory}) {
 
         <RightCol>
           <Search>
-          <Input
+            <Input
               placeholder="Type to search..."
               value={searchInput}
               onChange={(ev) => {
                 setSearchInput(ev.target.value);
                 setShowList(true);
               }}
-              
             />
             {showList && (
               <ErrorMss>
@@ -656,43 +636,43 @@ export default function Header({allProducts, fetchedCategory}) {
                       </SearchResultBtn>
                     ))
                   ) : (
-                    <NotFBtn>Not Found</NotFBtn>
+                    <NotFBtn>
+                      <DropA>Not Found</DropA>
+                    </NotFBtn>
                   )}
                 </ResultCon>
               </ErrorMss>
             )}
             <A_search>
-             
               <SearchIcon
                 src="/Search_Icon.png"
                 alt="Search Icon Error"
-                title="Search">
-
-                </SearchIcon>
+                title="Search"
+              ></SearchIcon>
             </A_search>
           </Search>
 
-          {!session && router.pathname !== '/' ? (
+          {!session && router.pathname !== "/" ? (
             <div>
               <CartBtn onClick={() => router.push("/")} title="Login">
                 <UserIcon />
               </CartBtn>
             </div>
           ) : null}
-          
+
           {session && (
             <div>
               <CartBtn onClick={() => router.push("/cart")}>
-                <GiShoppingCart style={{ fontSize: "3em", color: "white"}}/>
+                <GiShoppingCart style={{ fontSize: "3em", color: "white" }} />
               </CartBtn>
-              
+
               <CartBtn onClick={() => signOut()}>
-                <IoLogOutOutline style={{ color: 'white', width: '40px', height: '40px' }} />
+                <IoLogOutOutline
+                  style={{ color: "white", width: "40px", height: "40px" }}
+                />
               </CartBtn>
             </div>
-
           )}
-
         </RightCol>
       </Container>
     </div>
