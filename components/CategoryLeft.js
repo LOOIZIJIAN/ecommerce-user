@@ -175,8 +175,6 @@ const A = styled.a`
       }
     };
 
-    console.log("NAME : " + cate);
-
     return (
       <LeftCon onSubmit={handleSubmit} method="post">
         <LeftUpCon>
