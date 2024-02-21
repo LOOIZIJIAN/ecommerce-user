@@ -44,7 +44,6 @@ const WhiteBox = styled(Link)`
       transition: transform 0.8s ease; /* Add transition for transform */
       transform: scale(1.15);
     }
-    
   }
 `;
 
