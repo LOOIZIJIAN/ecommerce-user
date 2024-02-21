@@ -5,10 +5,11 @@ import styled, { css, keyframes } from "styled-components";
 
 const Div = styled.div`
   background-color: #212529;
-  // background-color: black;
   padding: 0;
   height: fit-content;
   margin-bottom: 30px;
+  /* margin-top: -25.22px; */
+  margin-top: -65px;
 `;
 const Intro0 = styled.div`
   position: relative;
@@ -649,7 +650,7 @@ export default function Aboutus() {
                 </SPAN_Position>
                 <Selfi src="/WhatsApp Image 2024-01-20 at 00.19.50_4fc49159.jpg"></Selfi>
                 <br></br>
-                Driving force behind our company&aposs success, ensuring our
+                Driving force behind our company&apos;s success, ensuring our
                 strategies reflect a commitment to excellence.
                 <br />
                 <br />

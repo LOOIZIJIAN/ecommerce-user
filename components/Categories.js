@@ -192,12 +192,13 @@ const RBtnIcon = styled.img`
 const H2 = styled.h2`
   color: #000;
   text-align: center;
-  
+  // font-family: Poppins;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 17px;
   // font-weight: 400;
   margin-top: 0;
   padding: 0;
+  cursor: pointer;
 `;
 
 const P = styled.p`

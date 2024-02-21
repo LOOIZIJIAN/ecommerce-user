@@ -1,8 +1,9 @@
 import styled from "styled-components"
 import emailjs from 'emailjs-com';
-import React, { useState , useEffect } from 'react';
+import React, { useState , useEffect , useContext } from 'react';
 import toast from "react-hot-toast";
 import Button from "./Button";
+import { CartContext } from "@/components/CartContext";
 
 const Container = styled.div`
     width: 100%;
@@ -19,13 +20,14 @@ const Btn = styled(Button)`
         color: black;
     }
 `;
-export default function Exit({email , amount , products , tax , ship , to}) {
+export default function Exit({email , amount , products , to}) {
+    const { clearCart } = useContext(CartContext);
     const [currentTime, setCurrentTime] = useState('');
     const [amPm, setAmPm] = useState('');
     const [day , setDay] = useState('');
     const [month , setMonth] = useState('');
     const [year , setYear] = useState('');
-    const [countdown, setCountdown] = useState(5); // change time here 
+    const [countdown, setCountdown] = useState(3); // change time here 
     const [proceed , setProceed] = useState(false) ;
 
     const DisplayTime = () => {
@@ -68,10 +70,8 @@ export default function Exit({email , amount , products , tax , ship , to}) {
     
         return () => {
             clearInterval(intervalId);
-
-            if (countdown == 1) {
-                sendMail();
-            }
+            
+            if (countdown == 1) {sendMail();}
         };
     }, [countdown]);
     
@@ -101,13 +101,11 @@ export default function Exit({email , amount , products , tax , ship , to}) {
             time: currentTime,
             ap: amPm,
             products: productDetails,
-            tax: tax,
-            taxAmount: (amount*(tax/100)).toFixed(2),
-            ship: ship.toFixed(2)
         }).then(() => {
             toast.success("Pls check your email. Thank You !");
             setTimeout(() => {
                 window.location = "/";
+                clearCart();
             }, 2000);
         });
     };
@@ -117,7 +115,7 @@ export default function Exit({email , amount , products , tax , ship , to}) {
             {proceed ? (
                 <Btn type="button">Proceeding ...</Btn>
             ) : (
-                <Btn type="button" onClick={sendMail}>Proceed in {countdown}</Btn>
+                <Btn type="button" onClick={() => setCountdown(1)}>Proceed in {countdown}</Btn>
             )}
         </Container>
     )

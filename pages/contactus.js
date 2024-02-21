@@ -202,12 +202,12 @@ export default function ContactUs ({ allProducts, fetchedCategory }) {
                     width="100%"
                     height="300"
                     style={{ border: 0 , borderRadius: '10px'}}
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.018479539093!2d101.6535055147563!3d2.920101997318076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cdbbfba4861605%3A0xe9bf3072f8df283a!2sMultimedia%20University%2C%20Cyberjaya%20Campus!5e0!3m2!1sen!2smy!4v1646971285257!5m2!1sen!2smy"
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d996.1527250282637!2d101.6413097!3d2.9276532!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cdb6e4a9d3b7a1%3A0xd0f74e8ad10f1129!2sMultimedia%20University%20-%20MMU%20Cyberjaya!5e0!3m2!1sen!2smy!4v1708440608802!5m2!1sen!2smy"
                     allowFullScreen
                     ></iframe>
                 </MapContainer>
                 <p>
-                    <Location href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.018479539093!2d101.6535055147563!3d2.920101997318076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cdbbfba4861605%3A0xe9bf3072f8df283a!2sMultimedia%20University%2C%20Cyberjaya%20Campus!5e0!3m2!1sen!2smy!4v1646971285257!5m2!1sen!2smy">
+                    <Location href="https://maps.app.goo.gl/9inYThpkmrhYVrye6">
                         Multimedia University - MMU Cyberjaya, Persiaran Multimedia, 63100 Cyberjaya, Selangor
                     </Location>
                 </p>

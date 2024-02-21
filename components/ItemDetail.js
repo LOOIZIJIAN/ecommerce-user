@@ -74,10 +74,6 @@ export default function ItemDetail(){
                     <P>Shipping From</P>
                     <P1>: MALAYSIA</P1>
                 </DetRow>
-                <DetRow>
-                    <P>Shipping Fee</P>
-                    <P1>: $ 0.00</P1>
-                </DetRow>
             </ShipDetail>
         </DetailCon>
     )

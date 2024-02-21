@@ -134,7 +134,7 @@ const SubmitBtn = styled.button`
 `;
 
 const Field = styled.fieldset`
-  margin-right: 100px;
+  margin-right: 130px;
   margin-top: 1rem;
   text-align: center;
   font-size: 0.875rem;

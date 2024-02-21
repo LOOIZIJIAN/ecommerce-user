@@ -3,12 +3,14 @@ import { useState , useEffect } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import toast from "react-hot-toast";
+import { FcHighPriority } from "react-icons/fc";
 
 const DIV = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
+    height: auto;
     margin-top: 120px;
     place-items: center;
     text-align: center;
@@ -23,7 +25,10 @@ const Time = styled.span`
     font-size: 20px;
     font-weight: 600;
 `;
-
+const OutIcon = styled(FcHighPriority)`
+    width: 100px;
+    height: 100px;
+`;
 export default function SessionOut() {
     const {data: session} = useSession();
     const [countdown, setCountdown] = useState(5); // change time here 
@@ -49,6 +54,7 @@ export default function SessionOut() {
         <>
             <Header session={false}/>
             <DIV>
+                <OutIcon />
                 <H3>Sorry, your session has timed out. Please log in again.</H3>
                 <Time>Returning to the main page in {countdown} seconds...</Time>
             </DIV>
