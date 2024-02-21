@@ -150,7 +150,7 @@ const A = styled.a`
   text-decoration: none;
 `;
 
-  export default function CategoryLeft({ filterCate }) {
+  export default function CategoryLeft({ filterCate , cate }) {
 
     // console.log("FC:"+filterCate);
     const [checkedOption, setCheckedOption] = useState('');
@@ -175,6 +175,8 @@ const A = styled.a`
       }
     };
 
+    console.log("NAME : " + cate);
+
     return (
       <LeftCon onSubmit={handleSubmit} method="post">
         <LeftUpCon>
@@ -184,8 +186,9 @@ const A = styled.a`
 
         <BrandCon>
           <BrandTopCon>
-            <H2>Brand</H2>
-            <HiArchive style={{ fontSize: "2em" }}/>
+            {/* <H2>Brand</H2> */}
+            <H2>{cate === "Phone accessory" ? "Brand" : "Categories"}</H2>
+            <HiArchive style={{ fontSize: "2em" }} />
           </BrandTopCon>
 
           <OptionCon>

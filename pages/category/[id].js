@@ -103,7 +103,7 @@ export default function CategoryPage({ allProduct, fetchedCategory }) {
     return (
       <div>
         <Header allProducts={allProduct} fetchedCategory={fetchedCategory} />
-        <CategoryLeft filterCate={leftBarCate} />
+        <CategoryLeft filterCate={leftBarCate} cate={currentParent}/>
         <Categories product={filteredProduct} cate={currentParent} />
       </div>
     );
@@ -112,7 +112,7 @@ export default function CategoryPage({ allProduct, fetchedCategory }) {
   return (
     <div>
       <Header allProducts={allProduct} fetchedCategory={fetchedCategory} />
-      <CategoryLeft filterCate={leftBarCate} />
+      <CategoryLeft filterCate={leftBarCate} cate={currentParent} />
       <Categories product={filteredProduct} cate={currentParent} />
     </div>
   );
