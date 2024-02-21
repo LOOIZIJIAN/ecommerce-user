@@ -9,6 +9,7 @@ import axios from "axios";
 import { Product } from "@/models/Product";
 import { Category } from "@/models/Category";
 import { mongooseConnect } from "@/lib/mongoose";
+import React from 'react';
 
 const HistoryIcon = styled(FaHistory)`
   width: 40px;
@@ -81,8 +82,9 @@ const HistoryTitleCon = styled.div`
   width: 98%;
   height: fit-content;
   border-bottom: 1px solid gray;
-  margin-left: 1%;
-  margin-right: 1%;
+  justify-content: center;
+  /* margin-left: 1%; */
+  /* margin-right: 1%; */
 `;
 
 const HistoryTitle = styled.p`
@@ -91,6 +93,8 @@ const HistoryTitle = styled.p`
   width: 22.5%;
   height: 10px;
   text-align: center;
+  /* margin-left: 1%; */
+  /* margin-right: 1%; */
 `;
 
 const HistoryTitleNo = styled(HistoryTitle)`
@@ -100,13 +104,15 @@ const HistoryTitleNo = styled(HistoryTitle)`
 const HistoryCon = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap : wrap;
   border-bottom: 1px solid lightgray;
   width: 98%;
   min-height: 40px;
   height: auto;
+  justify-content: center;
   margin: 0;
-  margin-left: 1%;
-  margin-right: 1%;
+  /* margin-left: 1%; */
+  /* margin-right: 1%; */
   padding: 0;
 `;
 
@@ -229,6 +235,8 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
   }
 
   if (printStatus == true) {
+    let count = 0 ;
+
     return (
       <>
         <Container style={{ minHeight: "103.51vh" }}>
@@ -253,10 +261,10 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
             />
 
             <CartDet
-              style={{ width: "100%", marginTop: "10px", marginBottom: "0" }}
+              style={{ width: "100%", marginTop: "10px", marginBottom: "0" , boxShadow: 'none' , backgroundColor: 'transparent'}}
             >
               <HistoryTitleCon>
-                <HistoryTitleNo style={{ width: "5%" }}>No</HistoryTitleNo>
+              <HistoryTitleNo style={{ width: "5%"}}>No</HistoryTitleNo>
                 <HistoryTitle style={{ width: "35%" }}>Item</HistoryTitle>
                 <HistoryTitleNo style={{ width: "5%" }}>Qty</HistoryTitleNo>
                 <HistoryTitle style={{ width: "10%" }}>Price</HistoryTitle>
@@ -273,7 +281,8 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
                 <React.Fragment key={purchase._id}>
                   {purchase.line_items.map((item, itemIndex) => (
                     <HistoryCon key={`${purchase._id}-${itemIndex}`}>
-                      <HText style={{ width: "5%" }}>{purchaseIndex + 1}</HText>
+                      {/* <HText style={{ width: "5%" }}>{purchaseIndex + 1}</HText> */}
+                      <HText style={{ width: "5%"}}>{count += 1}</HText>
                       <HText style={{ width: "35%", textAlign: "center" }}>{item.price_data.product_data.name}</HText>
                       <HText style={{ width: "5%" }}>{item.quantity}</HText>
                       <HText style={{ width: "10%" }}>${(item.price_data.unit_amount / 100).toFixed(2)}</HText>
@@ -326,6 +335,8 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
     );
   }
 
+  let count = 0 ;
+
   return (
     <>
       <Header allProducts={allProduct} fetchedCategory={fetchedCategory} />
@@ -339,7 +350,7 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
 
           <CartDet>
             <HistoryTitleCon>
-              <HistoryTitleNo style={{ width: "5%" }}>No</HistoryTitleNo>
+              <HistoryTitleNo style={{ width: "5%" , textAlign: 'right'}}>No</HistoryTitleNo>
               <HistoryTitle style={{ width: "35%" }}>Item</HistoryTitle>
               <HistoryTitleNo style={{ width: "5%" }}>Qty</HistoryTitleNo>
               <HistoryTitle style={{ width: "10%" }}>Price</HistoryTitle>
@@ -347,7 +358,7 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
               <HistoryTitle style={{ width: "19.5%" }}>
                 Date & Time
               </HistoryTitle>
-              <HistoryTitle style={{ width: "15.5%" }}>
+              <HistoryTitle style={{ width: "15.5%"}}>
                 Payment Status
               </HistoryTitle>
             </HistoryTitleCon>
@@ -356,7 +367,8 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
                 <HistoryCon key={purchase._id}>
                   {purchase.line_items.map((item, itemIndex) => (
                     <HistoryCon key={`${purchase._id}-${itemIndex}`}>
-                      <HText style={{ width: "5%" }}>{purchaseIndex + 1}</HText>
+                      {/* <HText style={{ width: "5%"}}>{(purchaseIndex + 1)}</HText> */}
+                      <HText style={{ width: "5%"}}>{count += 1}</HText>
                       <HText style={{ width: "35%", textAlign: "center" }}>{item.price_data.product_data.name}</HText>
                       <HText style={{ width: "5%" }}>{item.quantity}</HText>
                       <HText style={{ width: "10%" }}>${(item.price_data.unit_amount / 100).toFixed(2)}</HText>
@@ -366,7 +378,7 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
                         <br />
                         {new Date(purchase.createdAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric", second: "numeric", timeZoneName: "short" })}
                       </HText>
-                      <HText style={{ width: "15.5%" }}>
+                      <HText style={{width: "15.5%" ,  display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                         <Btn type="button" success={item.paymentStatus}>
                           {item.paymentStatus ? "Failed" : "Success"}
                         </Btn>
