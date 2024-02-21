@@ -136,6 +136,10 @@ export default function CartPage({ allProducts, fetchedCategory }) {
   const [isSuccess, setIsSuccess] = useState(false);
   const { data: session } = useSession();
   
+  // Validation
+  const [codeValid , setCodeValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false); // Added state for email validation
+
   useEffect(() => {
     if (session?.user?.email) {
       const userEmail = session.user.email;
@@ -169,6 +173,23 @@ export default function CartPage({ allProducts, fetchedCategory }) {
   function lessOfThisProduct(id) {
     removeProduct(id);
   }
+
+  function Validation(){
+    toast.dismiss();  //  clear the toast
+
+    if(!codeValid) {
+      toast.error("Pls change postal code to digit format");
+    }
+
+    if(!isEmailValid) {
+      toast.error("Pls check email format");
+    }
+    
+    if(codeValid && isEmailValid) {
+      goToPayment();
+    }
+  }
+
   async function goToPayment() {
     try {
       const response = await axios.post("/api/checkout", {
@@ -210,8 +231,28 @@ export default function CartPage({ allProducts, fetchedCategory }) {
       toast.error('Only Digits Allowed');
       return;
     }
-
+    setCodeValid(true);
     toast.dismiss();  //  clear the toast
+  }
+
+  function validateEmail(inputEmail) {
+    toast.dismiss();  // clear the toast
+
+    // Input Empty
+    if (inputEmail.trim() === "") {
+      toast.error('Email is required');
+      return;
+    }
+
+    // Simple email validation using regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(inputEmail)) {
+      toast.error('Invalid email format');
+      return;
+    }
+
+    setIsEmailValid(true);
+    toast.dismiss();  // clear the toast
   }
 
   if (!session) {
@@ -341,69 +382,71 @@ export default function CartPage({ allProducts, fetchedCategory }) {
           {!!onCartProducts?.length && (
             <Box>
               <h2>Order information</h2>
-              <form method="post" onSubmit={goToPayment}>
+              <Input
+                type="text"
+                placeholder="Name"
+                value={name}
+                name="name"
+                onChange={(ev) => setName(ev.target.value)}
+                required
+              />
+              <Input
+                type="email"
+                placeholder="Email"
+                value={email}
+                name="email"
+                onChange={(ev) => {
+                  setEmail(ev.target.value);
+                  const inputValue = ev.target.value;
+                  validateEmail(inputValue);
+                }}
+                required
+              />
+              <CityHolder>
                 <Input
                   type="text"
-                  placeholder="Name"
-                  value={name}
-                  name="name"
-                  onChange={(ev) => setName(ev.target.value)}
-                  required
-                />
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  name="email"
-                  onChange={(ev) => setEmail(ev.target.value)}
-                  required
-                />
-                <CityHolder>
-                  <Input
-                    type="text"
-                    placeholder="City"
-                    value={city}
-                    name="city"
-                    onChange={(ev) => setCity(ev.target.value)}
-                    required
-                  />
-                  <Input
-                    type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    placeholder="Postal Code"
-                    value={postalCode}
-                    name="postalCode"
-                    onChange={(ev) => {
-                      setPostalCode(ev.target.value);
-                      const inputValue = ev.target.value;
-                      validatePostalCode(inputValue);
-                    }}
-                    required
-                  />
-                </CityHolder>
-                <Input
-                  type="text"
-                  placeholder="Street Address"
-                  value={streetAddress}
-                  name="streetAddress"
-                  onChange={(ev) => setStreetAddress(ev.target.value)}
+                  placeholder="City"
+                  value={city}
+                  name="city"
+                  onChange={(ev) => setCity(ev.target.value)}
                   required
                 />
                 <Input
                   type="text"
-                  placeholder="Country"
-                  value={country}
-                  name="country"
-                  onChange={(ev) => setCountry(ev.target.value)}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="Postal Code"
+                  value={postalCode}
+                  name="postalCode"
+                  onChange={(ev) => {
+                    setPostalCode(ev.target.value);
+                    const inputValue = ev.target.value;
+                    validatePostalCode(inputValue);
+                  }}
                   required
                 />
-                <div style={{ textAlign: "center", width: "400px" }}>
-                  <Button cate2 type="submit" style={{ width: "100%" }}>
-                    Continue to payment
-                  </Button>
-                </div>
-              </form>
+              </CityHolder>
+              <Input
+                type="text"
+                placeholder="Street Address"
+                value={streetAddress}
+                name="streetAddress"
+                onChange={(ev) => setStreetAddress(ev.target.value)}
+                required
+              />
+              <Input
+                type="text"
+                placeholder="Country"
+                value={country}
+                name="country"
+                onChange={(ev) => setCountry(ev.target.value)}
+                required
+              />
+              <div style={{ textAlign: "center", width: "400px" }}>
+                <Button cate2  style={{ width: "100%" }} onClick={Validation}>
+                  Continue to payment
+                </Button>
+              </div>
             </Box>
           )}
         </ColumnsWrapper>
