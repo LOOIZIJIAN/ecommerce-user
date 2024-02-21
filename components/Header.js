@@ -296,12 +296,18 @@ const Search = styled.div`
 const ErrorMss = styled.div`
   position: absolute;
   width: 100%;
+  height: 250px;
   top: 50px;
 `;
 
 const ResultCon = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow-x: hidden;
+  
+  scrollbar-width: thin; /* Set the width of the scrollbar */
+  scrollbar-color: gray #fff; /* Set the color of the scrollbar thumb and track */
 `;
 
 const SearchResultBtn = styled.button`
@@ -327,6 +333,9 @@ const NotFBtn = styled.button`
   border: none;
   padding: 8px 10px;
   width: 100%;
+  background-color: #a6a9ad;
+  border-radius: 6px;
+  border: 1px solid #fff;
 `;
 
 const CartIcon = styled.img`
