@@ -1,8 +1,9 @@
 import styled from "styled-components"
 import emailjs from 'emailjs-com';
-import React, { useState , useEffect } from 'react';
+import React, { useState , useEffect , useContext } from 'react';
 import toast from "react-hot-toast";
 import Button from "./Button";
+import { CartContext } from "@/components/CartContext";
 
 const Container = styled.div`
     width: 100%;
@@ -20,12 +21,13 @@ const Btn = styled(Button)`
     }
 `;
 export default function Exit({email , amount , products , tax , ship , to}) {
+    const { clearCart } = useContext(CartContext);
     const [currentTime, setCurrentTime] = useState('');
     const [amPm, setAmPm] = useState('');
     const [day , setDay] = useState('');
     const [month , setMonth] = useState('');
     const [year , setYear] = useState('');
-    const [countdown, setCountdown] = useState(5); // change time here 
+    const [countdown, setCountdown] = useState(3); // change time here 
     const [proceed , setProceed] = useState(false) ;
 
     const DisplayTime = () => {
@@ -69,9 +71,7 @@ export default function Exit({email , amount , products , tax , ship , to}) {
         return () => {
             clearInterval(intervalId);
 
-            if (countdown == 1) {
-                sendMail();
-            }
+            if (countdown == 1) sendMail();
         };
     }, [countdown]);
     
@@ -108,6 +108,7 @@ export default function Exit({email , amount , products , tax , ship , to}) {
             toast.success("Pls check your email. Thank You !");
             setTimeout(() => {
                 window.location = "/";
+                clearCart();
             }, 2000);
         });
     };

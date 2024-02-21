@@ -202,22 +202,20 @@ export default function CartPage({ allProducts, fetchedCategory }) {
 
   if (!session) {
     return (
-      <>
-        <SessionOut />
-      </>
+      <><SessionOut /></>
     );
   }
 
   if (isSuccess) {
     const queryParams = new URLSearchParams(window.location.search);
     const originalEmail = decodeURIComponent(queryParams.get("email"));
-    clearCart();
+    // clearCart();
     return (
       <>
-        <Header allProducts={allProducts} fetchedCategory={fetchedCategory} />
+        {/* <Header allProducts={allProducts} fetchedCategory={fetchedCategory} /> */}
         <Center>
-          <ColumnsWrapper>
-            <Box>
+          <ColumnsWrapper style={{marginTop: '0' , minHeight: '98.8vh'}}>
+            <Box style={{marginTop: '40px'}}>
               <center>
                 <TickIcon />
               </center>
@@ -240,7 +238,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
             </Box>
           </ColumnsWrapper>
         </Center>
-        <Footer />
+        {/* <Footer /> */}
       </>
     );
   }
