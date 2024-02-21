@@ -70,8 +70,8 @@ export default function Exit({email , amount , products , to}) {
     
         return () => {
             clearInterval(intervalId);
-
-            if (countdown == 1) sendMail();
+            
+            if (countdown == 1) {sendMail();}
         };
     }, [countdown]);
     
@@ -115,7 +115,7 @@ export default function Exit({email , amount , products , to}) {
             {proceed ? (
                 <Btn type="button">Proceeding ...</Btn>
             ) : (
-                <Btn type="button" onClick={sendMail}>Proceed in {countdown}</Btn>
+                <Btn type="button" onClick={() => setCountdown(1)}>Proceed in {countdown}</Btn>
             )}
         </Container>
     )
