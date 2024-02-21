@@ -7,7 +7,7 @@ export const CartContext = createContext({});
 export function CartContextProvider({ children }) {
   const ls = typeof window !== "undefined" ? window.localStorage : null;
   const [onCartProducts, setOnCartProducts] = useState([]);
-
+  const [callCart, setCallCart] = useState(false);
   const { data: session } = useSession();
   const uniqueId = session?.user?.email;
 
@@ -53,8 +53,13 @@ export function CartContextProvider({ children }) {
   }
 
   function clearCart() {
-    setOnCartProducts([]);
+    setCallCart(true);
+    // setOnCartProducts([]);
   }
+
+  useEffect(() => {
+    setOnCartProducts([]);
+  },[callCart]);
 
   return (
     <CartContext.Provider

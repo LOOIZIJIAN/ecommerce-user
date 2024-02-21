@@ -105,7 +105,7 @@ const Item = styled.div`
       top: 0; //2 select choose 1
       left: 0;
       right: 0;
-      bottom: 26.7%;
+      bottom: 41%;
 
       z-index: 1;
       transition: background 0.5s ease;
@@ -192,12 +192,12 @@ const RBtnIcon = styled.img`
 const H2 = styled.h2`
   color: #000;
   text-align: center;
-  // font-family: Poppins;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 17px;
   // font-weight: 400;
   margin-top: 0;
   padding: 0;
+  cursor: pointer;
 `;
 
 const P = styled.p`
@@ -234,7 +234,7 @@ const Price = styled.div`
   }
   ${Item}:hover & {
     position: relative;
-    transform: translateY(-150%);
+    transform: translateY(-300%);
     font-size: 2rem;
     transition: transform 0.8s ease, font-size 0.8s ease;
     color: #f8f9fa;
