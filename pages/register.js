@@ -243,7 +243,7 @@ export default function Register({ users }) {
       try {
         const response = await axios.post("/api/register", info);
         toast.success("User has been registered!");
-        sendMail();
+        sendMail(); // comment this to testing
         router.push("/");
         console.log("Registration successful:", response.data);
       } catch (error) {

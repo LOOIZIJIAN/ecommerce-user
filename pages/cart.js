@@ -209,7 +209,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
   if (isSuccess) {
     const queryParams = new URLSearchParams(window.location.search);
     const originalEmail = decodeURIComponent(queryParams.get("email"));
-    // clearCart();
+    // clearCart(); // use in Exit.js after send email
     return (
       <>
         {/* <Header allProducts={allProducts} fetchedCategory={fetchedCategory} /> */}
@@ -316,39 +316,9 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                         borderTopColor: "gray",
                       }}
                     >
-                      Subtotal
-                    </td>
-                    <td style={{ borderTopColor: "gray" }}>$ {total}</td>
-                  </tr>
-
-                  <tr style={{ height: "30px" }}>
-                    <td style={{ borderTop: "none" }}></td>
-                    <td
-                      style={{
-                        textAlign: "end",
-                        paddingRight: "15px",
-                        borderTop: "none",
-                      }}
-                    >
-                      Shipping Fee
-                    </td>
-                    <td style={{ borderTop: "none" }}>
-                      $ {Shipping.toFixed(2)}
-                    </td>
-                  </tr>
-
-                  <tr style={{ height: "30px" }}>
-                    <td style={{ borderTopColor: "gray" }}></td>
-                    <td
-                      style={{
-                        textAlign: "end",
-                        paddingRight: "15px",
-                        borderTopColor: "gray",
-                      }}
-                    >
                       Total
                     </td>
-                    <td style={{ borderTopColor: "gray" }}>$ {ft}</td>
+                    <td style={{ borderTopColor: "gray" }}>$ {total}</td>
                   </tr>
                 </tbody>
               </Table>
