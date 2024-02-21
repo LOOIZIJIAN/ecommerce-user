@@ -585,10 +585,10 @@ export default function Header({ allProducts, fetchedCategory }) {
             {/* Category Drop Down List End */}
           </SharedBtn>
           {/* Option 4 */}
-          <Button onClick={() => router.push("aboutus")}>
+          <Button onClick={() => router.push("/aboutus")}>
             <A href="/aboutus">About Us</A>
           </Button>{" "}
-          <Button onClick={() => router.push("contactus")}>
+          <Button onClick={() => router.push("/contactus")}>
             <A href="/contactus">Contact Us</A>
           </Button>{" "}
           {/* Add the page name behide the / */}

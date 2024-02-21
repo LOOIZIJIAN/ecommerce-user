@@ -16,7 +16,7 @@ import { Product } from "@/models/Product";
 import Footer from "@/components/Footer";
 import { FcCheckmark } from "react-icons/fc";
 import { TbShoppingCartQuestion } from "react-icons/tb";
-import { BiFontSize } from "react-icons/bi";
+import toast from "react-hot-toast";
 
 const ColumnsWrapper = styled.div`
   display: flex;
@@ -135,7 +135,6 @@ export default function CartPage({ allProducts, fetchedCategory }) {
   const [country, setCountry] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const { data: session } = useSession();
-  // const [inputEmail, setInputEmail] = useState("");
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -160,9 +159,10 @@ export default function CartPage({ allProducts, fetchedCategory }) {
     }
     if (window?.location.href.includes("success")) {
       setIsSuccess(true);
-      clearCart();
     }
   }, []);
+
+
   function moreOfThisProduct(id) {
     addProduct(id);
   }
@@ -170,18 +170,23 @@ export default function CartPage({ allProducts, fetchedCategory }) {
     removeProduct(id);
   }
   async function goToPayment() {
-    const response = await axios.post("/api/checkout", {
-      account,
-      name,
-      email,
-      city,
-      postalCode,
-      streetAddress,
-      country,
-      onCartProducts,
-    });
-    if (response.data.url) {
-      window.location = response.data.url;
+    try {
+      const response = await axios.post("/api/checkout", {
+        account,
+        name,
+        email,
+        city,
+        postalCode,
+        streetAddress,
+        country,
+        onCartProducts,
+      });
+      if (response.data.url) {
+        window.location = response.data.url;
+      }
+    } catch (error) {
+      toast.error("Network traffic is heavy now");
+      return;
     }
   }
   let total = 0;
@@ -206,7 +211,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
   if (isSuccess) {
     const queryParams = new URLSearchParams(window.location.search);
     const originalEmail = decodeURIComponent(queryParams.get("email"));
-
+    clearCart();
     return (
       <>
         <Header allProducts={allProducts} fetchedCategory={fetchedCategory} />
@@ -245,21 +250,24 @@ export default function CartPage({ allProducts, fetchedCategory }) {
       <Center>
         <ColumnsWrapper>
           <Box>
-            {onCartProducts?.length > 0 && 
-              <h2>Cart</h2>
-            }
+            {onCartProducts?.length > 0 && <h2>Cart</h2>}
 
-            {!onCartProducts?.length && 
+            {!onCartProducts?.length && (
               <EmptyCon>
                 <CartIcon />
-                <h3 style={{fontSize: '24px'}}>Your cart is empty</h3>
-                <h4 style={{
-                  fontSize: '18px',
-                  fontWeight: '600',
-                  color: 'lightgray',
-                }}>Look like you have not added anything to your cart. Go ahead & explore top categories.</h4>
+                <h3 style={{ fontSize: "24px" }}>Your cart is empty</h3>
+                <h4
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "600",
+                    color: "lightgray",
+                  }}
+                >
+                  Look like you have not added anything to your cart. Go ahead &
+                  explore top categories.
+                </h4>
               </EmptyCon>
-            }
+            )}
 
             {products?.length > 0 && (
               <Table style={{ width: "550px" }}>
