@@ -20,7 +20,7 @@ const Btn = styled(Button)`
         color: black;
     }
 `;
-export default function Exit({email , amount , products , tax , ship , to}) {
+export default function Exit({email , amount , products , to}) {
     const { clearCart } = useContext(CartContext);
     const [currentTime, setCurrentTime] = useState('');
     const [amPm, setAmPm] = useState('');
@@ -101,9 +101,6 @@ export default function Exit({email , amount , products , tax , ship , to}) {
             time: currentTime,
             ap: amPm,
             products: productDetails,
-            tax: tax,
-            taxAmount: (amount*(tax/100)).toFixed(2),
-            ship: ship.toFixed(2)
         }).then(() => {
             toast.success("Pls check your email. Thank You !");
             setTimeout(() => {

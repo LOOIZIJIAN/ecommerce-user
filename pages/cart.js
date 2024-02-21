@@ -135,7 +135,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
   const [country, setCountry] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const { data: session } = useSession();
-
+  
   useEffect(() => {
     if (session?.user?.email) {
       const userEmail = session.user.email;
@@ -190,15 +190,29 @@ export default function CartPage({ allProducts, fetchedCategory }) {
     }
   }
   let total = 0;
+  
   for (const productId of onCartProducts) {
     const price = products.find((p) => p._id === productId)?.price || 0;
     total += price;
   }
 
-  let Shipping = 0; // Shipping Fee
-  let Tax = 0; // Taxt
+  const postalCodeRegex = /^\d+$/;
 
-  let ft = total + Shipping + total * (Tax / 100);
+  function validatePostalCode(inputvalue) {
+    toast.dismiss();  //  clear the toast
+
+    // Input Empty
+    if (inputvalue.trim() === "") {
+      return;
+    }
+    // Input not digit
+    if (!postalCodeRegex.test(inputvalue)) {
+      toast.error('Only Digits Allowed');
+      return;
+    }
+
+    toast.dismiss();  //  clear the toast
+  }
 
   if (!session) {
     return (
@@ -223,7 +237,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
               <P>We will email you when your order is sent.</P>
               <Exit
                 email={account}
-                amount={ft}
+                amount={total}
                 products={products.map((product) => ({
                   images: product.images,
                   name: product.title,
@@ -231,8 +245,6 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                   quantity: onCartProducts.filter((id) => id === product._id)
                     .length,
                 }))}
-                tax={Tax}
-                ship={Shipping}
                 to={originalEmail}
               />
             </Box>
@@ -250,6 +262,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
           <Box>
             {onCartProducts?.length > 0 && <h2>Cart</h2>}
 
+            {/* Cart Empty */}
             {!onCartProducts?.length && (
               <EmptyCon>
                 <CartIcon />
@@ -267,6 +280,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
               </EmptyCon>
             )}
 
+            {/* Cart */}
             {products?.length > 0 && (
               <Table style={{ width: "550px" }}>
                 <thead>
@@ -327,55 +341,69 @@ export default function CartPage({ allProducts, fetchedCategory }) {
           {!!onCartProducts?.length && (
             <Box>
               <h2>Order information</h2>
-              <Input
-                type="text"
-                placeholder="Name"
-                value={name}
-                name="name"
-                onChange={(ev) => setName(ev.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Email"
-                value={email}
-                name="email"
-                onChange={(ev) => setEmail(ev.target.value)}
-              />
-              <CityHolder>
+              <form method="post" onSubmit={goToPayment}>
                 <Input
                   type="text"
-                  placeholder="City"
-                  value={city}
-                  name="city"
-                  onChange={(ev) => setCity(ev.target.value)}
+                  placeholder="Name"
+                  value={name}
+                  name="name"
+                  onChange={(ev) => setName(ev.target.value)}
+                  required
+                />
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  name="email"
+                  onChange={(ev) => setEmail(ev.target.value)}
+                  required
+                />
+                <CityHolder>
+                  <Input
+                    type="text"
+                    placeholder="City"
+                    value={city}
+                    name="city"
+                    onChange={(ev) => setCity(ev.target.value)}
+                    required
+                  />
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    placeholder="Postal Code"
+                    value={postalCode}
+                    name="postalCode"
+                    onChange={(ev) => {
+                      setPostalCode(ev.target.value);
+                      const inputValue = ev.target.value;
+                      validatePostalCode(inputValue);
+                    }}
+                    required
+                  />
+                </CityHolder>
+                <Input
+                  type="text"
+                  placeholder="Street Address"
+                  value={streetAddress}
+                  name="streetAddress"
+                  onChange={(ev) => setStreetAddress(ev.target.value)}
+                  required
                 />
                 <Input
                   type="text"
-                  placeholder="Postal Code"
-                  value={postalCode}
-                  name="postalCode"
-                  onChange={(ev) => setPostalCode(ev.target.value)}
+                  placeholder="Country"
+                  value={country}
+                  name="country"
+                  onChange={(ev) => setCountry(ev.target.value)}
+                  required
                 />
-              </CityHolder>
-              <Input
-                type="text"
-                placeholder="Street Address"
-                value={streetAddress}
-                name="streetAddress"
-                onChange={(ev) => setStreetAddress(ev.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Country"
-                value={country}
-                name="country"
-                onChange={(ev) => setCountry(ev.target.value)}
-              />
-              <div style={{ textAlign: "center", width: "400px" }}>
-                <Button cate2 onClick={goToPayment} style={{ width: "100%" }}>
-                  Continue to payment
-                </Button>
-              </div>
+                <div style={{ textAlign: "center", width: "400px" }}>
+                  <Button cate2 type="submit" style={{ width: "100%" }}>
+                    Continue to payment
+                  </Button>
+                </div>
+              </form>
             </Box>
           )}
         </ColumnsWrapper>
