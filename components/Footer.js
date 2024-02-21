@@ -344,7 +344,7 @@ export default function Footer() {
         <H3>Subscribe for Exclusive Deals!</H3>
         <P>
           Stay updated on the latest trends and enhance your shopping
-          experience. Don't miss out !
+          experience. Don&apos;t miss out !
         </P>
         <Form method="post" onSubmit={sendMail}>
           <Label for="email-address"> Email address</Label>
