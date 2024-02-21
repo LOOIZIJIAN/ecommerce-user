@@ -174,14 +174,6 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
 
   const data = JSON.stringify(purchaseHistory);
 
-  {purchaseHistory.map((ph, index) => {
-    const purchaseDate = new Date(ph.createdAt);
-    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-    const timeOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
-  
-    console.log(`${index + 1} time: Date: ${purchaseDate.toLocaleDateString(undefined, dateOptions)}, Time: ${purchaseDate.toLocaleTimeString(undefined, timeOptions)}`);
-  })}
-
   const handlePrint = () => {
     setPrintStatus(true);
   };
@@ -286,9 +278,9 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
                     </HText>
                     <HText style={{ width: "5%"}}>{ph.line_items[0]?.quantity}</HText>
                     <HText style={{ width: "10%" }}>
-                        $ {ph.line_items[0]?.price_data?.unit_amount?.toFixed(2)}
+                        $ {((ph.line_items[0]?.price_data?.unit_amount)/100)?.toFixed(2)}
                     </HText>
-                    <HText style={{width: '10%'}}>$ {(ph.line_items[0]?.price_data?.unit_amount * ph.line_items[0]?.quantity).toFixed(2)}</HText>
+                    <HText style={{width: '10%'}}>$ {(((ph.line_items[0]?.price_data?.unit_amount)/100) * ph.line_items[0]?.quantity).toFixed(2)}</HText>
                     <HText style={{ width: "19.5%" , fontSize: '14px' , textAlign: 'center'}}>
                         {new Date(ph.createdAt).toLocaleDateString('en-US', {
                             day: 'numeric',
@@ -378,9 +370,9 @@ export default function PurchaseHistory({ allProduct, fetchedCategory }) {
                 </HText>
                 <HText style={{ width: "5%"}}>{ph.line_items[0]?.quantity}</HText>
                 <HText style={{ width: "10%" }}>
-                  $ {ph.line_items[0]?.price_data?.unit_amount?.toFixed(2)}
+                  $ {((ph.line_items[0]?.price_data?.unit_amount)/100)?.toFixed(2)}
                 </HText>
-                <HText style={{width: '10%'}}>$ {(ph.line_items[0]?.price_data?.unit_amount * ph.line_items[0]?.quantity).toFixed(2)}</HText>
+                <HText style={{width: '10%'}}>$ {(((ph.line_items[0]?.price_data?.unit_amount)/100) * ph.line_items[0]?.quantity).toFixed(2)}</HText>
                 <HText style={{ width: "19.5%" , fontSize: '14px' , textAlign: 'center'}}>
                     {new Date(ph.createdAt).toLocaleDateString('en-US', {
                         day: 'numeric',
