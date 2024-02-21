@@ -267,7 +267,6 @@ export default function CartPage({ allProducts, fetchedCategory }) {
     // clearCart(); // use in Exit.js after send email
     return (
       <>
-        {/* <Header allProducts={allProducts} fetchedCategory={fetchedCategory} /> */}
         <Center>
           <ColumnsWrapper style={{marginTop: '0' , minHeight: '98.8vh'}}>
             <Box style={{marginTop: '40px'}}>
@@ -291,7 +290,6 @@ export default function CartPage({ allProducts, fetchedCategory }) {
             </Box>
           </ColumnsWrapper>
         </Center>
-        {/* <Footer /> */}
       </>
     );
   }
