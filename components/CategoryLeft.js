@@ -175,6 +175,7 @@ const A = styled.a`
       }
     };
 
+
     return (
       <LeftCon onSubmit={handleSubmit} method="post">
         <LeftUpCon>
@@ -185,7 +186,7 @@ const A = styled.a`
         <BrandCon>
           <BrandTopCon>
             {/* <H2>Brand</H2> */}
-            <H2>{cate === "Phone accessory" ? "Brand" : "Categories"}</H2>
+            <H2>{cate.name === "Phone accessory" ? "Categories" : "Brand"}</H2>
             <HiArchive style={{ fontSize: "2em" }} />
           </BrandTopCon>
 
