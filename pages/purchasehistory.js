@@ -9,6 +9,7 @@ import axios from "axios";
 import { Product } from "@/models/Product";
 import { Category } from "@/models/Category";
 import { mongooseConnect } from "@/lib/mongoose";
+import React from 'react';
 
 const HistoryIcon = styled(FaHistory)`
   width: 40px;
@@ -108,6 +109,7 @@ const HistoryCon = styled.div`
   margin-left: 1%;
   margin-right: 1%;
   padding: 0;
+  flex-wrap: wrap;
 `;
 
 const HText = styled.p`
