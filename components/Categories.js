@@ -264,7 +264,6 @@ const RedLike = styled(FcLike)`
 `;
 
 export default function Categories({ product, cate }) {
-
   const { addProduct } = useContext(CartContext);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
   const [LikeValue, setLikeValue] = useState(null);
@@ -399,7 +398,7 @@ export default function Categories({ product, cate }) {
                 }}
               />
               <Error>
-                Uh oh! We couldn&apost find any {cate.name} products listings.
+                Uh oh! We couldn&apos;t find any {cate.name} products listings.
               </Error>
             </div>
           )}

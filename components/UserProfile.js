@@ -176,6 +176,7 @@ const Btn3 = styled(Btn)`
 export default function AfterLogin() {
   const { data: session } = useSession();
   const router = useRouter();
+
   return (
     <Container>
       <UpCon>
