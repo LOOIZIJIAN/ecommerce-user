@@ -6,6 +6,9 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import EditProfile from "@/components/EditProfile";
 import Header from "@/components/Header";
 import SessionOut from '@/components/SessionOut';
+import { mongooseConnect } from "@/lib/mongoose";
+import { Product } from "@/models/Product";
+import { Category } from "@/models/Category";
 
 const Exit = styled.div`
   svg{
@@ -20,7 +23,7 @@ const ExitLink = styled(Link)`
 
 
 
-export default function AccountPage() {
+export default function AccountPage({allProducts , fetchedCategory}) {
   const {data: session} = useSession();
 
   if (!session) {
@@ -30,8 +33,20 @@ export default function AccountPage() {
   }
   return (
     <>
-      <Header session={true}/>
+      <Header allProducts={allProducts} fetchedCategory={fetchedCategory} />
       <EditProfile />
     </>
   );
+}
+
+export async function getServerSideProps() {
+  await mongooseConnect();
+  const allProducts = await Product.find();
+  const fetchedCategory = await Category.find();
+  return {
+    props: {
+      allProducts: JSON.parse(JSON.stringify(allProducts)),
+      fetchedCategory: JSON.parse(JSON.stringify(fetchedCategory)),
+    },
+  };
 }
