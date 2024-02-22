@@ -92,7 +92,6 @@ const ValidationText = styled.p`
   padding: 3px 0 0 5px;
   color: red;
   font-size: 12px;
-  background-color: red;
 `;
 
 const BtnCon = styled.div`
@@ -219,44 +218,42 @@ export default function Register({ users }) {
       setPasswordError("");
     }
 
-    if (isValid) {
-      // Submit form
-    }
+    if (isValid && emailError === "" && passwordError === "") {
+      toast.dismiss();
 
-    const gen = generator({
-      min: 1000,
-      max: 9999,
-      integer: true,
-    });
-    const otp = gen();
-
-    let info = { ...data, otp };
-    
-    emailjs.init("AL-MhcS5HYIPa2TSs");  //  key direct
-
-    const sendMail = () => {
-      emailjs.send("service_2tbd16t","template_ywvs0cq", {    //  direct
-        email: data.email,
-        name: data.username
+      const gen = generator({
+        min: 1000,
+        max: 9999,
+        integer: true,
       });
-    }
-
-    try {
-      const response = await axios.post("/api/register", info);
-      toast.success("User has been registered!");
-      sendMail();
-      router.push("/");
-      console.log("Registration successful:", response.data);
-    } catch (error) {
-      console.error("Registration error:", error.response.data);
-      toast.error("User Exist !");
-      // You might want to display an error message to the user using toast.error() or similar
+  
+      const otp = gen();
+  
+      let info = { ...data, otp };
+      
+      emailjs.init("AL-MhcS5HYIPa2TSs");  //  key direct acc
+  
+      const sendMail = () => {
+        emailjs.send("service_2tbd16t","template_ywvs0cq", {    //  direct
+          email: data.email,
+          name: data.username
+        });
+      }
+  
+      try {
+        const response = await axios.post("/api/register", info);
+        toast.success("User has been registered!");
+        sendMail(); // comment this to testing
+        router.push("/");
+        console.log("Registration successful:", response.data);
+      } catch (error) {
+        console.error("Registration error:", error.response.data);
+        toast.error("User Exist !");
+      }
     }
   };
 
-  // Helper function for email validation
   const validateEmail = (email) => {
-    // Simple regex for email validation
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   };
@@ -306,7 +303,6 @@ export default function Register({ users }) {
                 onChange={(e) => setData({ ...data, password: e.target.value })}
                 required
               />
-              {emailError && <ValidationText>{emailError}</ValidationText>}
             </LabelCon>
 
             <LabelCon>
@@ -322,26 +318,6 @@ export default function Register({ users }) {
                 <ValidationText>{passwordError}</ValidationText>
               )}
             </LabelCon>
-
-            {/* <TNC>
-                        <Star>*</Star>
-                        <P>At least 8 characters long but 12 or more is better.</P>
-                    </TNC>
-
-                    <TNC>
-                        <Star>*</Star>
-                        <P>A combination of UPPERCASE letters, lowercase letters, numbers, and symbols.</P>
-                    </TNC>
-
-                    <SpanTc>
-                        <TkInput type='checkbox' required/>
-                        <Txt>
-                            By signing up, you agree to Name's
-                            <br/>
-                            <A href='#'>Terms of Service</A> & <A href='#'>Privacy Policy</A>
-                        </Txt>
-                    </SpanTc> */}
-
             <BtnCon>
               <Button type="submit">Register</Button>
             </BtnCon>

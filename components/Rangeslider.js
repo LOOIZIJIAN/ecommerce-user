@@ -66,10 +66,10 @@ const TxtCon = styled.div`
   margin-bottom: -6px;
 
   // Dollar CSS
-  /* margin-left: 40px; */
+  margin-left: 40px;
 
   // RM CSS
-  margin-left: 45px;
+  /* margin-left: 45px; */
 `;
 
 const P = styled.p`
@@ -90,12 +90,12 @@ const Span = styled.span`
   font-weight: 400;
 
   // Dollar CSS
-  /* font-size: 20px; */
-  /* margin: 25px 10px 0 5px; */
+  font-size: 20px;
+  margin: 25px 10px 0 5px;
 
   // RM CSS
-  font-size: 16px;
-  margin: 25px 5px 0 0;
+  /* font-size: 16px; */
+  /* margin: 25px 5px 0 0; */
 
 `;
 
@@ -104,19 +104,19 @@ const Span1 = styled(Span)`
   height: max-content;
 
   // Dollar CSS
-  /* margin: 0 15px; */
+  margin: 0 15px;
 
   // RM CSS
-  margin: 0 10px;
+  /* margin: 0 10px; */
 
 `;
 
 const Span2 = styled(Span)`
   // Dollar CSS
-  /* margin-left: 5px; */
+  margin-left: 5px;
 
   // RM CSS
-  margin-left: 5px;
+  /* margin-left: 5px; */
 
 `;
 
@@ -219,7 +219,7 @@ export default function RangeSlider({ onPriceChange }) {  // new code
         </TxtCon>
 
         {/* RM */}
-        <Span>RM</Span>
+        <Span>$</Span>
 
         {/* USD */}
         {/* <Span>$</Span> */}
@@ -247,7 +247,7 @@ export default function RangeSlider({ onPriceChange }) {  // new code
         />
 
         {/* RM */}
-        <Span2>RM</Span2>
+        <Span2>$</Span2>
 
         {/* USD */}
         {/* <Span2>$</Span2> */}

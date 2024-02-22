@@ -135,6 +135,10 @@ export default function CartPage({ allProducts, fetchedCategory }) {
   const [country, setCountry] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const { data: session } = useSession();
+  
+  // Validation
+  const [codeValid , setCodeValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false); // Added state for email validation
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -169,6 +173,23 @@ export default function CartPage({ allProducts, fetchedCategory }) {
   function lessOfThisProduct(id) {
     removeProduct(id);
   }
+
+  function Validation(){
+    toast.dismiss();  //  clear the toast
+
+    if(!codeValid) {
+      toast.error("Pls change postal code to digit format");
+    }
+
+    if(!isEmailValid) {
+      toast.error("Pls check email format");
+    }
+    
+    if(codeValid && isEmailValid) {
+      goToPayment();
+    }
+  }
+
   async function goToPayment() {
     try {
       const response = await axios.post("/api/checkout", {
@@ -190,15 +211,49 @@ export default function CartPage({ allProducts, fetchedCategory }) {
     }
   }
   let total = 0;
+  
   for (const productId of onCartProducts) {
     const price = products.find((p) => p._id === productId)?.price || 0;
     total += price;
   }
 
-  let Shipping = 0; // Shipping Fee
-  let Tax = 0; // Taxt
+  const postalCodeRegex = /^\d+$/;
 
-  let ft = total + Shipping + total * (Tax / 100);
+  function validatePostalCode(inputvalue) {
+    toast.dismiss();  //  clear the toast
+
+    // Input Empty
+    if (inputvalue.trim() === "") {
+      return;
+    }
+    // Input not digit
+    if (!postalCodeRegex.test(inputvalue)) {
+      toast.error('Only Digits Allowed');
+      return;
+    }
+    setCodeValid(true);
+    toast.dismiss();  //  clear the toast
+  }
+
+  function validateEmail(inputEmail) {
+    toast.dismiss();  // clear the toast
+
+    // Input Empty
+    if (inputEmail.trim() === "") {
+      toast.error('Email is required');
+      return;
+    }
+
+    // Simple email validation using regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(inputEmail)) {
+      toast.error('Invalid email format');
+      return;
+    }
+
+    setIsEmailValid(true);
+    toast.dismiss();  // clear the toast
+  }
 
   if (!session) {
     return (
@@ -209,10 +264,9 @@ export default function CartPage({ allProducts, fetchedCategory }) {
   if (isSuccess) {
     const queryParams = new URLSearchParams(window.location.search);
     const originalEmail = decodeURIComponent(queryParams.get("email"));
-    // clearCart();
+    // clearCart(); // use in Exit.js after send email
     return (
       <>
-        {/* <Header allProducts={allProducts} fetchedCategory={fetchedCategory} /> */}
         <Center>
           <ColumnsWrapper style={{marginTop: '0' , minHeight: '98.8vh'}}>
             <Box style={{marginTop: '40px'}}>
@@ -223,7 +277,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
               <P>We will email you when your order is sent.</P>
               <Exit
                 email={account}
-                amount={ft}
+                amount={total}
                 products={products.map((product) => ({
                   images: product.images,
                   name: product.title,
@@ -231,14 +285,11 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                   quantity: onCartProducts.filter((id) => id === product._id)
                     .length,
                 }))}
-                tax={Tax}
-                ship={Shipping}
                 to={originalEmail}
               />
             </Box>
           </ColumnsWrapper>
         </Center>
-        {/* <Footer /> */}
       </>
     );
   }
@@ -250,6 +301,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
           <Box>
             {onCartProducts?.length > 0 && <h2>Cart</h2>}
 
+            {/* Cart Empty */}
             {!onCartProducts?.length && (
               <EmptyCon>
                 <CartIcon />
@@ -267,6 +319,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
               </EmptyCon>
             )}
 
+            {/* Cart */}
             {products?.length > 0 && (
               <Table style={{ width: "550px" }}>
                 <thead>
@@ -316,39 +369,9 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                         borderTopColor: "gray",
                       }}
                     >
-                      Subtotal
-                    </td>
-                    <td style={{ borderTopColor: "gray" }}>$ {total}</td>
-                  </tr>
-
-                  <tr style={{ height: "30px" }}>
-                    <td style={{ borderTop: "none" }}></td>
-                    <td
-                      style={{
-                        textAlign: "end",
-                        paddingRight: "15px",
-                        borderTop: "none",
-                      }}
-                    >
-                      Shipping Fee
-                    </td>
-                    <td style={{ borderTop: "none" }}>
-                      $ {Shipping.toFixed(2)}
-                    </td>
-                  </tr>
-
-                  <tr style={{ height: "30px" }}>
-                    <td style={{ borderTopColor: "gray" }}></td>
-                    <td
-                      style={{
-                        textAlign: "end",
-                        paddingRight: "15px",
-                        borderTopColor: "gray",
-                      }}
-                    >
                       Total
                     </td>
-                    <td style={{ borderTopColor: "gray" }}>$ {ft}</td>
+                    <td style={{ borderTopColor: "gray" }}>$ {total}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -363,13 +386,19 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                 value={name}
                 name="name"
                 onChange={(ev) => setName(ev.target.value)}
+                required
               />
               <Input
-                type="text"
+                type="email"
                 placeholder="Email"
                 value={email}
                 name="email"
-                onChange={(ev) => setEmail(ev.target.value)}
+                onChange={(ev) => {
+                  setEmail(ev.target.value);
+                  const inputValue = ev.target.value;
+                  validateEmail(inputValue);
+                }}
+                required
               />
               <CityHolder>
                 <Input
@@ -378,13 +407,21 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                   value={city}
                   name="city"
                   onChange={(ev) => setCity(ev.target.value)}
+                  required
                 />
                 <Input
                   type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   placeholder="Postal Code"
                   value={postalCode}
                   name="postalCode"
-                  onChange={(ev) => setPostalCode(ev.target.value)}
+                  onChange={(ev) => {
+                    setPostalCode(ev.target.value);
+                    const inputValue = ev.target.value;
+                    validatePostalCode(inputValue);
+                  }}
+                  required
                 />
               </CityHolder>
               <Input
@@ -393,6 +430,7 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                 value={streetAddress}
                 name="streetAddress"
                 onChange={(ev) => setStreetAddress(ev.target.value)}
+                required
               />
               <Input
                 type="text"
@@ -400,9 +438,10 @@ export default function CartPage({ allProducts, fetchedCategory }) {
                 value={country}
                 name="country"
                 onChange={(ev) => setCountry(ev.target.value)}
+                required
               />
               <div style={{ textAlign: "center", width: "400px" }}>
-                <Button cate2 onClick={goToPayment} style={{ width: "100%" }}>
+                <Button cate2  style={{ width: "100%" }} onClick={Validation}>
                   Continue to payment
                 </Button>
               </div>
