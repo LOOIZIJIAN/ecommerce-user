@@ -148,7 +148,8 @@ export default function RangeSlider({ onPriceChange }) {  // new code
 
   const [minValue] = useState(0); // Set your minimum gap here
   const [maxValue] = useState(10000); // Set your minimum gap here
-  const Gap = 100; // Set your minimum gap here
+  // const Gap = 100; // Set your minimum gap here
+  const Gap = 1; // Set your minimum gap here
   const [value, setValue] = useState({ min: minValue, max: maxValue });
 
   const handleSliderChange = (event) => {
